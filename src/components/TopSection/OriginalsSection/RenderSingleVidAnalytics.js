@@ -23,6 +23,7 @@ class RenderSingleVidAnalytics extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.selectedVideoId !== prevProps.selectedVideoId) {
       this.getSingleVidAnalytics();
+      //! See function comment below this.getSearchTerms();
     }
   }
 
@@ -68,35 +69,40 @@ class RenderSingleVidAnalytics extends React.Component {
       );
   }
 
-  getSearchTerms() {
-    return window.gapi.client.youtubeAnalytics.reports
-      .query({
-        dimensions: 'insightTrafficSourceDetail',
-        endDate: output,
-        filters: `video==${this.props.selectedVideoId};insightTrafficSourceType==YT_SEARCH`,
-        ids: 'channel==MINE',
-        maxResults: 20,
-        metrics: 'views',
-        sort: '-views',
-        startDate: '2005-02-14' //This is youtube founded date
-      })
-      .then(
-        (response) => {
-          if (!response.result.rows[0]) {
-            this.setState({
-              keyWord: 'N/A'
-            });
-          } else {
-            this.setState({
-              keyWord: response.result.rows[0][0]
-            });
-          }
-        },
-        function(err) {
-          console.error('Execute error', err);
-        }
-      );
-  }
+  //! Not working correctly, leaving out for now
+  // getSearchTerms() {
+  //   let url = window.location.href;
+  //   const accessToken = url.replace(/^.+=/gi, '');
+
+  //   fetch(
+  //     `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&maxResults=20&metrics=views&sort=-views&startDate=2005-01-01&key=${web.apiKey}`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //         Authorization: 'Bearer ' + accessToken
+  //       }
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       //   if (!response.rows[0]) {
+  //       //     this.setState({
+  //       //       keyWord: 'N/A'
+  //       //     });
+  //       //   } else {
+  //       //     this.setState({
+  //       //       keyWord: response.rows[0][0]
+  //       //     });
+  //       //     console.log('WORKING');
+  //       //   }
+  //       // },
+  //       // function(err) {
+  //       //   console.error('Execute error', err);
+  //       // }
+  //       console.log(response);
+  //     });
+  // }
 
   renderSingleVidAnalytics() {
     let {
