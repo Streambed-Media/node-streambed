@@ -7,7 +7,7 @@ import Filters from './TopSection/FilterComponents/Filters';
 import ButterflyScore from './TopSection/ButterflyScore/ButterflyScore';
 import TopInfluencers from './BottomSection/TopInfluencers';
 import Derivative from './BottomSection/Derivative';
-import { web } from '../../oauth2.keys.json';
+import { web } from '../../oauthTwo.keys.json';
 /****************************************Component to render the videos from v3 */
 
 //This is required by carousel npm package, set items to show on certain screen sizes
@@ -30,35 +30,32 @@ const responsive = {
 };
 
 class RenderContent extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = { videoData: false, selectedVideoId: null };
   }
-  
+
+  /*********************************Mount fetchs the data, the stores it to state.videoData */
 
   componentDidMount() {
+    let url = window.location.href;
+    const accessToken = url.replace(/^.+=/gi, '');
+    console.log(accessToken);
 
-    let url = window.location.href
-    const accessToken = url.replace(/^.+=/ig, "");  
-    console.log(accessToken)
-
-      fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=25&type=video&key={${web.apiKey}}`,{
+    fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=25&type=video&key={${web.apiKey}}`,
+      {
         method: 'GET',
         headers: {
-            'Content-type': 'application/json',
-            'Authorization': 'Bearer ' + accessToken,
+          'Content-type': 'application/json',
+          Authorization: 'Bearer ' + accessToken
         }
-
-    }).then(response => response.json()).then(data => {
-        
-        // this.setState( () => {
-        //     return{
-        //         items: data.items
-        //     }
-        // })
-        console.log('this statee: ',this.state)
-        console.log(data)
-    })
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ videoData: data.items });
+      });
   }
 
   /**function to fetch videos */
