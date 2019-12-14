@@ -1,6 +1,7 @@
 import React from 'react';
 import Scoring from './Scoring';
 import Graph from './Graph';
+import { web } from '../../../../oauthTwo.keys.json';
 
 /*************************************Get todays date */
 let dateObj = new Date();
@@ -22,39 +23,44 @@ class RenderSingleVidAnalytics extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.selectedVideoId !== prevProps.selectedVideoId) {
       this.getSingleVidAnalytics();
-      this.getSearchTerms();
+      //! See function comment below this.getSearchTerms();
     }
   }
 
   getSingleVidAnalytics() {
-    return window.gapi.client.youtubeAnalytics.reports
-      .query({
-        dimensions: 'day,insightTrafficSourceType',
-        endDate: output,
-        filters: `video==${this.props.selectedVideoId}`,
-        ids: 'channel==MINE',
-        metrics: 'views,estimatedMinutesWatched',
-        sort: 'day,-views',
-        startDate: '2005-02-14' //This is youtube founded date
-      })
+    let url = window.location.href;
+    const accessToken = url.replace(/^.+=/gi, '');
+
+    fetch(
+      `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day%2CinsightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2CestimatedMinutesWatched&sort=day%2C-views&startDate=2005-01-01&key=${web.apiKey}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: 'Bearer ' + accessToken
+        }
+      }
+    )
+      .then((response) => response.json())
       .then(
         (response) => {
-          let totalViews = response.result.rows
+          let totalViews = response.rows
             .map((row) => row[2])
             .reduce((a, b) => a + b);
 
-          let totalestimatedMinutesWatched = response.result.rows
+          let totalestimatedMinutesWatched = response.rows
             .map((row) => row[3])
             .reduce((a, b) => a + b);
 
           this.setState({
             singleVideoAnalytics: {
-              day: response.result.rows.length,
+              day: response.rows.length,
               insightTrafficSourceType: null,
               views: totalViews,
               estimatedMinutesWatched: totalestimatedMinutesWatched + ' min'
             }
           });
+          console.log(this.state);
         },
 
         function(err) {
@@ -63,35 +69,40 @@ class RenderSingleVidAnalytics extends React.Component {
       );
   }
 
-  getSearchTerms() {
-    return window.gapi.client.youtubeAnalytics.reports
-      .query({
-        dimensions: 'insightTrafficSourceDetail',
-        endDate: output,
-        filters: `video==${this.props.selectedVideoId};insightTrafficSourceType==YT_SEARCH`,
-        ids: 'channel==MINE',
-        maxResults: 20,
-        metrics: 'views',
-        sort: '-views',
-        startDate: '2005-02-14' //This is youtube founded date
-      })
-      .then(
-        (response) => {
-          if (!response.result.rows[0]) {
-            this.setState({
-              keyWord: 'N/A'
-            });
-          } else {
-            this.setState({
-              keyWord: response.result.rows[0][0]
-            });
-          }
-        },
-        function(err) {
-          console.error('Execute error', err);
-        }
-      );
-  }
+  //! Not working correctly, leaving out for now
+  // getSearchTerms() {
+  //   let url = window.location.href;
+  //   const accessToken = url.replace(/^.+=/gi, '');
+
+  //   fetch(
+  //     `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&maxResults=20&metrics=views&sort=-views&startDate=2005-01-01&key=${web.apiKey}`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //         Authorization: 'Bearer ' + accessToken
+  //       }
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       //   if (!response.rows[0]) {
+  //       //     this.setState({
+  //       //       keyWord: 'N/A'
+  //       //     });
+  //       //   } else {
+  //       //     this.setState({
+  //       //       keyWord: response.rows[0][0]
+  //       //     });
+  //       //     console.log('WORKING');
+  //       //   }
+  //       // },
+  //       // function(err) {
+  //       //   console.error('Execute error', err);
+  //       // }
+  //       console.log(response);
+  //     });
+  // }
 
   renderSingleVidAnalytics() {
     let {
