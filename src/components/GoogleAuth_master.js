@@ -1,5 +1,5 @@
 import React from 'react';
-// import '../styles/GoogleAuth/googleAuthMaster.css';
+//import '../styles/GoogleAuth/googleAuthMaster.css';
 
 /***********************************************************Google Oauth login page component ***************/
 /**Video Data */
@@ -15,11 +15,9 @@ class GoogleAuth extends React.Component {
   };
 
   componentDidMount() {
-
     this.setState({
       isSignedIn: false
     });
-
   }
 
   //This function will sign into to both analytics button click
@@ -29,7 +27,6 @@ class GoogleAuth extends React.Component {
       scope: 'https://www.googleapis.com/auth/youtube.force-ssl'
     });
     */
-
     // this.auth.signIn({
     //   scope: 'https://www.googleapis.com/auth/yt-analytics.readonly'
     // });
@@ -57,18 +54,20 @@ class GoogleAuth extends React.Component {
     } else {
       return (
         <div className='button--container'>
-           <form onSubmit={this.isSignedIn} action="/dashboard" method="POST">
-                <input className="green-google-button" type="submit" value="Login with Google"/>
-            </form>
+          <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
+            <input
+              className='green-google-button'
+              type='submit'
+              value='Login with Google'
+            />
+          </form>
         </div>
       );
     }
   }
 
   render() {
-    return (
-      <div>{this.renderAuthButton()}</div>
-    )
+    return <div>{this.renderAuthButton()}</div>;
   }
 }
 export default GoogleAuth;
