@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #757575;
+}
+
+.streambed-logo {
+  position: absolute;
+  top: 0;
+  width: 20vh;
+}
+.container {
+  .toggle-publish-analytics {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 10px;
+  }
+}

@@ -1,0 +1,38 @@
+//Stored values for colors and such
+$main-color: #81e8bd;
+
+//Beginning of styling
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(../../images/streambedLogoBackground.svg);
+  .login--box {
+    display: flex;
+    justify-content: center;
+    .trans--box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 480px;
+      height: 320px;
+      background: rgba(240, 240, 240, 0.45098);
+      border-radius: 27px;
+
+      .button--container {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  .signout--container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 10px 10px 0 0;
+  }
+}

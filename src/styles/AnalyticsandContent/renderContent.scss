@@ -1,0 +1,194 @@
+/********************************************This wraps all the main content on the page***********************/
+/********** Variables **********/
+$grey-box-background: #f8f8f8;
+/*******************************/
+
+.renderContent-wrapper {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 4em;
+  grid-template-areas:
+    'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters'
+    'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters'
+    'der der der der der der der der der der';
+  height: 45vh;
+  padding-top: 1em;
+  background: #fff;
+  h1,
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  //Butterfly Score
+  .butterfly-container {
+    grid-area: butt;
+    margin: 2em 0 0 2em;
+
+    .butterfly-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: $grey-box-background;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      margin: 0 -1em 0 0;
+
+      h1 {
+        color: rgb(107, 56, 107);
+        font-size: 3.2rem;
+        margin: 0.4em 0 0 0;
+      }
+      p {
+        font-size: 0.9rem;
+        margin: -0.7em 0 0 0;
+      }
+    }
+  }
+
+  //Originals css
+  .basic-analytics-container {
+    grid-area: basic-analytics;
+    margin: 0 0 0 2em;
+    h2 {
+      font-size: 1.3rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+    .basic-analytics {
+      display: flex;
+      justify-content: space-around;
+      background-color: $grey-box-background;
+      border-radius: 10px;
+    }
+  }
+
+  // FILTERS CSS
+  .filters-container {
+    grid-area: filters;
+    margin: 0 2em 0 0;
+
+    h1 {
+      font-size: 1.3rem;
+    }
+
+    .filters {
+      background-color: $grey-box-background;
+      border-radius: 10px;
+
+      .original--conatiner {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 1em;
+      }
+
+      .demoplat-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 2em 5em 2em 0;
+        .demographics {
+          display: flex;
+          flex-direction: column;
+        }
+        .platforms {
+          .checkbox-platforms {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .checkbox {
+              margin: 0 0 2em 0;
+              .social--media {
+                font-family: 'Lato', sans-serif;
+                padding: 0 0 0 0.7em;
+              }
+            }
+          }
+        }
+      }
+
+      ul {
+        list-style-type: none;
+        i {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .carousel-box {
+    grid-area: carousel-box;
+    margin: 0 0 0 2em;
+    width: 100%;
+
+    .video-carousel {
+      height: 10rem;
+
+      div {
+        width: 100%;
+      }
+    }
+
+    img {
+      width: auto;
+      border-radius: 25%;
+    }
+
+    div ul li {
+      text-align: center;
+    }
+
+    i {
+      font-size: 1.3rem;
+      color: red;
+    }
+
+    .thumbnail:hover {
+      opacity: 0.8;
+    }
+
+    .youtube {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .youtube:hover {
+      transform: scale(1.25);
+    }
+  }
+
+  /************************************************************************Derivative and Top Influencer Section**************************************************/
+  .der--influ-container {
+    grid-area: der;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-column-gap: 4em;
+    grid-template-areas: 'der der der der der der topi topi topi topi';
+    background: #fff;
+
+    /*******************Top influencer*******/
+    .influencer-container {
+      grid-area: topi;
+      margin: 2em 0 5em 0;
+      .influencers {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: $grey-box-background;
+        border-radius: 10px;
+        height: 29em;
+        margin: 0 2em 0 0;
+        .item {
+          margin: 0 0 4em 0;
+        }
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+    /******************Derivative*******/
+    .derivative--container {
+      grid-area: der;
+    }
+  }
+}

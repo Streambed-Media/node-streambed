@@ -1,0 +1,35 @@
+{{!-- {{>nav}}
+        
+    <div class="container">
+        <section class="upload">
+            <form style="display: {{display}}" action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Video Title</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="title" placeholder="Enter video title">
+                    <small id="title" class="form-text">Video title to be used for youtube</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Video description</label>
+                    <input type="text" class="form-control" id="description" name="description" placeholder="Enter video description">
+                </div>
+                <div class="form-group">
+                    <label for="myFile">Example file input</label>
+                    <input type="file" name="myVideo">
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </section>
+        <section style="display: {{upload_youtube_show}}" class="upload-youtube">
+            <form action="/upload-youtube" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="myFile">Upload to Youtube</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </section>
+        <video class="video-element" style="display: {{display_video}}" controls>
+            <source src="uploads/{{videoSRC}}" type="video/mp4">
+        </video>
+        <p>{{msg}}</p> --}}
+        <div id="app"></div>
+    </div>
