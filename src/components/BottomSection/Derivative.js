@@ -5,7 +5,7 @@ import React from 'react';
 const Derivative = () => {
   return (
     <div className='derivative--container'>
-      {/* <img src="images/derivativePlaceholder.png" alt='DerivativePicture' /> */}
+      <img src='images/derivativePlaceholder.png' alt='DerivativePicture' />
       {/* <img src={DerivativePlaceholder} alt='DerivativePicture' /> */}
     </div>
   );
