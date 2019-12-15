@@ -2,45 +2,33 @@ import React from 'react';
 import '../styles/GoogleAuth/googleAuthMaster.css';
 
 /***********************************************************Google Oauth login page component ***************/
-/**Video Data */
-//'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'
-
-/**Analytics */
-//'https://youtubeanalytics.googleapis.com/$discovery/rest?version=v2'
-
-/***********************************************************************************************************/
+//!!!!!!!!!!!!!!!!!!!Need to work on this form submit, when switching accounts it doesn't switch right away
+//!!!!!!!!!!!!!!!!Also need to render SignOut and make sign out correctly with auth
 class GoogleAuth extends React.Component {
   state = {
-    isSignedIn: null
+    isSignedIn: false
   };
-
+  /**This is taking props form App, setting state to true when you get signedIn to render the signout button**/
   componentDidMount() {
-    this.setState({
-      isSignedIn: false
-    });
+    this.setState({ isSignedIn: this.props.isSignedIn });
   }
 
-  //This function will sign into to both analytics button click
+  /**These functions arent really used currently**/
   onSignInClick = () => {
-    /*****Yo fuck the ssl, its causing login issues 
-    this.auth.signIn({
-      scope: 'https://www.googleapis.com/auth/youtube.force-ssl'
+    this.setState({
+      isSignedIn: true
     });
-    */
-    // this.auth.signIn({
-    //   scope: 'https://www.googleapis.com/auth/yt-analytics.readonly'
-    // });
   };
 
   onSignOutClick = () => {
-    this.auth.signOut();
+    this.setState({
+      isSignedIn: false
+    });
   };
 
   //Will render sign in or sign out button conditionally
   renderAuthButton() {
-    if (this.state.isSignedIn === null) {
-      return null;
-    } else if (this.state.isSignedIn) {
+    if (this.state.isSignedIn) {
       return (
         <div className='signout--container'>
           <button
@@ -56,7 +44,7 @@ class GoogleAuth extends React.Component {
         <div className='button--container'>
           <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
             <input
-              className='green-google-button'
+              className='ui green google button'
               type='submit'
               value='Login with Google'
             />

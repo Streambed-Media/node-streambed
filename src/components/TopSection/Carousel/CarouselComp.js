@@ -23,6 +23,7 @@ const responsive = {
 
 const CarouselComp = (props) => {
   //***********************************************Maps through videos, prints them to carousel */
+  //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
     return (
       <Carousel
