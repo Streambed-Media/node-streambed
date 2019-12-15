@@ -23,10 +23,10 @@ class RenderSingleVidAnalytics extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.selectedVideoId !== prevProps.selectedVideoId) {
       this.getSingleVidAnalytics();
-      //! See function comment below this.getSearchTerms();
+      this.getSearchTerms();
     }
   }
-
+  /**Functions to get views and watch time for specific video**/
   getSingleVidAnalytics() {
     let url = window.location.href;
     const accessToken = url.replace(/^.+=/gi, '');
@@ -44,7 +44,7 @@ class RenderSingleVidAnalytics extends React.Component {
       .then((response) => response.json())
       .then(
         (response) => {
-          console.log(response);
+          console.log('Get single vid', response);
           let totalViews = response.rows
             .map((row) => row[2])
             .reduce((a, b) => a + b);
@@ -61,7 +61,6 @@ class RenderSingleVidAnalytics extends React.Component {
               estimatedMinutesWatched: totalestimatedMinutesWatched + ' min'
             }
           });
-          console.log(this.state);
         },
 
         function(err) {
@@ -70,40 +69,40 @@ class RenderSingleVidAnalytics extends React.Component {
       );
   }
 
-  //! Not working correctly, leaving out for now
-  // getSearchTerms() {
-  //   let url = window.location.href;
-  //   const accessToken = url.replace(/^.+=/gi, '');
+  /**function to get best keyword for your specific videos**/
+  getSearchTerms() {
+    let url = window.location.href;
+    const accessToken = url.replace(/^.+=/gi, '');
 
-  //   fetch(
-  //     `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&maxResults=20&metrics=views&sort=-views&startDate=2005-01-01&key=${web.apiKey}`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-type': 'application/json',
-  //         Authorization: 'Bearer ' + accessToken
-  //       }
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       //   if (!response.rows[0]) {
-  //       //     this.setState({
-  //       //       keyWord: 'N/A'
-  //       //     });
-  //       //   } else {
-  //       //     this.setState({
-  //       //       keyWord: response.rows[0][0]
-  //       //     });
-  //       //     console.log('WORKING');
-  //       //   }
-  //       // },
-  //       // function(err) {
-  //       //   console.error('Execute error', err);
-  //       // }
-  //       console.log(response);
-  //     });
-  // }
+    fetch(
+      `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceDetail&endDate=${output}&filters=video%3D%3D${this.props.selectedVideoId}%3BinsightTrafficSourceType%3D%3DYT_SEARCH&ids=channel%3D%3DMINE&maxResults=10&metrics=views&sort=-views&startDate=2005-07-01&key=${web.apiKey}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: 'Bearer ' + accessToken
+        }
+      }
+    )
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          if (!response.rows[0]) {
+            this.setState({
+              keyWord: 'N/A'
+            });
+          } else {
+            this.setState({
+              keyWord: response.rows[0][0]
+            });
+            console.log('WORKING');
+          }
+        },
+        function(err) {
+          console.error('Execute error', err);
+        }
+      );
+  }
 
   renderSingleVidAnalytics() {
     let {
