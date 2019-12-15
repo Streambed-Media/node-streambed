@@ -6,7 +6,7 @@
 }
 
 body {
-  background-image: url(../../images/streambedLogoBackground.svg);
+  background-image: url(../../../public/images/streambedLogoBackground.svg) !important;
 }
 
 body .login--box {

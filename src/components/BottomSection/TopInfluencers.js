@@ -1,5 +1,5 @@
 import React from 'react';
-// import Avatar from '../../../public/images/rachel.png';
+import Avatar from '../../../public/images/rachel.png';
 
 /*************************************Top influencers sections, non-functional currently */
 
@@ -11,7 +11,7 @@ const TopInfluencers = () => {
         <div className='list--one'>
           <div className='ui list'>
             <div className='item'>
-              <img className='ui avatar image' src="images/rache.png" alt='' />
+              <img className='ui avatar image' src={Avatar} alt='' />
               <div className='content'>
                 <a className='header' href='/'>
                   Rachel
@@ -26,7 +26,7 @@ const TopInfluencers = () => {
               </div>
             </div>
             <div className='item'>
-              <img className='ui avatar image' src="images/rache.png" alt='' />
+              <img className='ui avatar image' src={Avatar} alt='' />
               <div className='content'>
                 <a className='header' href='/'>
                   Lindsay
@@ -41,7 +41,7 @@ const TopInfluencers = () => {
               </div>
             </div>
             <div className='item'>
-              <img className='ui avatar image' src="images/rache.png" alt='' />
+              <img className='ui avatar image' src={Avatar} alt='' />
               <div className='content'>
                 <a className='header' href='/'>
                   Matthew
@@ -60,7 +60,7 @@ const TopInfluencers = () => {
         <div className='list--two'>
           <div className='ui list'>
             <div className='item'>
-              <img className='ui avatar image' src="images/rache.png" alt='' />
+              <img className='ui avatar image' src={Avatar} alt='' />
               <div className='content'>
                 <a className='header' href='/'>
                   Rachel
@@ -75,7 +75,7 @@ const TopInfluencers = () => {
               </div>
             </div>
             <div className='item'>
-              <img className='ui avatar image' src="images/rache.png" alt='' />
+              <img className='ui avatar image' src={Avatar} alt='' />
               <div className='content'>
                 <a className='header' href='/'>
                   Lindsay
@@ -90,7 +90,7 @@ const TopInfluencers = () => {
               </div>
             </div>
             <div className='item'>
-              <img className='ui avatar image' src="images/rache.png" alt='' />
+              <img className='ui avatar image' src={Avatar} alt='' />
               <div className='content'>
                 <a className='header' href='/'>
                   Matthew

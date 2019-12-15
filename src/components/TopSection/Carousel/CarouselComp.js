@@ -1,5 +1,6 @@
 import React from 'react';
 import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
@@ -22,6 +23,7 @@ const responsive = {
 
 const CarouselComp = (props) => {
   //***********************************************Maps through videos, prints them to carousel */
+  //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
     return (
       <Carousel

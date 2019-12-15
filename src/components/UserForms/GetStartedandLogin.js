@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CreateUserForm from './CreateUserForm';
 import Login from './Login';
-// import '../../styles/UserFormStyles/getStartedandLogin.css';
+import '../../styles/UserFormStyles/getStartedandLogin.css';
 
 const GetStartedandLogin = () => {
   const [getStarted, setGetStarted] = useState(false);

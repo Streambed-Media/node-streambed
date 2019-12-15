@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
-// import 'react-multi-carousel/lib/styles.css';
 import RenderSingleVidAnalytics from './TopSection/OriginalsSection/RenderSingleVidAnalytics';
-// import '../styles/AnalyticsandContent/renderContent.css';
+import '../styles/AnalyticsandContent/renderContent.css';
 import Filters from './TopSection/FilterComponents/Filters';
 import ButterflyScore from './TopSection/ButterflyScore/ButterflyScore';
 import TopInfluencers from './BottomSection/TopInfluencers';
@@ -10,7 +8,7 @@ import Derivative from './BottomSection/Derivative';
 import { web } from '../../oauthTwo.keys.json';
 import CarouselComp from './TopSection/Carousel/CarouselComp';
 
-/****************************************Component to render the videos from v3 */
+/****************************************Renders All content on page through multiple props*/
 const RenderContent = () => {
   const [videoData, setVideoData] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
@@ -20,7 +18,7 @@ const RenderContent = () => {
     const accessToken = url.replace(/^.+=/gi, '');
 
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=25&type=video&key={${web.apiKey}}`,
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
       {
         method: 'GET',
         headers: {
@@ -34,16 +32,6 @@ const RenderContent = () => {
         setVideoData(data.items);
       });
   }, []);
-
-  //! OLD function to fetch videos, not used */
-  // const getAllVideos = () => {
-  //   return window.gapi.client.youtube.search.list({
-  //     part: 'snippet',
-  //     forMine: true,
-  //     maxResults: 25,
-  //     type: 'video'
-  //   });
-  // };
 
   /******************************************************************************************************
   On click function to pull video id from video 

@@ -9,6 +9,9 @@ import RenderContent from './components/RenderContent';
 import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import { Upload } from './components/VideoUpload.js';
 import { GetChannelData } from './components/channelData.js';
+import './styles/IndexStyles/index.css';
+import 'semantic-ui-css/semantic.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -58,11 +61,6 @@ class App extends React.Component {
     if (this.state.isSignedIn === false) {
       return (
         <div className='container'>
-          <Nav
-            showLogin={this.showLogin()}
-            showDropDown={this.showDropDown()}
-            getUrl={this.getUrl()}
-          />
           <img src='images/streambedHeader.svg' alt='streambed logo'></img>
           <div className='login--box'>
             <div className='trans--box'>
@@ -80,8 +78,8 @@ class App extends React.Component {
             width={'250px'}
             className='streambed-logo'
           />
-          <GoogleAuthMaster />
           <div className=' toggle-publish-analytics'>
+            <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
             <div className='ui toggle checkbox'>
               <input
                 type='checkbox'
@@ -97,7 +95,7 @@ class App extends React.Component {
               <RenderContent />
             </div>
           ) : (
-            <div>Brad's publishing component goes here</div>
+            <div>Youtube Upload here!!!</div>
           )}
         </div>
       );
