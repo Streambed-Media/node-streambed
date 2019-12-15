@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import '../../styles/UserFormStyles/createUserForm.css';
+import '../../styles/UserFormStyles/createUserForm.css';
 
 const CreateUserForm = () => {
   //**Password States */

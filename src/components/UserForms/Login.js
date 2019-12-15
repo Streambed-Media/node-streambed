@@ -1,5 +1,5 @@
 import React from 'react';
-// import '../../styles/UserFormStyles/createUserForm.css';
+import '../../styles/UserFormStyles/createUserForm.css';
 import GoogleAuth from '../GoogleAuth_master';
 
 //*************************Basic set up for login page */

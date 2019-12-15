@@ -9,6 +9,7 @@ import RenderContent from './components/RenderContent';
 import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import { Upload } from './components/VideoUpload.js';
 import { GetChannelData } from './components/channelData.js';
+import 'semantic-ui-css/semantic.min.css';
 
 class App extends React.Component {
   constructor(props) {

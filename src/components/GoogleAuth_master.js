@@ -1,5 +1,5 @@
 import React from 'react';
-//import '../styles/GoogleAuth/googleAuthMaster.css';
+import '../styles/GoogleAuth/googleAuthMaster.css';
 
 /***********************************************************Google Oauth login page component ***************/
 /**Video Data */

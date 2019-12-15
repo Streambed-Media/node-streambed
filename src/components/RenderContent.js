@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
-// import 'react-multi-carousel/lib/styles.css';
 import RenderSingleVidAnalytics from './TopSection/OriginalsSection/RenderSingleVidAnalytics';
-// import '../styles/AnalyticsandContent/renderContent.css';
+import '../styles/AnalyticsandContent/renderContent.css';
 import Filters from './TopSection/FilterComponents/Filters';
 import ButterflyScore from './TopSection/ButterflyScore/ButterflyScore';
 import TopInfluencers from './BottomSection/TopInfluencers';
