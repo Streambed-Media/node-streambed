@@ -1,5 +1,6 @@
 import React from 'react';
 import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {

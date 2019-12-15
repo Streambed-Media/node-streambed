@@ -32,7 +32,7 @@ class RenderSingleVidAnalytics extends React.Component {
     const accessToken = url.replace(/^.+=/gi, '');
 
     fetch(
-      `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day%2CinsightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2CestimatedMinutesWatched&sort=day%2C-views&startDate=2005-01-01&key=${web.apiKey}`,
+      `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day%2CinsightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2CestimatedMinutesWatched&sort=day%2C-views&startDate=2005-02-14&key=${web.apiKey}`,
       {
         method: 'GET',
         headers: {
@@ -44,6 +44,7 @@ class RenderSingleVidAnalytics extends React.Component {
       .then((response) => response.json())
       .then(
         (response) => {
+          console.log(response);
           let totalViews = response.rows
             .map((row) => row[2])
             .reduce((a, b) => a + b);

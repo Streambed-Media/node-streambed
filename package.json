@@ -47,7 +47,11 @@
   },
   "devDependencies": {
     "css-loader": "^3.3.2",
+    "node-sass": "^4.13.0",
     "nodemon": "^1.19.4",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.1",
+    "url-loader": "^3.0.0",
     "webpack-cli": "^3.3.10"
   }
 }
