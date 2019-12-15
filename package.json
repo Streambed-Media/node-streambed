@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "font-awesome": "^4.7.0",
     "gapi-client": "0.0.3",
     "google-auth-library": "^5.5.1",
     "googleapis": "^30.0.0",
