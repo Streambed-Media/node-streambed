@@ -6,13 +6,13 @@ import 'react-multi-carousel/lib/styles.css';
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 4,
-    slidesToSlide: 4 // When you click arrow, it will scroll as many as this is set too
+    items: 5,
+    slidesToSlide: 5 // When you click arrow, it will scroll as many as this is set too
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 2,
-    slidesToSlide: 2
+    items: 3,
+    slidesToSlide: 3
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },

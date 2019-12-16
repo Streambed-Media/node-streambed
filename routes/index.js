@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const app = express();
 const router = express.Router();
 const multer = require('multer');
@@ -135,6 +136,15 @@ router.post('/dashboard', (req, res) => {
     })
     .catch(console.err);
 });
+
+//!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
+/* Redirect to the main page */
+router.post('/logout-dashboard', (req, res) => {
+  accessToken = '';
+  res.redirect('http://localhost:5000');
+});
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!!!!!1
 
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
