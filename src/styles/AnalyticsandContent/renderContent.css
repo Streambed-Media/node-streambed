@@ -9,7 +9,7 @@
   -ms-grid-rows: (1fr)[3];
       grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 4em;
-      grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters' 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters' 'der der der der der der der der der der';
+      grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters' 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters' 'der der der der der der der der der der';
   height: 100vh;
   padding-top: 1em;
   background: #fff;
