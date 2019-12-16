@@ -121,30 +121,30 @@ router.get('/dashboard', function(req, res, next) {
 /* After OAuth routes to the main page */
 router.post('/dashboard', (req, res) => {
   // res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-  client
-    .authenticate(scopes)
-    .then((data) => {
-      console.log(data.credentials.access_token);
-      accessToken = data.credentials.access_token;
-      const token = jwt.sign({ token: data.credentials.access_token }, 'me');
-      res.redirect(
-        'http://localhost:5000' +
-          '?access_token=' +
-          data.credentials.access_token
-      );
-      //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-    })
-    .catch(console.err);
+  //!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
+  if (accessToken) {
+    req.logout();
+    accessToken = false;
+    res.redirect('http://localhost:5000');
+  }
+  //!!!!!!!!!!!!!!!!!!!!!!!
+  else {
+    client
+      .authenticate(scopes)
+      .then((data) => {
+        console.log(data.credentials.access_token);
+        accessToken = data.credentials.access_token;
+        const token = jwt.sign({ token: data.credentials.access_token }, 'me');
+        res.redirect(
+          'http://localhost:5000' +
+            '?access_token=' +
+            data.credentials.access_token
+        );
+        //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
+      })
+      .catch(console.err);
+  }
 });
-
-//!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
-/* Redirect to the main page */
-router.post('/logout-dashboard', (req, res) => {
-  accessToken = '';
-  res.redirect('http://localhost:5000');
-});
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!!!!!1
 
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
