@@ -1,5 +1,4 @@
 const express = require('express');
-const passport = require('passport');
 const app = express();
 const router = express.Router();
 const multer = require('multer');
@@ -123,9 +122,8 @@ router.post('/dashboard', (req, res) => {
   // res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
   //!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
   if (accessToken) {
-    req.logout();
-    accessToken = false;
-    res.redirect('http://localhost:5000');
+    accessToken = '';
+    res.redirect('/');
   }
   //!!!!!!!!!!!!!!!!!!!!!!!
   else {
