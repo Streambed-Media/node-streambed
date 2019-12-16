@@ -13,6 +13,7 @@ const Login = () => {
           required
           placeholder='&#xf0e0;   Email'
         />
+        <a className="forgotpass" href="#" rel="noopener">Forgot password?</a>
         <input
           type='password'
           name='password'

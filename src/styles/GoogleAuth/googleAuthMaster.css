@@ -45,6 +45,7 @@ body .login--box .trans--box .button--container {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  margin-bottom: 5px;
 }
 
 body .signout--container {

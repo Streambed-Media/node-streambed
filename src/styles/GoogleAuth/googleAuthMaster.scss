@@ -13,6 +13,7 @@ body {
   .login--box {
     display: flex;
     justify-content: center;
+
     .trans--box {
       display: flex;
       flex-direction: column;
@@ -26,6 +27,7 @@ body {
       .button--container {
         display: flex;
         justify-content: center;
+        margin-bottom: 5px;
       }
     }
   }
