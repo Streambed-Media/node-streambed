@@ -119,29 +119,25 @@ router.get('/dashboard', function(req, res, next) {
 
 /* After OAuth routes to the main page */
 router.post('/dashboard', (req, res) => {
+  client
+    .authenticate(scopes)
+    .then((data) => {
+      console.log(data.credentials.access_token);
+      accessToken = data.credentials.access_token;
+      const token = jwt.sign({ token: data.credentials.access_token }, 'me');
+      res.redirect('http://localhost:5000' + '?access_token=' + accessToken);
+      //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
+    })
+    .catch(console.err);
+});
+
+/* Logout of dashboard and set accessToken to empty string */
+router.post('/logout', (req, res) => {
   // res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
   //!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
-  if (accessToken) {
-    accessToken = '';
-    res.redirect('/');
-  }
+  accessToken = '';
+  res.redirect('/');
   //!!!!!!!!!!!!!!!!!!!!!!!
-  else {
-    client
-      .authenticate(scopes)
-      .then((data) => {
-        console.log(data.credentials.access_token);
-        accessToken = data.credentials.access_token;
-        const token = jwt.sign({ token: data.credentials.access_token }, 'me');
-        res.redirect(
-          'http://localhost:5000' +
-            '?access_token=' +
-            data.credentials.access_token
-        );
-        //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-      })
-      .catch(console.err);
-  }
 });
 
 /* POST route for video file up to youtube*/
