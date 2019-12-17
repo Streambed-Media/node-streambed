@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/UserFormStyles/createUserForm.css';
 
 const CreateUserForm = () => {
-  //*********************************Username comparison section **********************/
   //TODO Currently pulling fake users names from external api for testing, everything seems to be working correctly, need to connect to DB*******************
 
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users - fake backend -
@@ -19,8 +18,10 @@ const CreateUserForm = () => {
       });
   }, []);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  /*************************************************************************************/
-  //**Username State */
+  //TODO *******************************************************************************************************************************************************
+
+  /********************************************************************STATE SECTION*********************************************/
+  //**Display Name States */
   const [allUsers, setAllUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
@@ -34,8 +35,9 @@ const CreateUserForm = () => {
   const [email, setEmail] = useState('');
   const [reEmail, setReEmail] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  /********************************************************************STATE SECTION*********************************************/
 
-  /*******************************Function to compare password fields */
+  /*******************************Function to compare password, usename, email fields */
   const validateForm = (e) => {
     e.preventDefault();
 
