@@ -1,7 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import '../../styles/UserFormStyles/createUserForm.css';
 
 const CreateUserForm = () => {
+
+  //**Username State */
+  const [allUsers, setAllUsers] = useState([]);
+  const [username, setUsername] = useState('');
+
+  //! Get users - fake backend -
+  useEffect(() => {
+    fetch(
+      `https://jsonplaceholder.typicode.com/users/`,
+      {
+        method: 'GET',
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let usernames = data.map((x) => x.username)
+        setAllUsers(
+          [...usernames]
+        )
+      });
+  }, []);
+  // !!
+
   //**Password States */
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
@@ -14,11 +38,14 @@ const CreateUserForm = () => {
 
   /*******************************Function to compare password fields */
   const validateForm = (e) => {
+    e.preventDefault();
+
+    if (allUsers.includes(username)) {
+      alert('The username already exist')
+    }
     if (email !== reEmail) {
-      e.preventDefault();
       setEmailErrorMessage('Emails do not match!');
     } else if (password !== rePassword) {
-      e.preventDefault();
       setEmailErrorMessage('');
       setPassErrorMessage('Passwords do not match!');
     } else {
@@ -37,6 +64,10 @@ const CreateUserForm = () => {
           name='display_name'
           required
           placeholder='&#xf2bd;   Display Name'
+          onChange={(e) => {
+            setUsername(e.target.value)
+          }}
+
         />
         <input
           type='email'
@@ -78,7 +109,7 @@ const CreateUserForm = () => {
         />
         {/**********************************Error message prints out for passwords not matching */}
         <div>{passErrorMessage}</div>
-        <button type='submit' style={{ display: 'none' }}>
+        <button type='submit' className='main-screen--button'>
           Submit
         </button>
       </form>
