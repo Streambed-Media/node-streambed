@@ -3,35 +3,34 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/UserFormStyles/createUserForm.css';
 
 const CreateUserForm = () => {
+  //*********************************Username comparison section **********************/
+  //TODO Currently pulling fake users names from external api for testing, everything seems to be working correctly, need to connect to DB*******************
 
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users - fake backend -
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/users/`, {
+      method: 'GET'
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        let usernames = data.map((x) => x.username);
+        console.log(usernames);
+        setAllUsers(usernames);
+      });
+  }, []);
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  /*************************************************************************************/
   //**Username State */
   const [allUsers, setAllUsers] = useState([]);
   const [username, setUsername] = useState('');
-
-  //! Get users - fake backend -
-  useEffect(() => {
-    fetch(
-      `https://jsonplaceholder.typicode.com/users/`,
-      {
-        method: 'GET',
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        let usernames = data.map((x) => x.username)
-        setAllUsers(
-          [...usernames]
-        )
-      });
-  }, []);
-  // !!
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
 
   //**Password States */
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [passErrorMessage, setPassErrorMessage] = useState('');
 
-  /**Email States */
+  //**Email States */
   const [email, setEmail] = useState('');
   const [reEmail, setReEmail] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
@@ -41,9 +40,8 @@ const CreateUserForm = () => {
     e.preventDefault();
 
     if (allUsers.includes(username)) {
-      alert('The username already exist')
-    }
-    if (email !== reEmail) {
+      setUsernameErrorMessage('The username already exist');
+    } else if (email !== reEmail) {
       setEmailErrorMessage('Emails do not match!');
     } else if (password !== rePassword) {
       setEmailErrorMessage('');
@@ -65,10 +63,10 @@ const CreateUserForm = () => {
           required
           placeholder='&#xf2bd;   Display Name'
           onChange={(e) => {
-            setUsername(e.target.value)
+            setUsername(e.target.value);
           }}
-
         />
+        <div>{usernameErrorMessage}</div>
         <input
           type='email'
           name='email'
