@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
-const validator = require('validator')
+const validator = require('validator');
 
+//User schema, all fields are required currently
+const userSchema = new mongoose.Schema({
+  displayName: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true }
+});
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!Brads code, NOT USING CURRENTLY --Tommy
+/*
 const User = mongoose.model('User', {
     description: {
         type: String
@@ -27,6 +35,6 @@ const User = mongoose.model('User', {
         }
     }
 })
+*/
 
-
-module.exports = User
+module.exports = mongoose.model('User', userSchema);
