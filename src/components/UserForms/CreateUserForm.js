@@ -3,22 +3,20 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/UserFormStyles/createUserForm.css';
 
 const CreateUserForm = () => {
-  //TODO Currently pulling fake users names from external api for testing, everything seems to be working correctly, need to connect to DB*******************
+  //TODO Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
 
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users - fake backend -
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users/`, {
-      method: 'GET'
-    })
+    fetch(`http://localhost:5000/users/`)
       .then((response) => response.json())
       .then((data) => {
-        let usernames = data.map((x) => x.username);
+        let usernames = data.map((c) => c.displayName);
         console.log(usernames);
         setAllUsers(usernames);
       });
   }, []);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //TODO *******************************************************************************************************************************************************
+  //TODO ***************************************************************************************************
 
   /********************************************************************STATE SECTION*********************************************/
   //**Display Name States */

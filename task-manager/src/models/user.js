@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-//User schema
-
+//User schema, all fields are required currently
 const userSchema = new mongoose.Schema({
-  displayName: String,
-  email: String,
-  password: String
+  displayName: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true }
 });
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!Brads code, NOT USING CURRENTLY --Tommy

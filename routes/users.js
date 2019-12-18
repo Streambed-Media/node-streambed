@@ -19,23 +19,28 @@ router.post('/', (req, res, next) => {
     .save()
     .then((result) => {
       console.log(result);
+      res.status(201).json({
+        message: 'Created User',
+        createdUser: user
+      });
     })
     .catch((err) => {
       console.log(err);
     });
-  res.status(201).json({
-    message: 'Handling POST',
-    createdUser: user
-  });
 });
 /**************************************************************************/
 
-/*GET all users ***********************************************************/
+/*GET all displayNames! ***********************************************************/
 router.get('/', (req, res, next) => {
   User.find()
+    .select('displayName')
     .exec()
     .then((docs) => {
-      console.log(docs);
+      const response = {
+        count: docs.length,
+        users: docs
+      };
+      console.log(response);
       res.status(200).json(docs);
     })
     .catch((err) => {
