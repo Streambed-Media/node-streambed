@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../task-manager/src/models/user.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const checkAuth = require('../task-manager/src/middleware/check-auth');
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose.connect('mongodb://localhost/test', {
