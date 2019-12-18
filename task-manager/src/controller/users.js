@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 /***Using MVC model, this holds functions for the routes */
 /***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res, next) => {
-  User.find({ email: req.body.email })
+  console.log(req.body);
+  User.find({ email: req.body.email[0] })
     .exec()
     .then((user) => {
       if (user.length >= 1) {
@@ -13,7 +14,7 @@ exports.user_sign_up = (req, res, next) => {
           message: 'Email exists'
         });
       } else {
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
+        bcrypt.hash(req.body.password[0], 10, (err, hash) => {
           if (err) {
             return res.status(500).json({
               error: err
@@ -21,7 +22,7 @@ exports.user_sign_up = (req, res, next) => {
           } else {
             const user = new User({
               displayName: req.body.displayName,
-              email: req.body.email,
+              email: req.body.email[0],
               password: hash
             });
             user
