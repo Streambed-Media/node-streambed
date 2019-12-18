@@ -1,55 +1,28 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-const User = require('../task-manager/src/models/user.js');
 
+const checkAuth = require('../task-manager/src/middleware/check-auth');
+const UsersController = require('../task-manager/src/controller/users');
+
+/**Put you DB path here, you can use this default path to host it local at this address */
 mongoose.connect('mongodb://localhost/test', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 });
 
-/*POST users listing, posting to /users with json will create entry in DB */
-router.post('/', (req, res, next) => {
-  const user = new User({
-    displayName: req.body.displayName,
-    email: req.body.email,
-    password: req.body.password
-  });
-  user
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.status(201).json({
-        message: 'Created User',
-        createdUser: user
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+/*POST user signup, posting to /users/signup with json will create entry in DB */
+router.post('/signup', UsersController.user_sign_up);
+/**************************************************************************/
+
+/*POST to login exsiting user************************************************/
+router.post('/login', UsersController.user_login);
+
 /**************************************************************************/
 
 /*GET all displayNames! ***********************************************************/
-router.get('/', (req, res, next) => {
-  User.find()
-    .select('displayName')
-    .exec()
-    .then((docs) => {
-      const response = {
-        count: docs.length,
-        users: docs
-      };
-      console.log(response);
-      res.status(200).json(docs);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-});
+router.get('/', UsersController.user_display_names);
 /**************************************************************************/
 
 module.exports = router;

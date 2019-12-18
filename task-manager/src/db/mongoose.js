@@ -1,4 +1,4 @@
-// //!!!! NOT USING CURRENTLY --Tommy
+// //!!!! NOT USING CURRENTLY, mongoose.connect is in the users.js file --Tommy
 
 // const mongoose = require('mongoose');
 // const validator = require('validator');

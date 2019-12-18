@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import '../../styles/UserFormStyles/createUserForm.css';
 
+/***********************************************************************/
+/*************Creates user in DB, ITS WORKING! --Tommy *****************/
+/***********************************************************************/
+
 const CreateUserForm = () => {
-  //TODO Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
+  //Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
 
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users
   useEffect(() => {
@@ -16,7 +20,7 @@ const CreateUserForm = () => {
       });
   }, []);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //TODO ***************************************************************************************************
+  // ***************************************************************************************************
 
   /********************************************************************STATE SECTION*********************************************/
   //**Display Name States */
@@ -37,18 +41,19 @@ const CreateUserForm = () => {
 
   /*******************************Function to compare password, usename, email fields */
   const validateForm = (e) => {
-    e.preventDefault();
-
     if (allUsers.includes(username)) {
+      e.preventDefault();
       setUsernameErrorMessage('The username already exist');
     } else if (email !== reEmail) {
+      e.preventDefault();
       setEmailErrorMessage('Emails do not match!');
+      setUsernameErrorMessage('');
     } else if (password !== rePassword) {
+      e.preventDefault();
       setEmailErrorMessage('');
       setPassErrorMessage('Passwords do not match!');
     } else {
       setPassErrorMessage('');
-      setEmailErrorMessage('');
     }
   };
 
@@ -56,10 +61,10 @@ const CreateUserForm = () => {
   /*************Password fields get set to state to compare before submit*/
   return (
     <div>
-      <form className='form-container' onSubmit={validateForm}>
+      <form className='form-container' method='POST' action='/users/signup'>
         <input
           type='text'
-          name='display_name'
+          name='displayName'
           required
           placeholder='&#xf2bd;   Display Name'
           onChange={(e) => {
@@ -107,7 +112,12 @@ const CreateUserForm = () => {
         />
         {/**********************************Error message prints out for passwords not matching */}
         <div>{passErrorMessage}</div>
-        <button type='submit' className='main-screen--button'>
+        <button
+          type='submit'
+          onClick={validateForm}
+          value='submit'
+          className='main-screen--button'
+        >
           Submit
         </button>
       </form>
