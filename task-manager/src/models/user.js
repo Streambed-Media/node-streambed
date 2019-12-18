@@ -1,7 +1,16 @@
 const mongoose = require('mongoose');
-const validator = require('validator')
+const validator = require('validator');
 
+//User schema
 
+const userSchema = new mongoose.Schema({
+  displayName: String,
+  email: String,
+  password: String
+});
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!Brads code, NOT USING CURRENTLY --Tommy
+/*
 const User = mongoose.model('User', {
     description: {
         type: String
@@ -27,6 +36,6 @@ const User = mongoose.model('User', {
         }
     }
 })
+*/
 
-
-module.exports = User
+module.exports = mongoose.model('User', userSchema);

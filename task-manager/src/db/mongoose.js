@@ -1,50 +1,53 @@
-const mongoose = require('mongoose');
-const validator = require('validator')
+// //!!!! NOT USING CURRENTLY --Tommy
 
-const connectionURL = 'mongodb+srv://brad:666darb666@cluster0-faeka.mongodb.net/'
-const database = 'task-manager-api'
+// const mongoose = require('mongoose');
+// const validator = require('validator');
 
-mongoose.connect(connectionURL+database, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true, 
-    useCreateIndex: true // Make sure indexes are created so we can make sure data is accessed
-})
+// const connectionURL = `mongodb+srv://streambed:<${process.env.MONGO_ATLAS_PW}>@project-cluster-xpyv1.mongodb.net/test?retryWrites=true&w=majority`;
+// //const database = 'task-manager-api';
 
-const User = mongoose.model('User', {
-    description: {
-        type: String
-    },
-    name: {
-        type: String
-    },
-    email: {
-        type: String,
-        required: true,
-        validate(value) {
-            if( !validator.isEmail( value )) {
-                throw new Error('Email is invalid')
-            }
-        }
-    },
-    age: {
-        type: Number,
-        validate(value) {
-            if(value < 0) {
-                throw new Error('Age must be a positive number')
-            }
-        }
-    }
-})
+// mongoose.connect(connectionURL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
 
-const me = new User({
-    description: 'database testing',
-    name: 'B-rad',
-    email: 'mike@',
- 
-})
+//! Brads code, commenting out while testing
+// const User = mongoose.model('User', {
+//   description: {
+//     type: String
+//   },
+//   name: {
+//     type: String
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//     validate(value) {
+//       if (!validator.isEmail(value)) {
+//         throw new Error('Email is invalid');
+//       }
+//     }
+//   },
+//   age: {
+//     type: Number,
+//     validate(value) {
+//       if (value < 0) {
+//         throw new Error('Age must be a positive number');
+//       }
+//     }
+//   }
+// });
 
-me.save().then(() => {
-    console.log(me)
-}).catch((error) => {
-    console.log('Error!', error)
-})
+// const me = new User({
+//   description: 'database testing',
+//   name: 'B-rad',
+//   email: 'mike@'
+// });
+
+// me.save()
+//   .then(() => {
+//     console.log(me);
+//   })
+//   .catch((error) => {
+//     console.log('Error!', error);
+//   });
