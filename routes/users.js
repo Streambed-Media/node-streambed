@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../task-manager/src/models/user.js');
+const bcrypt = require('bcrypt');
 
 mongoose.connect('mongodb://localhost/test', {
   useNewUrlParser: true,
@@ -9,24 +10,47 @@ mongoose.connect('mongodb://localhost/test', {
 });
 
 /*POST users listing, posting to /users with json will create entry in DB */
-router.post('/', (req, res, next) => {
-  const user = new User({
-    displayName: req.body.displayName,
-    email: req.body.email,
-    password: req.body.password
-  });
-  user
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.status(201).json({
-        message: 'Created User',
-        createdUser: user
-      });
+/***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
+router.post('/signup', (req, res, next) => {
+  User.find({ email: req.body.email })
+    .exec()
+    .then((user) => {
+      if (user.length >= 1) {
+        return res.status(409).json({
+          message: 'Email Exists'
+        });
+      } else {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          if (err) {
+            return res.status(500).json({
+              error: err
+            });
+          } else {
+            const user = new User({
+              displayName: req.body.displayName,
+              email: req.body.email,
+              password: hash
+            });
+            user
+              .save()
+              .then((result) => {
+                console.log(result);
+                res.status(201).json({
+                  message: 'User Created',
+                  createdUser: user
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+                res.status(500).json({
+                  error: err
+                });
+              });
+          }
+        });
+      }
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch();
 });
 /**************************************************************************/
 
