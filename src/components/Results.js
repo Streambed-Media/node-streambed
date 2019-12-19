@@ -6,6 +6,7 @@ class Results extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            isUploaded: false,
             results: [],
         }
     }
@@ -13,33 +14,38 @@ class Results extends React.Component {
     componentDidMount(){
         fetch('http://localhost:5000/uploaded')
         .then((response) => {
-                console.log(response);
                 response.json().then((result)=> {
                     console.log(result)
-                this.setState({
-                    results: result,
-                    videoName: result[0].videoFileName,
-                    imgName: result[0].imgFileName
-
+                this.setState(() => {
+                    return {
+                        isUploaded: true,
+                        results: result,
+                        videoName: result[0].videoFileName,
+                        imgName: result[0].imgFileName
+                    }
                 })
             })
         })
         .catch(
             error => console.error // Handle the error response object
         )
+      
     }
-    //chat.alexandria.io
 
     render(){
-        console.log(this.state.results)
+        console.log(this.state.results, this.state)
+
         return (
+
             <div className="content-container">
                 {this.state.results.map((results, i) => 
                 {
                     return <p key={i}>{results.title} {results.desc}</p>
                 })}
-                <h1> Results</h1>
-                <img width="200px" src={"uploads/"+this.state.imgName} alt="thumbnail" />
+                { this.state.videoName &&
+                    <img key={this.state.videoName} width="200px" src={"uploads/thumb.jpg"} alt="thumbnail" />
+                        
+                }
                 <VideoElem videoName={"uploads/"+this.state.videoName}/>
                 <UploadYoutube />
                 {console.log(this.state)}

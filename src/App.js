@@ -2,28 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
-import { Nav } from './components/nav.js';
 import GoogleAuthMaster from './components/GoogleAuth_master';
 // import streambedLogo from '../public/images/streambedHeader.svg';
 import RenderContent from './components/RenderContent';
 import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import { Upload } from './components/VideoUpload.js';
-import { GetChannelData } from './components/channelData.js';
+import CreateDropDown from './components/Dropdown'
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       isSignedIn: false,
       checked: true
     };
-  }
+ 
   handleCheckboxChange = (e) => {
     this.setState({ checked: !this.state.checked });
-  };
+  }
+
   getUrl() {
     let url = window.location.href;
     const urlPath = url.replace(/^.+5000\//gi, '');
@@ -33,31 +31,15 @@ class App extends React.Component {
 
   componentDidMount() {
     let loginURL = this.getUrl();
-    const isMatch = /^\/\?access_token/gi.test(loginURL);
-    console.log(isMatch);
+    console.log(loginURL)
+    const isMatch = /^(\/dashboard|\/youtube-upload)/gi.test(loginURL);
     if (isMatch) {
       this.setState({ isSignedIn: true });
     }
   }
 
-  isSignedIn(getUrl) {
-    let loginURL = this.getUrl();
-    const isMatch = /^\/\?access_token/gi.test(loginURL);
-    if (isMatch) {
-      this.setState({ isSignedIn: true });
-    }
-  }
-
-  showLogin() {
-    let path = this.getUrl();
-    return path === '/' ? 'block' : 'none';
-  }
-  showDropDown() {
-    let path = this.getUrl();
-    return path === '/' ? 'none' : 'block';
-  }
   render() {
-    console.log(this.getUrl());
+    console.log(this.getUrl(), this.state.isSignedIn);
     if (this.state.isSignedIn === false) {
       return (
         <div className='container'>
@@ -95,7 +77,9 @@ class App extends React.Component {
               <RenderContent />
             </div>
           ) : (
-            <div>Youtube Upload here!!!</div>
+            <div>
+              <CreateDropDown />
+            </div>
           )}
         </div>
       );

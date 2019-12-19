@@ -22,12 +22,15 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "fluent-ffmpeg": "^2.1.2",
     "font-awesome": "^4.7.0",
     "gapi-client": "0.0.3",
+    "get-video-duration": "^1.0.3",
     "google-auth-library": "^5.5.1",
     "googleapis": "^30.0.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "ipfs-http-client": "^40.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.4.0",
     "mongoose": "^5.8.1",
@@ -50,6 +53,7 @@
     "youtube-api": "^2.0.10"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^3.3.2",
     "node-sass": "^4.13.0",
     "nodemon": "^1.19.4",

@@ -4,15 +4,15 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const client = require('../client.js');
-const { google } = require('googleapis');
 const youtubeUpload = require('../insert/uploads.js');
 const analytics = require('../insert/analytics.js');
 const jwt = require('jsonwebtoken');
+const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
+const ffmpeg = require('fluent-ffmpeg');
+const getPercentage = require('../src/helpers/GetPercentage')
 
 let videoInfo = {};
-let accessToken = '';
 
 const scopes = [
   'https://www.googleapis.com/auth/youtube.upload',
@@ -33,39 +33,80 @@ let upload = multer({
   storage: storage
 });
 
-router.post('/uploaded', upload.array('myFiles', 2), (req, res, next) => {
+
+router.get('/uploads/myFiles.mp4', (req, res)=>{
+  const range = req.headers.range
+  console.log('range',range)
+  res.send(range)
+})
+
+
+
+router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
   console.log('req body: ', req.body.body);
-  console.log('req files: ', req.files);
+  console.log('req files: ', req.file);
   const body = req.body.body;
-  const files = req.files;
+  const file = req.file;
   videoInfo.title = body[0];
   videoInfo.desc = body[1];
-  videoInfo.videoFilePath = './' + files[0].path;
-  videoInfo.videoFileName = files[0].filename;
-  videoInfo.imgFilePath = './' + files[1].path;
-  videoInfo.imgFileName = files[1].filename;
+  videoInfo.videoFilePath = './' + file.path;
+  videoInfo.videoFileName = file.filename;
+  videoInfo.imgFilePath = './public/uploads/thumb.jpg';
+  videoInfo.imgFileName = 'thumb.jpg';
 
-  Thumbler(
-    {
-      type: 'video',
-      input: videoInfo.videoFilePath,
-      output: './output.jpeg',
-      time: '00:00:5',
-      size: '300x200' // this optional if null will use the dimentions of the video
-    },
-    function(err, path) {
-      if (err) return err;
-      console.log(path);
-      return true;
+ 
+  getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds)=>{
+    console.log('this',getPercentage.seconds)
+  
+    let time = ''
+
+    let differenceInMinutes = seconds / 60
+    
+    if ( differenceInMinutes < 1 ) {
+  
+      time = getPercentage.seconds( differenceInMinutes )
+  
+    }else if ( differenceInMinutes >= 1 && differenceInMinutes < 60 ) {
+  
+      time = getPercentage.minutes( differenceInMinutes )
+  
+    } else if ( differenceInMinutes >= 60 ) {
+  
+      time = getPercentage.hours( differenceInMinutes )
+  
     }
-  );
+  
+  console.log('time: ', time)
+    //Grabs thumbnail from video and saves it
+    Thumbler(
+      {
+        type: 'video',
+        input: videoInfo.videoFilePath,
+        output: './public/uploads/thumb.jpg',
+        time: time,
+        size: '300x200' // this optional if null will use the dimentions of the video
+      },
+      function(err, path) {
+        if (err) return err;
+        return true;
+      }
+    );
+    console.log(videoInfo.videoFilePath, time)
+    //Grabs thumbnail from video and saves it
+    
+  })
+  
+  //Runs async addFile function to get hash for ipfs
+  // ipfs.addFile(videoInfo.videoFileName, videoInfo.videoFilePath).then((data) => {
+  //   console.log(data)
+  //   console.log('https://ipfs.io/ipfs/',data)
+  // }).catch(console.err);
+  
 
   console.log('All video info: ', videoInfo);
   // res.send({upload: 'uploading'})
   res.render('dashboard', {
-    title: 'Youtube',
-    display: 'none',
-    upload_youtube_show: 'block'
+    title: 'Streambed'
   });
 });
 
@@ -75,7 +116,6 @@ router.get('/uploaded', (req, res) => {
 
 /* Sending data back to React componant for upload route */
 router.get('/upload', (req, res) => {
-  // let token = req.params.id;
   // let token = JSON.parse(accessToken)
   // res.send(accessToken)
   // console.log('the token: ', accessToken)
@@ -86,7 +126,7 @@ router.get('/upload', (req, res) => {
 /* GET login page. */
 router.get('/', function(req, res, next) {
   const fileName = process.argv[2];
-  res.render('index', { title: 'Youtube' });
+  res.render('index', { title: 'Streambed' });
 });
 
 /* GET analytics page. */
@@ -108,27 +148,22 @@ router.get('/analytics', function(req, res, next) {
     .catch(console.err);
 });
 
-/* GET dashboard page. (main page) */
-router.get('/dashboard', function(req, res, next) {
+
+/* POST route for video file up to youtube*/
+router.post('/upload-youtube', (req, res) => {
+  console.log('file name: ', videoInfo.videoFilePath);
+  youtubeUpload.runUpload(videoInfo);
+
   res.render('dashboard', {
-    title: 'Youtube',
-    display: 'block',
-    nav_items_show: 'block'
+    title: 'Streambed',
+    nav_items_show: 'block',
+    msg: 'Uploaded',
+    videoSRC: videoInfo.videoFileName
   });
 });
 
-/* After OAuth routes to the main page */
-router.post('/dashboard', (req, res) => {
-  client
-    .authenticate(scopes)
-    .then((data) => {
-      console.log(data.credentials.access_token);
-      accessToken = data.credentials.access_token;
-      const token = jwt.sign({ token: data.credentials.access_token }, 'me');
-      res.redirect('http://localhost:5000' + '?access_token=' + accessToken);
-      //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-    })
-    .catch(console.err);
+router.get('/upload-youtube', (req, res) => {
+  res.send([videoInfo]);
 });
 
 /* Logout of dashboard and set accessToken to empty string */
@@ -140,23 +175,9 @@ router.post('/logout', (req, res) => {
   //!!!!!!!!!!!!!!!!!!!!!!!
 });
 
-/* POST route for video file up to youtube*/
-router.post('/upload-youtube', (req, res) => {
-  console.log('file name: ', videoInfo.videoFilePath);
-  youtubeUpload.runUpload(videoInfo);
-
-  res.render('dashboard', {
-    title: 'Youtube',
-    display: 'block',
-    nav_items_show: 'block',
-    msg: 'Uploaded',
-    display_video: 'block',
-    videoSRC: videoInfo.videoFileName
-  });
-});
-
-router.get('/upload-youtube', (req, res) => {
-  res.send([videoInfo]);
-});
-
 module.exports = router;
+
+
+
+
+

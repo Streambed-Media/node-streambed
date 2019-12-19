@@ -31,17 +31,15 @@ class GoogleAuth extends React.Component {
     if (this.state.isSignedIn) {
       return (
         <div className='signout--container'>
-          <form onSubmit={this.isSignedIn} action='/logout' method='POST'>
-            <input
-              className='ui red google button'
-              type='submit'
-              value='Logout of Google'
-            />
-          </form>
+          <button
+            onClick={this.onSignOutClick}
+            className='ui red google button'
+          >
+            <i className='google icon' /> Sign Out
+          </button>
         </div>
       );
-    } //! Not rendering Google auth button, login works with user in database, then you get Oauth screen
-    /*else {
+    } else {
       return (
         <div className='button--container'>
           <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
@@ -53,7 +51,7 @@ class GoogleAuth extends React.Component {
           </form>
         </div>
       );
-    }*/
+    }
   }
 
   render() {
