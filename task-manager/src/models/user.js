@@ -11,8 +11,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/ //This is regex for email validation
   },
-  password: { type: String, required: true },
-  googleAccessToken: { type: String, required: true }
+  password: { type: String, required: true }
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -82,18 +82,22 @@ exports.user_login = (req, res, next) => {
               expiresIn: '1h'
             }
           );
+          return res.status(200).json({
+            message: 'Auth successful',
+            token: token
+          });
           //! This was taking from Brad's /dashboard route, it allows login if the user is in the database. Just for demonstration of login NOT GOOD
-          client
-            .authenticate(scopes)
-            .then((data) => {
-              console.log(data.credentials.access_token);
-              accessToken = data.credentials.access_token;
-              res.redirect(
-                'http://localhost:5000' + '?access_token=' + accessToken
-              );
-              //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-            })
-            .catch(console.err);
+          // client
+          //   .authenticate(scopes)
+          //   .then((data) => {
+          //     console.log(data.credentials.access_token);
+          //     accessToken = data.credentials.access_token;
+          //     res.redirect(
+          //       'http://localhost:5000' + '?access_token=' + accessToken
+          //     );
+          //     //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
+          //   })
+          //   .catch(console.err);
           //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
       });
