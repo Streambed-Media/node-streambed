@@ -11,7 +11,7 @@ export default function(callback) {
         data: data
       }))
       .then((headers, status, data) => {
-        console.log(headers.headers.authorization);
+        console.log(headers);
         const token = headers.headers.authorization;
         if (!token) return 'Need to authenticate first';
         callback(token);
