@@ -163,7 +163,8 @@ router.post('/upload-youtube', (req, res) => {
 });
 
 router.get('/upload-youtube', (req, res) => {
-  res.send([videoInfo]);
+  res.render('dashboard')
+  // res.send([videoInfo]);
 });
 
 /* Logout of dashboard and set accessToken to empty string */

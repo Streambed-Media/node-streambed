@@ -32,7 +32,8 @@ class App extends React.Component {
   componentDidMount() {
     let loginURL = this.getUrl();
     console.log(loginURL)
-    const isMatch = /^(\/dashboard|\/youtube-upload)/gi.test(loginURL);
+    const isMatch = /^(\/dashboard|\/upload-youtube)/gi.test(loginURL);
+    console.log(isMatch)
     if (isMatch) {
       this.setState({ isSignedIn: true });
     }
