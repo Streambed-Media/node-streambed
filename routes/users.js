@@ -14,15 +14,15 @@ mongoose.connect('mongodb://localhost/test', {
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */
 router.post('/signup', UsersController.user_sign_up);
-/**************************************************************************/
+/**************************************************/
 
-/*POST to login exsiting user************************************************/
+/*POST to login exsiting user********************/
 router.post('/login', UsersController.user_login);
 
-/**************************************************************************/
+/************************************************/
 
-/*GET all displayNames! ***********************************************************/
+/*GET all displayNames! ***************************/
 router.get('/', UsersController.user_display_names);
-/**************************************************************************/
+/*************************************************/
 
 module.exports = router;
