@@ -28,8 +28,13 @@ class RenderSingleVidAnalytics extends React.Component {
   }
   /**Functions to get views and watch time for specific video**/
   getSingleVidAnalytics() {
-    runTheContent(( accessToken ) => {
-      console.log('tommys request',accessToken, output, this.props.selectedVideoId)
+    runTheContent((accessToken) => {
+      console.log(
+        'tommys request',
+        accessToken,
+        output,
+        this.props.selectedVideoId
+      );
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day%2CinsightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2CestimatedMinutesWatched&sort=day%2C-views&startDate=2005-02-14&key=${web.apiKey}`,
         {
@@ -47,11 +52,11 @@ class RenderSingleVidAnalytics extends React.Component {
             let totalViews = response.rows
               .map((row) => row[2])
               .reduce((a, b) => a + b);
-  
+
             let totalestimatedMinutesWatched = response.rows
               .map((row) => row[3])
               .reduce((a, b) => a + b);
-  
+
             this.setState({
               singleVideoAnalytics: {
                 day: response.rows.length,
@@ -61,47 +66,46 @@ class RenderSingleVidAnalytics extends React.Component {
               }
             });
           },
-  
+
           function(err) {
             console.error('Execute error', err);
           }
         );
-    })
+    });
   }
 
   /**function to get best keyword for your specific videos**/
   getSearchTerms() {
-    let url = window.location.href;
-    const accessToken = url.replace(/^.+=/gi, '');
-
-    fetch(
-      `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceDetail&endDate=${output}&filters=video%3D%3D${this.props.selectedVideoId}%3BinsightTrafficSourceType%3D%3DYT_SEARCH&ids=channel%3D%3DMINE&maxResults=10&metrics=views&sort=-views&startDate=2005-07-01&key=${web.apiKey}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: 'Bearer ' + accessToken
-        }
-      }
-    )
-      .then((response) => response.json())
-      .then(
-        (response) => {
-          if (!response.rows[0]) {
-            this.setState({
-              keyWord: 'N/A'
-            });
-          } else {
-            this.setState({
-              keyWord: response.rows[0][0]
-            });
-            console.log('WORKING');
+    runTheContent((accessToken) => {
+      fetch(
+        `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceDetail&endDate=${output}&filters=video%3D%3D${this.props.selectedVideoId}%3BinsightTrafficSourceType%3D%3DYT_SEARCH&ids=channel%3D%3DMINE&maxResults=10&metrics=views&sort=-views&startDate=2005-07-01&key=${web.apiKey}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: 'Bearer ' + accessToken
           }
-        },
-        function(err) {
-          console.error('Execute error', err);
         }
-      );
+      )
+        .then((response) => response.json())
+        .then(
+          (response) => {
+            if (!response.rows[0]) {
+              this.setState({
+                keyWord: 'N/A'
+              });
+            } else {
+              this.setState({
+                keyWord: response.rows[0][0]
+              });
+              console.log('WORKING');
+            }
+          },
+          function(err) {
+            console.error('Execute error', err);
+          }
+        );
+    });
   }
 
   renderSingleVidAnalytics() {
