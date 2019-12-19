@@ -88,10 +88,6 @@ exports.user_login = (req, res, next) => {
             .then((data) => {
               console.log(data.credentials.access_token);
               accessToken = data.credentials.access_token;
-              const token = jwt.sign(
-                { token: data.credentials.access_token },
-                'me'
-              );
               res.redirect(
                 'http://localhost:5000' + '?access_token=' + accessToken
               );
