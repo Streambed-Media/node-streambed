@@ -4,36 +4,87 @@
   display: none;
 }
 
-.nav-item input {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #fff;
+.upload, .ui.search.dropdown, .content-container {
+  -webkit-box-shadow: 0 13px 27px -5px rgba(50,50,93,.25), 0 8px 16px -8px rgba(0,0,0,.3), 0 -6px 16px -6px rgba(0,0,0,.025);
+  box-shadow: 0 13px 27px -5px rgba(50,50,93,.25), 0 8px 16px -8px rgba(0,0,0,.3), 0 -6px 16px -6px rgba(0,0,0,.025);
 }
 
-.nav-item .nav-link:nth-child(-n + 3) {
-  color: white !important;
+.ui.search.dropdown {
+  width: 200px;
+}
+
+.displayOption {
+  color: rgba(0,0,0,.5);
+}
+
+.default.text {
+  color: rgba(0,0,0,.5) !important;
 }
 
 .upload {
-  padding-top: 25px;
+  border-radius: 8px;
+  background: #fff;
+  padding: 25px;
+  margin-top: 25px;
 }
 
 .upload-youtube {
   padding-top: 50px;
 }
 
-.upload-youtube .form-group {
-  border-bottom: 1px solid #a79a9a;
+#description, #title {
+  border-radius: 0;
+  border-bottom: 1px solid #8080805e !important;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+
+.field:nth-of-type(3) {
+  position: relative;
+  height: 40px
+}
+
+input[type="file"] {
+  border: none !important;
+  width: 320px !important;
+  padding: 3px 0 !important;
+  position: absolute;
+  left: 26px;
+  cursor: pointer;
+}
+
+.upload .ui.form {
+  overflow: hidden;
+  transition: all .5s ease-out;
+  height: 270px;
+}
+
+.file-upload {
+  position: absolute;
+  pointer-events: none;
+  display: inline-block;
+  padding: 6px 12px;
+  border: none !important;
+}
+
+.fas.fa-upload {
+  padding: 0 5px;
+}
+
+.hiddenLabel {
+  position: absolute;
+  pointer-events: none;
+  width: 120px;
+  background: #ece5d7;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px 0;
 }
 
 .dropdown-menu {
   padding: 0px;
   overflow: hidden;
-}
-
-.dropdown-item {
-  padding: 0.35rem 1.5rem;
 }
 
 .form-group.fileSelect {
@@ -66,8 +117,12 @@
 }
 
 .content-container {
-  display: flex;
-  flex-direction: column;
+    margin-top: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
 }
 
 .errorField {
@@ -75,15 +130,18 @@
 }
 
 .progress-container {
+  border: 2px solid #87ad58;
+  border-radius: 6px;
   width: 200px;
-  height: 25px;
+  height: 30px;
   overflow: hidden;
+  margin-top: 5px;
 }
 
 .progress-bar {
-  transform: translate(0%, 0px);
   position: relative;
-  height: 25px;
+  height: 30px;
+  border-radius: 0px;
   background: darkseagreen;
   left: -200px;
 }

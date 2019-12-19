@@ -4,9 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hbs = require('hbs');
-const cors = require('cors');
+
 
 var indexRouter = require('./routes/index');
+const dashboardRouter = require('./routes/dashboard');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -18,10 +19,6 @@ hbs.registerPartials(partialsPath);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(cors({
-  exposedHeaders: ['x-auth-token'],
-}));
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,6 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
