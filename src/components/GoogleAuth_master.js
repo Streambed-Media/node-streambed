@@ -31,12 +31,17 @@ class GoogleAuth extends React.Component {
     if (this.state.isSignedIn) {
       return (
         <div className='signout--container'>
-          <button
-            onClick={this.onSignOutClick}
-            className='ui red google button'
+          <form
+            onSubmit={this.isSignedIn}
+            action='/dashboard/logout'
+            method='POST'
           >
-            <i className='google icon' /> Sign Out
-          </button>
+            <input
+              className='ui red google button'
+              type='submit'
+              value='Logout'
+            />
+          </form>
         </div>
       );
     } else {
