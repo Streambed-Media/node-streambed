@@ -11,7 +11,7 @@ exports.user_sign_up = (req, res, next) => {
       console.log(user);
       if (user.length >= 1) {
         res.status(409).json({
-          message: 'Display name or email already exists'
+          error: 'Display name or email already exists'
         });
       } else {
         bcrypt.hash(req.body.password[0], 10, (err, hash) => {

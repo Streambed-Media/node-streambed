@@ -7,24 +7,8 @@ import '../../styles/UserFormStyles/createUserForm.css';
 /***********************************************************************/
 
 const CreateUserForm = () => {
-  //Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
-
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users, NEED TO DO VALIDATION ON BACKEND
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/users/`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       let usernames = data.map((c) => c.displayName);
-  //       console.log(usernames);
-  //       setAllUsers(usernames);
-  //     });
-  // }, []);
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // ***************************************************************************************************
-
   /********************************************************************STATE SECTION*********************************************/
   //**Display Name States */
-  const [allUsers, setAllUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
 
@@ -39,27 +23,21 @@ const CreateUserForm = () => {
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   /********************************************************************STATE SECTION*********************************************/
 
-  /*******************************Function to compare password, usename, email fields */
-  // const validateForm = (e) => {
-  //   if (allUsers.includes(username)) {
-  //     e.preventDefault();
-  //     setUsernameErrorMessage('The username already exist');
-  //   } else if (email !== reEmail) {
-  //     e.preventDefault();
-  //     setEmailErrorMessage('Emails do not match!');
-  //     setUsernameErrorMessage('');
-  //   } else if (password !== rePassword) {
-  //     e.preventDefault();
-  //     setEmailErrorMessage('');
-  //     setPassErrorMessage('Passwords do not match!');
-  //   } else {
-  //     setPassErrorMessage('');
-  //   }
-  // };
-  /***********************************Function to submit form to users/singup ********************/
-
-  const onFormSubmit = (e) => {
-    e.preventDefault();
+  /*******************************Function to compare password, email fields. If success, then run sendUser */
+  const validateForm = () => {
+    if (email !== reEmail) {
+      setEmailErrorMessage('Emails do not match!');
+      setUsernameErrorMessage('');
+    } else if (password !== rePassword) {
+      setEmailErrorMessage('');
+      setPassErrorMessage('Passwords do not match!');
+    } else {
+      setPassErrorMessage('');
+      sendUser();
+    }
+  };
+  /********************************Function to POST user to server, validation on server, show error message or user created message */
+  const sendUser = () => {
     fetch('http://localhost:5000/users/signup', {
       method: 'POST',
       headers: {
@@ -73,9 +51,22 @@ const CreateUserForm = () => {
     })
       .then((response) => response.json())
       .then((message) => {
-        setUsernameErrorMessage(message.message);
+        if (message.error) {
+          setUsernameErrorMessage(message.error);
+        } else {
+          setUsernameErrorMessage('');
+          setPassErrorMessage(message.message);
+        }
+
         console.log(message);
       });
+  };
+  /********************************Function to POST user to server */
+  /***********************************Function to submit form to users/singup ********************/
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    validateForm();
   };
 
   /*************The placeholders are fontawesome unicode, allows them to show in the placeholder field *****************/
