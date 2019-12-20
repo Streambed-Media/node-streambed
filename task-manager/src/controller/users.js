@@ -2,24 +2,16 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-//! This was taking from Brad's index route
-const client = require('../../../client');
-let accessToken = '';
-const scopes = [
-  'https://www.googleapis.com/auth/youtube.upload',
-  'https://www.googleapis.com/auth/youtube'
-];
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-/***Using MVC model, this holds functions for the routes */
-/***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
+/***Currently hashes password using bcrypt, it also checks if emaila nd display was used and wont let another user be created with the same email/display name twice */
 exports.user_sign_up = (req, res, next) => {
-  console.log(req.body);
-  User.find({ email: req.body.email[0] })
+  User.find({
+    $or: [{ displayName: req.body.displayName }, { email: req.body.email }]
+  })
     .then((user) => {
+      console.log(user);
       if (user.length >= 1) {
-        return res.status(409).json({
-          message: 'Email exists'
+        res.status(409).json({
+          message: 'Display name or email already exists'
         });
       } else {
         bcrypt.hash(req.body.password[0], 10, (err, hash) => {
@@ -36,14 +28,12 @@ exports.user_sign_up = (req, res, next) => {
             user
               .save()
               .then((result) => {
-                console.log(result);
                 res.status(201).json({
                   message: 'User Created',
                   createdUser: user
                 });
               })
               .catch((err) => {
-                console.log(err);
                 res.status(500).json({
                   error: err
                 });
@@ -84,19 +74,6 @@ exports.user_login = (req, res, next) => {
             message: 'Auth successful',
             token: token
           });
-          //! This was taking from Brad's /dashboard route, it allows login if the user is in the database. Just for demonstration of login NOT GOOD
-          // client
-          //   .authenticate(scopes)
-          //   .then((data) => {
-          //     console.log(data.credentials.access_token);
-          //     accessToken = data.credentials.access_token;
-          //     res.redirect(
-          //       'http://localhost:5000' + '?access_token=' + accessToken
-          //     );
-          //     //    res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-          //   })
-          //   .catch(console.err);
-          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
       });
     })

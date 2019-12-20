@@ -70,7 +70,12 @@ const CreateUserForm = () => {
         email: email,
         password: password
       })
-    }).then((response) => console.log(response));
+    })
+      .then((response) => response.json())
+      .then((message) => {
+        setUsernameErrorMessage(message.message);
+        console.log(message);
+      });
   };
 
   /*************The placeholders are fontawesome unicode, allows them to show in the placeholder field *****************/
