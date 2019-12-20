@@ -7,24 +7,8 @@ import '../../styles/UserFormStyles/createUserForm.css';
 /***********************************************************************/
 
 const CreateUserForm = () => {
-  //Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
-
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users
-  useEffect(() => {
-    fetch(`http://localhost:5000/users/`)
-      .then((response) => response.json())
-      .then((data) => {
-        let usernames = data.map((c) => c.displayName);
-        console.log(usernames);
-        setAllUsers(usernames);
-      });
-  }, []);
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // ***************************************************************************************************
-
   /********************************************************************STATE SECTION*********************************************/
   //**Display Name States */
-  const [allUsers, setAllUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
 
@@ -39,32 +23,61 @@ const CreateUserForm = () => {
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   /********************************************************************STATE SECTION*********************************************/
 
-  /*******************************Function to compare password, usename, email fields */
-  const validateForm = (e) => {
-    if (allUsers.includes(username)) {
-      e.preventDefault();
-      setUsernameErrorMessage('The username already exist');
-    } else if (email !== reEmail) {
-      e.preventDefault();
+  /*******************************Function to compare password, email fields. If success, then run sendUser */
+  const validateForm = () => {
+    if (email !== reEmail) {
       setEmailErrorMessage('Emails do not match!');
       setUsernameErrorMessage('');
     } else if (password !== rePassword) {
-      e.preventDefault();
       setEmailErrorMessage('');
       setPassErrorMessage('Passwords do not match!');
     } else {
       setPassErrorMessage('');
+      sendUser();
     }
+  };
+  /********************************Function to POST user to server, validation on server, show error message or user created message */
+  const sendUser = () => {
+    fetch('http://localhost:5000/users/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        displayName: username,
+        email: email,
+        password: password
+      })
+    })
+      .then((response) => response.json())
+      .then((message) => {
+        if (message.error) {
+          setUsernameErrorMessage(message.error);
+        } else {
+          setUsernameErrorMessage('');
+          setPassErrorMessage(message.message);
+        }
+
+        console.log(message);
+      });
+  };
+  /********************************Function to POST user to server */
+  /***********************************Function to submit form to users/singup ********************/
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    validateForm();
   };
 
   /*************The placeholders are fontawesome unicode, allows them to show in the placeholder field *****************/
   /*************Password fields get set to state to compare before submit*/
   return (
     <div>
-      <form className='form-container' method='POST' action='/users/signup'>
+      <form className='form-container'>
         <input
           type='text'
           name='displayName'
+          value={username}
           required
           placeholder='&#xf2bd;   Display Name'
           onChange={(e) => {
@@ -75,6 +88,7 @@ const CreateUserForm = () => {
         <input
           type='email'
           name='email'
+          value={email}
           required
           placeholder='&#xf0e0;   Email'
           onChange={(e) => {
@@ -84,6 +98,7 @@ const CreateUserForm = () => {
         <input
           type='email'
           name='email'
+          value={reEmail}
           required
           placeholder='&#xf14a;   Re-enter Email'
           onChange={(e) => {
@@ -95,6 +110,7 @@ const CreateUserForm = () => {
         <input
           type='password'
           name='password'
+          value={password}
           required
           placeholder='&#xf023;   Password'
           onChange={(e) => {
@@ -104,6 +120,7 @@ const CreateUserForm = () => {
         <input
           type='password'
           name='password'
+          value={rePassword}
           required
           placeholder='&#xf14a;   Re-enter Password'
           onChange={(e) => {
@@ -114,7 +131,7 @@ const CreateUserForm = () => {
         <div>{passErrorMessage}</div>
         <button
           type='submit'
-          onClick={validateForm}
+          onClick={onFormSubmit}
           value='submit'
           style={{ display: 'none' }}
         >
