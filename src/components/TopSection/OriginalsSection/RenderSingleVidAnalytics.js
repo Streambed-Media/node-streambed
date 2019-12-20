@@ -26,7 +26,7 @@ class RenderSingleVidAnalytics extends React.Component {
       this.getSearchTerms();
     }
   }
-  /**Functions to get views and watch time for specific video**/
+  /**Functions to get views and watch time for specific video, wrapped in Brads helper function to get accessToken**/
   getSingleVidAnalytics() {
     runTheContent((accessToken) => {
       console.log(

@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
 const ffmpeg = require('fluent-ffmpeg');
-const getPercentage = require('../src/helpers/GetPercentage')
+const getPercentage = require('../src/helpers/GetPercentage');
 
 let videoInfo = {};
 
@@ -33,14 +33,11 @@ let upload = multer({
   storage: storage
 });
 
-
-router.get('/uploads/myFiles.mp4', (req, res)=>{
-  const range = req.headers.range
-  console.log('range',range)
-  res.send(range)
-})
-
-
+router.get('/uploads/myFiles.mp4', (req, res) => {
+  const range = req.headers.range;
+  console.log('range', range);
+  res.send(range);
+});
 
 router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
   console.log('req body: ', req.body.body);
@@ -54,29 +51,22 @@ router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
 
- 
-  getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds)=>{
-    console.log('this',getPercentage.seconds)
-  
-    let time = ''
+  getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds) => {
+    console.log('this', getPercentage.seconds);
 
-    let differenceInMinutes = seconds / 60
-    
-    if ( differenceInMinutes < 1 ) {
-  
-      time = getPercentage.seconds( differenceInMinutes )
-  
-    }else if ( differenceInMinutes >= 1 && differenceInMinutes < 60 ) {
-  
-      time = getPercentage.minutes( differenceInMinutes )
-  
-    } else if ( differenceInMinutes >= 60 ) {
-  
-      time = getPercentage.hours( differenceInMinutes )
-  
+    let time = '';
+
+    let differenceInMinutes = seconds / 60;
+
+    if (differenceInMinutes < 1) {
+      time = getPercentage.seconds(differenceInMinutes);
+    } else if (differenceInMinutes >= 1 && differenceInMinutes < 60) {
+      time = getPercentage.minutes(differenceInMinutes);
+    } else if (differenceInMinutes >= 60) {
+      time = getPercentage.hours(differenceInMinutes);
     }
-  
-  console.log('time: ', time)
+
+    console.log('time: ', time);
     //Grabs thumbnail from video and saves it
     Thumbler(
       {
@@ -91,17 +81,15 @@ router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
         return true;
       }
     );
-    console.log(videoInfo.videoFilePath, time)
+    console.log(videoInfo.videoFilePath, time);
     //Grabs thumbnail from video and saves it
-    
-  })
-  
+  });
+
   //Runs async addFile function to get hash for ipfs
   // ipfs.addFile(videoInfo.videoFileName, videoInfo.videoFilePath).then((data) => {
   //   console.log(data)
   //   console.log('https://ipfs.io/ipfs/',data)
   // }).catch(console.err);
-  
 
   console.log('All video info: ', videoInfo);
   // res.send({upload: 'uploading'})
@@ -148,7 +136,6 @@ router.get('/analytics', function(req, res, next) {
     .catch(console.err);
 });
 
-
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
   console.log('file name: ', videoInfo.videoFilePath);
@@ -163,22 +150,8 @@ router.post('/upload-youtube', (req, res) => {
 });
 
 router.get('/upload-youtube', (req, res) => {
-  res.render('dashboard')
+  res.render('dashboard');
   // res.send([videoInfo]);
 });
 
-/* Logout of dashboard and set accessToken to empty string */
-router.post('/logout', (req, res) => {
-  // res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-  //!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
-  accessToken = '';
-  res.redirect('/');
-  //!!!!!!!!!!!!!!!!!!!!!!!
-});
-
 module.exports = router;
-
-
-
-
-

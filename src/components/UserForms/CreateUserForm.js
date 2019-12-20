@@ -116,7 +116,7 @@ const CreateUserForm = () => {
           type='submit'
           onClick={validateForm}
           value='submit'
-          className='main-screen--button'
+          style={{ display: 'none' }}
         >
           Submit
         </button>
