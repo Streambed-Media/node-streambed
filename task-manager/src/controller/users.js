@@ -16,7 +16,6 @@ const scopes = [
 exports.user_sign_up = (req, res, next) => {
   console.log(req.body);
   User.find({ email: req.body.email[0] })
-    .exec()
     .then((user) => {
       if (user.length >= 1) {
         return res.status(409).json({
@@ -31,7 +30,7 @@ exports.user_sign_up = (req, res, next) => {
           } else {
             const user = new User({
               displayName: req.body.displayName,
-              email: req.body.email[0],
+              email: req.body.email,
               password: hash
             });
             user
@@ -59,7 +58,6 @@ exports.user_sign_up = (req, res, next) => {
 /*Uses jwt to prodeuce web token************************************************/
 exports.user_login = (req, res, next) => {
   User.find({ email: req.body.email })
-    .exec()
     .then((user) => {
       if (user.length < 1) {
         return res.status(401).json({
@@ -114,7 +112,6 @@ exports.user_login = (req, res, next) => {
 exports.user_display_names = (req, res, next) => {
   User.find()
     .select('displayName')
-    .exec()
     .then((docs) => {
       const response = {
         count: docs.length,
