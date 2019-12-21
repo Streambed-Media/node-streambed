@@ -30,10 +30,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    let loginURL = this.getUrl();
-    console.log(loginURL)
-    const isMatch = /^(\/dashboard|\/upload-youtube)/gi.test(loginURL);
-    console.log(isMatch)
+    const loginURL = this.getUrl();
+    const isMatch = /^(\/dashboard|\/upload-youtube|\/users\/login)/gi.test(loginURL);
+
+    //Skips the login form page when page goes to upload-youtube
+    if (loginURL === '/upload-youtube') {
+      this.handleCheckboxChange()
+    }
+    if (loginURL === '/users/login') {
+      // this.handleCheckboxChange()
+    }
     if (isMatch) {
       this.setState({ isSignedIn: true });
     }
@@ -79,7 +85,7 @@ class App extends React.Component {
             </div>
           ) : (
             <div>
-              <CreateDropDown />
+              <CreateDropDown getUrl={this.getUrl()} />
             </div>
           )}
         </div>

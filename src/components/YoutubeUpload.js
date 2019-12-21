@@ -2,12 +2,17 @@ import React from 'react';
 
 
 class UploadYoutube extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            results: null
-        }
+
+    state = {
+        results: null
     }
+
+    getYouTubeData = (e) => {
+        console.log(e)
+        // e.preventDefault()
+
+    }
+
 
     render(){
         return (
@@ -17,7 +22,7 @@ class UploadYoutube extends React.Component {
                         <div className="form-group">
                             <label htmlFor="myFile">Upload to Youtube</label>
                         </div>
-                        <button type="submit" className="btn btn-primary">Upload</button>
+                        <button onClick={this.getYouTubeData} type="submit" className="ui button">Upload</button>
                     </form>
                 </section>
             </div>

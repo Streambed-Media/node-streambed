@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Upload } from './VideoUpload';
+import VideoData from './VideoData';
 
-
-const CreateDropdown = () => {
-    const [value, setValue] = useState({optionVal: ''});
- 
+const CreateDropdown = (props) => {
+    const [value, setValue] = useState({optionVal: '', onLoad: true});
+    const [onLoad, setPageLoad] = useState(true);
 
     const updateFormHeight = () =>{
         let form = document.getElementById('form')
         if (form === null) return
-        form.style.height = '270px' 
+        form.style.height = '280px' 
     }
     
     const getDropDownVal = (e) => {
         let target = document.getElementsByClassName('ui search dropdown')[0]
         let optionVal = target.value
         let selectedText = target.options[target.selectedIndex].text;
-        console.log(optionVal)
-        setValue({optionVal: optionVal})
+        console.log(value)
+        if(props.getUrl === '/upload-youtube' && value.onLoad) {
+            console.log('ran how many times')
+            setValue({optionVal: 'data', onLoad: false})
+          
+        }else {
+            setValue({optionVal: optionVal})
 
-        if (!optionVal || optionVal === 'upload') updateFormHeight()
+            if (!optionVal || optionVal === 'upload') updateFormHeight()
+        }
+        
 
+        
         return {optionVal, selectedText }
     }
     
@@ -41,8 +49,7 @@ const CreateDropdown = () => {
                     </select>
                 </div>
             </div>
-            {console.log(value.optionVal)}
-           
+            {value.optionVal === 'data' || value.onLoad ? <VideoData /> : null}
             {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
         </div>
     )

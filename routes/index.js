@@ -25,7 +25,7 @@ let storage = multer.diskStorage({
     cb(null, './public/uploads');
   },
   filename: function(req, file, cb) {
-    cb(null, file.fieldname + path.extname(file.originalname));
+    cb(null, 'video' + path.extname(file.originalname));
   }
 });
 
@@ -33,12 +33,21 @@ let upload = multer({
   storage: storage
 });
 
-
-router.get('/uploads/myFiles.mp4', (req, res)=>{
-  const range = req.headers.range
-  console.log('range',range)
-  res.send(range)
-})
+const thumbler  =  (time, callback) => {
+  let thumb = Thumbler(
+    {
+      type: 'video',
+      input: videoInfo.videoFilePath,
+      output: './public/uploads/thumb.jpg',
+      time: time,
+      size: '300x200' // this optional if null will use the dimentions of the video
+    },
+     function(err, path) {
+      if (err) return err;
+      return callback();
+    }
+  );
+}
 
 
 
@@ -56,7 +65,6 @@ router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
 
  
   getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds)=>{
-    console.log('this',getPercentage.seconds)
   
     let time = ''
 
@@ -75,39 +83,21 @@ router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
       time = getPercentage.hours( differenceInMinutes )
   
     }
-  
-  console.log('time: ', time)
+    console.log(videoInfo.videoFilePath,'time: ', time)
     //Grabs thumbnail from video and saves it
-    Thumbler(
-      {
-        type: 'video',
-        input: videoInfo.videoFilePath,
-        output: './public/uploads/thumb.jpg',
-        time: time,
-        size: '300x200' // this optional if null will use the dimentions of the video
-      },
-      function(err, path) {
-        if (err) return err;
-        return true;
-      }
-    );
-    console.log(videoInfo.videoFilePath, time)
-    //Grabs thumbnail from video and saves it
-    
-  })
+    thumbler(time, () => {
+      res.render('dashboard', {
+        title: 'Streambed'
+      })
+    })
+  });
   
   //Runs async addFile function to get hash for ipfs
   // ipfs.addFile(videoInfo.videoFileName, videoInfo.videoFilePath).then((data) => {
   //   console.log(data)
   //   console.log('https://ipfs.io/ipfs/',data)
   // }).catch(console.err);
-  
 
-  console.log('All video info: ', videoInfo);
-  // res.send({upload: 'uploading'})
-  res.render('dashboard', {
-    title: 'Streambed'
-  });
 });
 
 router.get('/uploaded', (req, res) => {
@@ -116,11 +106,9 @@ router.get('/uploaded', (req, res) => {
 
 /* Sending data back to React componant for upload route */
 router.get('/upload', (req, res) => {
-  // let token = JSON.parse(accessToken)
-  // res.send(accessToken)
-  // console.log('the token: ', accessToken)
+
   res.render('dashboard', { token: accessToken });
-  // res.redirect('/upload/' + '?access_token='+accessToken)
+
 });
 
 /* GET login page. */
@@ -156,15 +144,13 @@ router.post('/upload-youtube', (req, res) => {
 
   res.render('dashboard', {
     title: 'Streambed',
-    nav_items_show: 'block',
-    msg: 'Uploaded',
-    videoSRC: videoInfo.videoFileName
+    header: 'this is a header'
   });
 });
 
 router.get('/upload-youtube', (req, res) => {
-  res.render('dashboard')
-  // res.send([videoInfo]);
+
+  res.send([videoInfo]);
 });
 
 /* Logout of dashboard and set accessToken to empty string */
