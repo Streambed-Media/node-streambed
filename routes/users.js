@@ -6,7 +6,7 @@ const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
 
 /**Put you DB path here, you can use this default path to host it local at this address */
-mongoose.connect('mongodb://localhost/test', {
+mongoose.connect('mongodb+srv://cool:cool@streambed-nqgo5.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
