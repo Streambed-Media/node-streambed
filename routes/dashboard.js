@@ -23,22 +23,20 @@ router.post('/', (req, res) => {
   client
     .authenticate(scopes)
     .then((data) => {
-      // const token = jwt.sign({token: data.credentials.access_token}, 'me')
-      // res.redirect('http://localhost:5000' + '?access_token=' + data.credentials.access_token)
-      let token = data.credentials.access_token;
-      // let token = '10821309850928375'
-      access_token = token;
-      res.header('authorization', token);
-      res.status(200).render('dashboard');
+        // const token = jwt.sign({token: data.credentials.access_token}, 'me')
+        let token = data.credentials.access_token;
+        // let token = '10821309850928375'
+        access_token = token
+        res.header('authorization' , token)
+        res.status(200)
+        .render('dashboard')
     })
-    .catch(console.err);
 });
-
 /* Logout of dashboard*/
 router.post('/logout', (req, res) => {
-  //!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
+
   res.redirect('/');
-  //!!!!!!!!!!!!!!!!!!!!!!!
+
 });
 
 module.exports = router;

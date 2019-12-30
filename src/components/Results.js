@@ -42,10 +42,7 @@ class Results extends React.Component {
                 {
                     return <p key={i}>{results.title} {results.desc}</p>
                 })}
-                { this.state.videoName &&
-                    <img key={this.state.videoName} width="200px" src={"uploads/thumb.jpg"} alt="thumbnail" />
-                        
-                }
+                <img key={this.state.imgName} width="200px" src={"uploads/"+this.state.imgName} alt="thumbnail" />
                 <VideoElem videoName={"uploads/"+this.state.videoName}/>
                 <UploadYoutube />
                 {console.log(this.state)}

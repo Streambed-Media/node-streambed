@@ -72,7 +72,8 @@ const CarouselComp = (props) => {
         {props.videoData ? (
           carousel()
         ) : (
-          <div className='ui active centered inline loader' />
+          // <div className='ui active centered inline loader' />
+          <div>nothing here</div>
         )}
       </div>
     </div>
