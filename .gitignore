@@ -3,3 +3,4 @@ oauthTwo.keys.json
 task-manager/src/db/mongoose.js
 oauthTwo.keys.json
 public/bundle.js
+package-lock.json
