@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
 const ffmpeg = require('fluent-ffmpeg');
-const getPercentage = require('../src/helpers/GetPercentage')
+const getPercentage = require('../src/helpers/GetPercentage');
 
 let videoInfo = {};
 
@@ -136,7 +136,6 @@ router.get('/analytics', function(req, res, next) {
     .catch(console.err);
 });
 
-
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
   console.log('file name: ', videoInfo.videoFilePath);
@@ -153,18 +152,4 @@ router.get('/upload-youtube', (req, res) => {
   res.send([videoInfo]);
 });
 
-/* Logout of dashboard and set accessToken to empty string */
-router.post('/logout', (req, res) => {
-  // res.render('dashboard', { title: 'Youtube', display: "block", nav_items_show: "block" })
-  //!!!!!!!!!!!!!!!!!!!!!!!TESTING LOGOUT, ITS PROBABLY WRONG, DOESNT ZERO ANYTHING
-  accessToken = '';
-  res.redirect('/');
-  //!!!!!!!!!!!!!!!!!!!!!!!
-});
-
 module.exports = router;
-
-
-
-
-

@@ -37,6 +37,7 @@ const CreateDropdown = (props) => {
     },[])
    
     return (  
+      <div>
         <div>
             <div className="ui form wrapper">
                 <div className="field">
@@ -52,8 +53,12 @@ const CreateDropdown = (props) => {
             {value.optionVal === 'data' || value.onLoad ? <VideoData /> : null}
             {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
         </div>
-    )
-   
-}
+      
+      <div>
+      {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
+    </div>
+    </div>
+  );
+};
 
-export default CreateDropdown
+export default CreateDropdown;

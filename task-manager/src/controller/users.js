@@ -95,7 +95,6 @@ exports.user_login = (req, res, next) => {
 exports.user_display_names = (req, res, next) => {
   User.find()
     .select('displayName')
-    .exec()
     .then((docs) => {
       const response = {
         count: docs.length,
