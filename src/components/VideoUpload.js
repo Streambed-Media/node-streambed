@@ -4,12 +4,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 class Upload extends React.Component {
-    constructor(props){
-        super(props);
-        this.checkForBlankFields = this.checkForBlankFields.bind(this);
-        this.handleChange = this.handleChange.bind(this)
-        this.viewProgress = this.viewProgress.bind(this)
-        this.state = {
+       state = {
             results: null,
             fieldCount: 0,
             errorText: '',
@@ -17,9 +12,8 @@ class Upload extends React.Component {
             percentage: '',
             height: ''
         }
-    }
 
-    viewProgress(e) {
+    viewProgress = (e) => {
         let that = this;
   
         e.preventDefault()
@@ -62,7 +56,7 @@ class Upload extends React.Component {
         };
         xhr.onload = () => {
             
-            this.setState(() => {
+            that.setState(() => {
                 return {
                     isUploaded: true
                 }
@@ -72,7 +66,7 @@ class Upload extends React.Component {
         xhr.send(formData);
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         const target = e.target.id
         console.log(target)
         switch (target) {
@@ -98,7 +92,6 @@ class Upload extends React.Component {
         // this.viewProgress()
     }
     componentDidMount() {
-        console.log('component moounted')
         this.setState({height: this.props.height})
     }
     
