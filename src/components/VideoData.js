@@ -26,8 +26,7 @@ class VideoData extends React.Component {
 
     render () {
         return (
-            
-        
+
             <div className="container-upload">
                 <div>{this.state.videos}</div>
                 <section className="youtube-data">

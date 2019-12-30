@@ -146,12 +146,14 @@ const onFormSubmit = (e) => {
         />
         {/**********************************Error message prints out for passwords not matching */}
         <div>{passErrorMessage}</div>
-        <div className="link-wrapper">{passErrorMessage ? (
-          <div className="ui menu">
+        <div className="link-wrapper">{passErrorMessage === "User Created" ? (
+ 
           <a className="item" href="/users/login">
+          <div className="ui menu">
             Login
-          </a>
         </div>
+        </a>
+       
         )
         : (
         <button

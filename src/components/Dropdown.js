@@ -8,7 +8,7 @@ const CreateDropdown = (props) => {
 
     const updateFormHeight = () =>{
         let form = document.getElementById('form')
-        if (form === null) return
+        if (form === null) return;
         form.style.height = '280px' 
     }
     

@@ -44,6 +44,11 @@
   font-size: 17px;
 }
 
+
+.ui.menu .item:before {
+  background: none;
+}
+
 .link-wrapper {
   display: flex;
   justify-content: center;
