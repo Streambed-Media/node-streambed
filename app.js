@@ -1,18 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const hbs = require('hbs');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
-console.log(process.env.NODE_ENV)
+console.log(mongoose.connection);
 
 var indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 var usersRouter = require('./routes/users');
 
 var app = express();
-console.log(app.get('env') === 'production')
+
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 
