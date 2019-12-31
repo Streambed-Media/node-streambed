@@ -53,10 +53,6 @@ const CreateDropdown = (props) => {
             {value.optionVal === 'data' || value.onLoad ? <VideoData /> : null}
             {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
         </div>
-      
-      <div>
-      {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
-    </div>
     </div>
   );
 };

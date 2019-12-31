@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "nodemon -e js,hbs,html,css,json,config.js ./bin/www",
-    "start": "node ./bin/www",
+    "test": "export NODE_ENV=development && nodemon -e js,hbs,html,css,json,config.js ./bin/www",
+    "start": "export NODE_ENV=production && node ./bin/www",
     "build": "webpack --watch",
     "build-dev": "webpack-dev-server"
   },

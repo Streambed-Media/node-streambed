@@ -12,7 +12,7 @@ mongoose.connect('', {
   useCreateIndex: true
 });
 
-router.get('/login', (req,res) => {
+router.get('/login', (req, res) => {
     res.render('dashboard')
 })
 

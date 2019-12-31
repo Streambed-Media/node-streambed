@@ -32,11 +32,6 @@ router.post('/', (req, res) => {
         .render('dashboard')
     })
 });
-/* Logout of dashboard*/
-router.post('/logout', (req, res) => {
 
-  res.redirect('/');
-
-});
 
 module.exports = router;
