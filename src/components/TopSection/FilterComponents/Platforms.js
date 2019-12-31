@@ -1,19 +1,28 @@
 import React from 'react';
-
+// import runTheContent from '../../../helpers/GetToken';
 
 
 const Platforms = () => {
 
   const Authenticate = (e) => {
-    console.log(e)
-    console.log(document.querySelectorAll('.ui.checkbox.platform'))
+    const target = e.target.className
+
+    switch (target) {
+      case 'youtube':
+          document.getElementsByClassName( 'youtubeAuth' )[0].submit()
+        break;
+        case 'facebook':
+          document.getElementsByClassName( 'facebookAuth' )[0].submit()
+        break;
+    }
+
   }
 
   return (
     <div className='platforms'>
       <h1>Platforms</h1>
       <div className='checkbox-platforms'>
-        <div className='ui checkbox platform'>
+        <div className='ui checkbox'>
           <input type='checkbox' disabled />
           <label>
             <i className='instagram icon'>
@@ -21,10 +30,11 @@ const Platforms = () => {
             </i>
           </label>
         </div>
-        <div className='ui checkbox platform'>
-          <form action='/dashboard' method='POST'>
+        <div className='ui checkbox'>
+          <form className="youtubeAuth" action='/dashboard' method='POST'>
             <input type='checkbox'
               onChange={Authenticate}
+              className="youtube"
             />
             <label>
               <i className='youtube icon'>
@@ -32,22 +42,21 @@ const Platforms = () => {
               </i>
             </label>
           </form>
-          {/* <input type='checkbox' checked readOnly />
-          <label>
-            <i className='youtube icon'>
-              <span className='social--media'>Youtube</span>
-            </i>
-          </label> */}
         </div>
-        <div className='ui checkbox platform'>
-          <input type='checkbox' disabled />
-          <label>
-            <i className='facebook icon'>
-              <span className='social--media'>Facebook</span>
-            </i>
-          </label>
+        <div className='ui checkbox'>
+          <form className="facebookAuth" action='#' method='POST'>
+            <input type='checkbox'
+              onChange={Authenticate}
+              className="facebook"
+            />
+            <label>
+            <i className="facebook icon">
+                <span className="social--media">Facebook</span>
+              </i>
+            </label>
+          </form>
         </div>
-        <div className='ui checkbox platform'>
+        <div className='ui checkbox'>
           <input type='checkbox' disabled />
           <label>
             <i className='twitter icon'>

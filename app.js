@@ -5,13 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hbs = require('hbs');
 
+console.log(process.env.NODE_ENV)
 
 var indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
+console.log(app.get('env') === 'production')
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 
