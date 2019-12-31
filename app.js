@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
 
+console.log(process.env.NODE_ENV)
 
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
@@ -16,7 +17,8 @@ const app = express();
 
 
 
-
+var app = express();
+console.log(app.get('env') === 'production')
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 

@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-// import runTheContent from '/../helpers/GetToken';
-// import { web } from '../../oauthTwo.keys.json';
-
-
+import React from 'react';
+// import runTheContent from '../../../helpers/GetToken';
 
 
 const Platforms = () => {
@@ -16,33 +13,16 @@ const Platforms = () => {
   }
 
   const Authenticate = (e) => {
+    const target = e.target.className
 
-    console.log('inside', { checked });
-
-    if (checked) {
-      console.log('cool');
-      fetch('http://localhost:5000/dashboard')
+    switch (target) {
+      case 'youtube':
+        document.getElementsByClassName('youtubeAuth')[0].submit()
+        break;
+      case 'facebook':
+        document.getElementsByClassName('facebookAuth')[0].submit()
+        break;
     }
-
-    // if (checked === true) {
-    //   runTheContent((accessToken) => {
-    //     fetch(
-    //       `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
-    //       {
-    //         method: 'GET',
-    //         headers: {
-    //           'Content-type': 'application/json',
-    //           Authorization: 'Bearer ' + accessToken
-    //         }
-    //       }
-    //     )
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         console.log(data)
-    //         setVideoData(data.items);
-    //       });
-    //   })
-    // }
 
   }
 
@@ -50,7 +30,7 @@ const Platforms = () => {
     <div className='platforms'>
       <h1>Platforms</h1>
       <div className='checkbox-platforms'>
-        <div className='ui checkbox platform'>
+        <div className='ui checkbox'>
           <input type='checkbox' disabled />
           <label>
             <i className='instagram icon'>
@@ -58,11 +38,11 @@ const Platforms = () => {
             </i>
           </label>
         </div>
-        <div className='ui checkbox platform'>
-          <form action='/dashboard' method='POST'>
+        <div className='ui checkbox'>
+          <form className="youtubeAuth" action='/dashboard' method='POST'>
             <input type='checkbox'
-              checked={checked}
-              onChange={handleChecked}
+              onChange={Authenticate}
+              className="youtube"
             />
             <label>
               <i className='youtube icon'>
@@ -70,22 +50,21 @@ const Platforms = () => {
               </i>
             </label>
           </form>
-          {/* <input type='checkbox' checked readOnly />
-          <label>
-            <i className='youtube icon'>
-              <span className='social--media'>Youtube</span>
-            </i>
-          </label> */}
         </div>
-        <div className='ui checkbox platform'>
-          <input type='checkbox' disabled />
-          <label>
-            <i className='facebook icon'>
-              <span className='social--media'>Facebook</span>
-            </i>
-          </label>
+        <div className='ui checkbox'>
+          <form className="facebookAuth" action='#' method='POST'>
+            <input type='checkbox'
+              onChange={Authenticate}
+              className="facebook"
+            />
+            <label>
+              <i className="facebook icon">
+                <span className="social--media">Facebook</span>
+              </i>
+            </label>
+          </form>
         </div>
-        <div className='ui checkbox platform'>
+        <div className='ui checkbox'>
           <input type='checkbox' disabled />
           <label>
             <i className='twitter icon'>

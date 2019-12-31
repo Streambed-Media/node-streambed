@@ -13,7 +13,11 @@ mongoose.connect('mongodb+srv://cool:cool@streambed-nqgo5.mongodb.net/test?retry
 });
 
 router.get('/login', (req, res) => {
+<<<<<<< HEAD
   res.render('dashboard')
+=======
+    res.render('dashboard')
+>>>>>>> 493808fbaf68e756d2afaeea5b1e4cb2a9930f19
 })
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */

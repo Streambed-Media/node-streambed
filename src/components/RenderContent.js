@@ -11,11 +11,13 @@ import runTheContent from '../helpers/GetToken';
 
 
 /****************************************Renders All content on page through multiple props*/
-const RenderContent = (callback) => {
+const RenderContent = (props) => {
   const [videoData, setVideoData] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
 
+
   useEffect(() => {
+    console.log(props)
     // let url = window.location.href;
     // const accessToken = url.replace(/^.+=/gi, '');
 
