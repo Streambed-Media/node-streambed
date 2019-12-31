@@ -1,12 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import runTheContent from '/../helpers/GetToken';
+// import { web } from '../../oauthTwo.keys.json';
+
 
 
 
 const Platforms = () => {
 
+  const [checked, setCheckBox] = useState(false);
+
+  console.log(checked);
+
+  const handleChecked = () => {
+    setCheckBox(!checked)
+  }
+
   const Authenticate = (e) => {
-    console.log(e)
-    console.log(document.querySelectorAll('.ui.checkbox.platform'))
+
+    console.log('inside', { checked });
+
+    if (checked) {
+      console.log('cool');
+      fetch('http://localhost:5000/dashboard')
+    }
+
+    // if (checked === true) {
+    //   runTheContent((accessToken) => {
+    //     fetch(
+    //       `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
+    //       {
+    //         method: 'GET',
+    //         headers: {
+    //           'Content-type': 'application/json',
+    //           Authorization: 'Bearer ' + accessToken
+    //         }
+    //       }
+    //     )
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         console.log(data)
+    //         setVideoData(data.items);
+    //       });
+    //   })
+    // }
+
   }
 
   return (
@@ -24,7 +61,8 @@ const Platforms = () => {
         <div className='ui checkbox platform'>
           <form action='/dashboard' method='POST'>
             <input type='checkbox'
-              onChange={Authenticate}
+              checked={checked}
+              onChange={handleChecked}
             />
             <label>
               <i className='youtube icon'>
