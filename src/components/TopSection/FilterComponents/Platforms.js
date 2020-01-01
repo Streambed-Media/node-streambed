@@ -15,7 +15,6 @@ const Platforms = () => {
           document.getElementsByClassName( 'facebookAuth' )[0].submit()
         break;
     }
-
   }
 
   return (
