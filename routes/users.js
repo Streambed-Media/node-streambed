@@ -21,13 +21,6 @@ const redirectDashboard = (req, res, next) => {
     }
 }
 
-<<<<<<< HEAD
-=======
-// Pretty much only used if session id still exist
-router.get('/login', (req, res) => {
-  res.render('dashboard')
-})
->>>>>>> 14cb6a4b20eb03d511d3685a2cf1c9d83f63fd47
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */
 router.post('/signup', redirectDashboard, UsersController.user_sign_up);
@@ -71,20 +64,8 @@ router.post('/login', async (req, res) => {
 // }
 
 
-<<<<<<< HEAD
 // GET all displayNames! 
 router.get('/', UsersController.user_display_names);
-=======
-
-
-// GET all displayNames! 
-router.get('/', UsersController.user_display_names);
-
-
-
-
-
->>>>>>> 14cb6a4b20eb03d511d3685a2cf1c9d83f63fd47
 
 
 module.exports = router;
