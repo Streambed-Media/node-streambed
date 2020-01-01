@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { createContext } from 'react-broadcast'
 import loadScript from '@lourd/load-script'
 import { GoogleApi, GoogleApiConsumer } from '@lourd/react-google-api'
-console.log(GoogleApi)
+console.log({ GoogleApi })
 
 // class ApiProps extends React.Component {
-    
+
 //     render(){
 //         const apiProps = {
 //             clientId: "552574662444-3m7nr6iiogrss4ed2941414319ts4tdq.apps.googleusercontent.com",
@@ -61,7 +61,7 @@ class GoogleApi extends React.Component {
   }
 
   componentDidMount() {
-   console.log( this.props)
+    console.log(this.props)
     this.setupApi()
   }
 
@@ -99,11 +99,11 @@ class GoogleApi extends React.Component {
     })
     this.auth.isSignedIn.listen(signedIn => this.setState({ signedIn }))
   }
-  
+
 
   render() {
     return (
-        
+
       <GoogleApiProvider value={this.state}>
         {typeof this.props.children === 'function'
           ? this.props.children(this.state)
