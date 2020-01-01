@@ -2,9 +2,10 @@ const path = require('path');
 const env = process.env;
 
 const isProduction = env === 'production';
+
 module.exports = {
   entry: './src/App.js',
-  mode: 'development',
+  mode: env,
   module: {
     rules: [
       {
