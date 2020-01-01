@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import '../../styles/UserFormStyles/createUserForm.css';
 
-/***********************************************************************/
-/*************Creates user in DB, ITS WORKING! --Tommy *****************/
-/***********************************************************************/
 
 const CreateUserForm = () => {
   //Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
 
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Get users
+
   useEffect(() => {
     // fetch(`http://localhost:5000/users/signup`)
     // .then((response) => response.json())

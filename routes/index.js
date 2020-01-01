@@ -113,8 +113,18 @@ router.get('/upload', (req, res) => {
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
-  const fileName = process.argv[2];
-  res.render('index', { title: 'Streambed' });
+
+  const { userId } = req.session
+
+  // If session id exist skips login / signup page and back to the users dashboard
+  if ( userId ) {
+    res.redirect('/users/login')
+  } else {
+    res.render('index', { title: 'Streambed' });
+  }
+
+  // const fileName = process.argv[2];
+  
 });
 
 /* GET analytics page. */

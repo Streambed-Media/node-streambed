@@ -4,27 +4,30 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
-console.log(process.env.NODE_ENV)
 
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
 const logOutRouter = require('./routes/logout')
 
-
-const app = express();
-
-
-
 var app = express();
-console.log(app.get('env') === 'production')
+
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+const SESS_LIFE = 1000 * 60 * 60 * 2
+const SESS_NAME = 'sid'
+const SESS_SECRET = 'mysecret'
+
+console.log(process.env.NODE_ENV, SESS_LIFE, SESS_NAME, SESS_SECRET)
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,11 +36,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use(session({
+  name: SESS_NAME,
+  //Dont save back to store
+  resave: false,
+  //Don't save any new sessions with any data in it
+  saveUninitialized: false,
+  secret: SESS_SECRET,
+  cookie: {
+      maxAge: SESS_LIFE,
+      sameSite: true,
+      secure: false
+  }
+}))
+
+
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
 app.use('/logout', logOutRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

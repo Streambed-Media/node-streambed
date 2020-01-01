@@ -17,42 +17,40 @@ const userSchema = new mongoose.Schema({
   // googleAccessToken: { type: String, required: true }
 });
 
-userSchema.methods.generateAuthToken = async function() {
-  const user = this;
-  user.token = jwt.sign({_id: user._id.toString()}, 'somepassword')
-  await user.save()
-  return token
-}
-
+// userSchema.methods.generateAuthToken = async function() {
+//   const user = this;
+//   user.token = jwt.sign({_id: user._id.toString()}, 'somepassword')
+//   await user.save()
+//   return token
+// }
 userSchema.statics.findByCredentials = async (email, password) => {
-  console.log(email, password)
+
   const user = await User.findOne({ email })
- console.log( 'findby: ', user)
+
   if (!user) {
-    throw new Error('Unable to log')
+      throw new Error('Unable to login')
   }
 
   const isMatch = await bcrypt.compare(password, user.password)
 
-  if (isMatch) {
-    
-    throw new Error('is match not true')
-
-}
+  if (!isMatch) {
+      throw new Error('Unable to login not match')
+  }
 
   return user
 }
 
-//Middleware .pre is before the event, when saving data 'save'
-userSchema.pre('save', async function(next){
-  const user = this
 
-  if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, 8)
-  }
-  console.log('coming from pre')
-  next()
-})
+//Middleware .pre is before the event, when saving data 'save'
+// userSchema.pre('save', async function(next){
+//   const user = this
+
+//   if (user.isModified('password')) {
+//     user.password = await bcrypt.hash(user.password, 8)
+//   }
+//   console.log('coming from pre')
+//   next()
+// })
 
 const User = mongoose.model('User', userSchema);
 
