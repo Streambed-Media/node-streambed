@@ -20,7 +20,7 @@ exports.user_sign_up = (req, res) => {
           error: 'Display name or email already exists'
         });
       } else {
-       console.log( 'should be pw', password, 'Tommy\'s screw up haha: ',req.body.password[0])
+       console.log( 'should be pw', password, 'Tommy\'s goof haha: ',req.body.password[0])
         bcrypt.hash(password, 8, (err, hash) => {
           if (err) {
             return res.status(500).json({

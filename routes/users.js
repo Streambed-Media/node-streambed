@@ -16,18 +16,19 @@ const redirectDashboard = (req, res, next) => {
     if (req.session.userId) {
         res.redirect('/users/login')
     } else {
+        console.log('Session Id doesn\'t exist')
         next()
     }
 }
 
-// Pretty much only used if session id still exist
-router.get('/login', (req, res) => {
-  res.render('dashboard')
-})
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */
 router.post('/signup', redirectDashboard, UsersController.user_sign_up);
 
+// Pretty much only used if session id still exist
+router.get('/login', (req, res) => {
+    res.render('dashboard')
+})
 
 router.post('/login', async (req, res) => {
     try {
@@ -41,7 +42,7 @@ router.post('/login', async (req, res) => {
 
     }catch(e) {
         console.log(e)
-        res.status(400).send(e)
+        res.redirect('/?error=' + e)
     }
 });
 
@@ -63,15 +64,8 @@ router.post('/login', async (req, res) => {
 // }
 
 
-
-
 // GET all displayNames! 
 router.get('/', UsersController.user_display_names);
-
-
-
-
-
 
 
 module.exports = router;
