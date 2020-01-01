@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-console.log(process.env.JWT_KEY)
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
@@ -23,11 +22,10 @@ hbs.registerPartials(partialsPath);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// Two hours
 const SESS_LIFE = 1000 * 60 * 60 * 2
 const SESS_NAME = 'sid'
 const SESS_SECRET = 'mysecret'
-
-console.log(process.env.NODE_ENV, SESS_LIFE, SESS_NAME, SESS_SECRET)
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,7 +37,7 @@ app.use(session({
   name: SESS_NAME,
   //Dont save back to store
   resave: false,
-  //Don't save any new sessions with any data in it
+  //Don't save any new sessions without any data in it
   saveUninitialized: false,
   secret: SESS_SECRET,
   cookie: {
