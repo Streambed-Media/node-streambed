@@ -12,7 +12,7 @@ const scopes = [
 ];
 
 /* Route for /dashboard get request to grab tokens from RenderContent component */
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
   console.log('the access token', access_token);
   res.header('authorization', access_token);
   res.send({ data: 'some random data if needed to be sent' });
@@ -23,12 +23,12 @@ router.post('/', (req, res) => {
   client
     .authenticate(scopes)
     .then((data) => {
-      // const token = jwt.sign({token: data.credentials.access_token}, 'me')
-      let token = data.credentials.access_token;
-      // let token = '10821309850928375'
-      access_token = token
-      res.header('authorization', token)
-      res.status(200)
+        // const token = jwt.sign({token: data.credentials.access_token}, 'me')
+        let token = data.credentials.access_token;
+        // let token = '10821309850928375'
+        access_token = token
+        res.header('authorization' , token)
+        res.status(200)
         .render('dashboard')
     })
 });

@@ -5,41 +5,40 @@ import Filters from './TopSection/FilterComponents/Filters';
 import ButterflyScore from './TopSection/ButterflyScore/ButterflyScore';
 import TopInfluencers from './BottomSection/TopInfluencers';
 import Derivative from './BottomSection/Derivative';
-import CarouselComp from './TopSection/Carousel/CarouselComp';
 import { web } from '../../oauthTwo.keys.json';
+import CarouselComp from './TopSection/Carousel/CarouselComp';
 import runTheContent from '../helpers/GetToken';
-
 
 /****************************************Renders All content on page through multiple props*/
 const RenderContent = (props) => {
   const [videoData, setVideoData] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
+  
 
+useEffect(() => {
+  console.log( props )
+  // let url = window.location.href;
+  // const accessToken = url.replace(/^.+=/gi, '');
 
-  useEffect(() => {
-    console.log(props)
-    // let url = window.location.href;
-    // const accessToken = url.replace(/^.+=/gi, '');
-
-    //Runs the get request function to grab token from headers and calls your current funciton as a callback.  
-    runTheContent((accessToken) => {
-      fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            Authorization: 'Bearer ' + accessToken
-          }
+  //Runs the get request function to grab token from headers and calls your current funciton as a callback.  
+  runTheContent( (accessToken) => {
+    fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: 'Bearer ' + accessToken
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data)
-          setVideoData(data.items);
-        });
-    })
-  }, []);
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        setVideoData(data.items);
+      });
+  })
+}, []);
 
   /******************************************************************************************************
   On click function to pull video id from video 

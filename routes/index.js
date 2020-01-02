@@ -46,7 +46,7 @@ const thumbler  =  (time, callback) => {
       if (err) return err;
       return callback();
     }
-  );
+  )
 }
 
 
@@ -122,9 +122,6 @@ router.get('/', function(req, res, next) {
   } else {
     res.render('index', { title: 'Streambed' });
   }
-
-  // const fileName = process.argv[2];
-  
 });
 
 /* GET analytics page. */

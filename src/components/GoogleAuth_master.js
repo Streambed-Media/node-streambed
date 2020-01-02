@@ -33,7 +33,7 @@ class GoogleAuth extends React.Component {
         <div className='signout--container'>
           <form
             onSubmit={this.isSignedIn}
-            action='/logout'
+            action='/dashboard/logout'
             method='POST'
           >
             <input
