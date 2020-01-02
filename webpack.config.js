@@ -1,5 +1,5 @@
 const path = require('path');
-const env = process.env.NODE_ENV;
+const env = process.env;
 console.log(env)
 
 const isProduction = env === 'production';

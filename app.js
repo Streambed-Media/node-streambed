@@ -15,8 +15,6 @@ const logOutRouter = require('./routes/logout')
 
 var app = express();
 
-
-
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 

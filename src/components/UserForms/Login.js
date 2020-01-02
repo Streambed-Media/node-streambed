@@ -30,6 +30,9 @@ const Login = () => {
         <button type='submit' style={{ display: 'none' }}>
           Submit
         </button>
+        <button className="main-screen--button" type='submit'>
+          Submit
+        </button>
       </form>
       <GoogleAuth />
     </div>

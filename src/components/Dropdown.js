@@ -16,7 +16,7 @@ const CreateDropdown = (props) => {
         let target = document.getElementsByClassName('ui search dropdown')[0]
         let optionVal = target.value
         let selectedText = target.options[target.selectedIndex].text;
-        console.log(value)
+
         if(props.getUrl === '/upload-youtube' && value.onLoad) {
             console.log('ran how many times')
             setValue({optionVal: 'data', onLoad: false})
@@ -26,9 +26,6 @@ const CreateDropdown = (props) => {
 
             if (!optionVal || optionVal === 'upload') updateFormHeight()
         }
-        
-
-        
         return {optionVal, selectedText }
     }
     
@@ -37,7 +34,6 @@ const CreateDropdown = (props) => {
     },[])
    
     return (  
-      <div>
         <div>
             <div className="ui form wrapper">
                 <div className="field">
@@ -50,10 +46,10 @@ const CreateDropdown = (props) => {
                     </select>
                 </div>
             </div>
+            {console.log(value.optionVal)}
             {value.optionVal === 'data' || value.onLoad ? <VideoData /> : null}
             {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
         </div>
-    </div>
   );
 };
 
