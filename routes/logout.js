@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-
 // router.post('/', (req, res) => {
 //     console.log(req.session);
 //     if (req.session) {
@@ -17,15 +16,12 @@ const router = express.Router();
 
 // });
 
-
+//! Need this to clear session, not working currently
 router.post('/', (req, res) => {
-    req.session.destroy( (err) => {
-        // res.clearCookie(SESS_NAME)
-        return res.redirect('/');
-    })
-    
+  req.session.destroy((err) => {
+    //res.clearCookie(SESS_NAME);
+    return res.redirect('/');
+  });
 });
 
-
-
-module.exports = router 
+module.exports = router;
