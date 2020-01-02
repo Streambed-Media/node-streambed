@@ -40,18 +40,18 @@ class GoogleAuth extends React.Component {
           </form>
         </div>
       );
-    } else {
-      return (
-        <div className='button--container'>
-          <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
-            <input
-              className='ui green google button'
-              type='submit'
-              value='Login with Google'
-            />
-          </form>
-        </div>
-      );
+      // } else {
+      //   return (
+      //     <div className='button--container'>
+      //       <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
+      //         <input
+      //           className='ui green google button'
+      //           type='submit'
+      //           value='Login with Google'
+      //         />
+      //       </form>
+      //     </div>
+      //   );
     }
   }
 
