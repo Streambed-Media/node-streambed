@@ -6,7 +6,7 @@ const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
 
 /**Put you DB path here, you can use this default path to host it local at this address */
-mongoose.connect('mongodb://localhost:5000/test', {
+mongoose.connect('mongodb://localhost/test', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -22,7 +22,7 @@ const redirectDashboard = (req, res, next) => {
 };
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */
-router.post('/signup', UsersController.user_sign_up);
+router.post('/signup', redirectDashboard, UsersController.user_sign_up);
 
 // Pretty much only used if session id still exist
 router.get('/login', (req, res) => {

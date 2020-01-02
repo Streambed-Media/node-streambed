@@ -6,11 +6,12 @@ const jwt = require('jsonwebtoken');
 const client = require('../../../client');
 let accessToken = '';
 
-
 /***Using MVC model, this holds functions for the routes */
 /***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
-  const { displayName, email, password } = req.body
+  console.log('TEST');
+  const { displayName, email, password } = req.body;
+  console.log(req.body);
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
   })
@@ -20,7 +21,12 @@ exports.user_sign_up = (req, res) => {
           error: 'Display name or email already exists'
         });
       } else {
-       console.log( 'should be pw', password, 'Tommy\'s goof haha: ',req.body.password[0])
+        console.log(
+          'should be pw',
+          password,
+          "Tommy's goof haha: ",
+          req.body.password[0]
+        );
         bcrypt.hash(password, 8, (err, hash) => {
           if (err) {
             return res.status(500).json({
@@ -54,7 +60,6 @@ exports.user_sign_up = (req, res) => {
 
 // Leaving incase we want to add a jwt token instead of session id
 exports.user_login = (req, res, next) => {
-
   const token = jwt.sign(
     {
       email: user[0].email,
@@ -65,7 +70,6 @@ exports.user_login = (req, res, next) => {
       expiresIn: '1h'
     }
   );
-   
 };
 
 //Pulls displayNames to compare on the front end
@@ -87,4 +91,3 @@ exports.user_display_names = (req, res, next) => {
       });
     });
 };
-
