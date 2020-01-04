@@ -1,16 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
 import GoogleAuthMaster from './components/GoogleAuth_master';
 // import streambedLogo from '../public/images/streambedHeader.svg';
 import RenderContent from './components/RenderContent';
 import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
-import { Upload } from './components/VideoUpload.js';
-import CreateDropDown from './components/Dropdown'
+import DropDown from './components/Dropdown'
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
-import 'font-awesome/css/font-awesome.min.css';
+// import 'font-awesome/css/font-awesome.min.css';
 
 class App extends React.Component {
     state = {
@@ -85,7 +83,7 @@ class App extends React.Component {
                         </div>
                     ) : (
                             <div>
-                                <CreateDropDown getUrl={this.getUrl()} />
+                                <DropDown getUrl={this.getUrl()} />
                             </div>
                         )}
                 </div>

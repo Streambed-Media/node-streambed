@@ -25,7 +25,6 @@
     "express": "~4.16.1",
     "express-session": "^1.17.0",
     "fluent-ffmpeg": "^2.1.2",
-    "font-awesome": "^4.7.0",
     "gapi-client": "0.0.3",
     "get-video-duration": "^1.0.3",
     "google-auth-library": "^5.5.1",

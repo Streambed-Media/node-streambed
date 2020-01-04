@@ -1,26 +1,16 @@
-import React from 'react';
-// import runTheContent from '../../../helpers/GetToken';
-
+import React, { useState } from 'react';
 
 const Platforms = () => {
-
-  const [checked, setCheckBox] = useState(false);
-
-  console.log(checked);
-
-  const handleChecked = () => {
-    setCheckBox(!checked)
-  }
 
   const Authenticate = (e) => {
     const target = e.target.className
 
     switch (target) {
       case 'youtube':
-        document.getElementsByClassName('youtubeAuth')[0].submit()
+          document.getElementsByClassName( 'youtubeAuth' )[0].submit()
         break;
-      case 'facebook':
-        document.getElementsByClassName('facebookAuth')[0].submit()
+        case 'facebook':
+          document.getElementsByClassName( 'facebookAuth' )[0].submit()
         break;
     }
   }
@@ -57,7 +47,7 @@ const Platforms = () => {
               className="facebook"
             />
             <label>
-              <i className="facebook icon">
+            <i className="facebook icon">
                 <span className="social--media">Facebook</span>
               </i>
             </label>

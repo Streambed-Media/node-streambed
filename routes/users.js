@@ -10,7 +10,7 @@ mongoose.connect('', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
-});
+}).catch(error => console.log('Mongoose Connection not working, the Error: ', error));
 
 const redirectDashboard = (req, res, next) => {
     if (req.session.userId) {
