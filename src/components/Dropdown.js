@@ -21,10 +21,7 @@ const CreateDropdown = (props) => {
         let optionVal = target.value
         let selectedText = target.options[target.selectedIndex].text;
 
-<<<<<<< HEAD
         // If Upload button was hit to upload video file to youtube
-=======
->>>>>>> c86d6bfb2de2d5df771b3f329258af80ed80fac5
         if(props.getUrl === '/upload-youtube' && value.onLoad) {
             console.log('ran how many times')
             setValue({optionVal: 'results', onLoad: false})
@@ -42,11 +39,7 @@ const CreateDropdown = (props) => {
     },[])
    
     return (  
-<<<<<<< HEAD
         <div className="publisher">
-=======
-        <div>
->>>>>>> c86d6bfb2de2d5df771b3f329258af80ed80fac5
             <div className="ui form wrapper">
                 <div className="field">
                     <label>Video Options</label>
@@ -59,15 +52,10 @@ const CreateDropdown = (props) => {
                 </div>
             </div>
             {console.log(value.optionVal)}
-<<<<<<< HEAD
             {/* {value.optionVal === 'results' && <Results /> } */}
             {value.optionVal === 'data' && <VideoData /> }
             {value.optionVal === 'videos' && <GetVideos /> }
             {value.optionVal === 'upload' || !value.optionVal ? <VideoUpload /> : null}
-=======
-            {value.optionVal === 'data' || value.onLoad ? <VideoData /> : null}
-            {!value.optionVal || value.optionVal === 'upload' ? <Upload /> : null}
->>>>>>> c86d6bfb2de2d5df771b3f329258af80ed80fac5
         </div>
   );
 };
