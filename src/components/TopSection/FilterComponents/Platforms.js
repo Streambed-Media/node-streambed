@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
-=======
 // import runTheContent from '../../../helpers/GetToken';
->>>>>>> Tied logout button to route, doesnt kill session yet
 
 const Platforms = () => {
   const [isChecked, setChecked] = useState(false);

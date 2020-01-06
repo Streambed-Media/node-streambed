@@ -17,11 +17,11 @@ const router = express.Router();
 // });
 
 //! Need this to clear session, not working currently
-// router.post('/', (req, res) => {
-//   req.session.destroy((err) => {
-//     res.clearCookie(SESS_NAME);
-//     res.redirect('/');
-//   });
-// });
+router.post('/', (req, res) => {
+  req.session.destroy((err) => {
+    //res.clearCookie(SESS_NAME);
+    return res.redirect('/');
+  });
+});
 
 module.exports = router;
