@@ -1,5 +1,9 @@
 const path = require('path');
 const env = process.env;
+<<<<<<< HEAD
+=======
+console.log(env)
+>>>>>>> c86d6bfb2de2d5df771b3f329258af80ed80fac5
 
 const isProduction = env === 'production';
 

@@ -5,6 +5,10 @@ import GoogleAuthMaster from './components/GoogleAuth_master';
 // import streambedLogo from '../public/images/streambedHeader.svg';
 import RenderContent from './components/RenderContent';
 import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
+<<<<<<< HEAD
+=======
+import { Upload } from './components/VideoUpload.js';
+>>>>>>> c86d6bfb2de2d5df771b3f329258af80ed80fac5
 import DropDown from './components/Dropdown'
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
