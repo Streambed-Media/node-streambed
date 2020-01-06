@@ -6,11 +6,24 @@ body {
   color: #757575;
 }
 
+.container--login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
 .streambed-logo {
   position: absolute;
   top: 0;
   width: 20vh;
 }
+div {
+  .streambed--logo--main {
+    width: 45vh;
+  }
+}
+
 .container {
   .toggle-publish-analytics {
     display: flex;
@@ -18,16 +31,13 @@ body {
     align-items: flex-end;
     margin: 10px;
   }
-  .streambed--logo--main {
-    width: 45vh;
-  }
 }
 
 /************************************Media Queries**********************************************/
 
 /* phones */
 @media screen and (max-width: 800px) {
-  .container {
+  .container--login {
     .streambed--logo--main {
       width: 25vh;
     }

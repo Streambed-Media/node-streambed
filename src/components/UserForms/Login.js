@@ -23,9 +23,9 @@ const Login = () => {
           required
           placeholder='&#xf023;   Password'
         />
-        <a className='forgotpass' href='#' rel='noopener'>
+        {/* <a className='forgotpass' href='#' rel='noopener'>
           Forgot password?
-        </a>
+        </a> */}
         <button type='submit' style={{ display: 'none' }}>
           Submit
         </button>

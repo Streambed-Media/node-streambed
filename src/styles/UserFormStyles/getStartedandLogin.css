@@ -55,7 +55,7 @@ div .main-screen--none {
 /* phones */
 @media screen and (max-width: 800px) {
   div .main-screen--button {
-    width: 175px;
+    width: 200px;
   }
 }
 /*# sourceMappingURL=getStartedandLogin.css.map */

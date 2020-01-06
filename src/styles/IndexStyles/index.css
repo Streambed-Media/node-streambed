@@ -6,10 +6,27 @@ body {
   color: #757575;
 }
 
+.container--login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 80vh;
+}
+
 .streambed-logo {
   position: absolute;
   top: 0;
   width: 20vh;
+}
+
+div .streambed--logo--main {
+  width: 45vh;
 }
 
 .container .toggle-publish-analytics {
@@ -26,14 +43,10 @@ body {
   margin: 10px;
 }
 
-.container .streambed--logo--main {
-  width: 45vh;
-}
-
 /************************************Media Queries**********************************************/
 /* phones */
 @media screen and (max-width: 800px) {
-  .container .streambed--logo--main {
+  .container--login .streambed--logo--main {
     width: 25vh;
   }
 }

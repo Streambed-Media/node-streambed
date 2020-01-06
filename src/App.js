@@ -49,15 +49,17 @@ class App extends React.Component {
     console.log(this.getUrl(), this.state.isSignedIn);
     if (this.state.isSignedIn === false) {
       return (
-        <div className='container'>
+        <div>
           <img
             className='streambed--logo--main'
             src='images/StreambedLogo.png'
             alt='streambed logo'
           ></img>
-          <div className='login--box'>
-            <div className='trans--box'>
-              <GetStartedandLogin />
+          <div className='container--login'>
+            <div className='login--box'>
+              <div className='trans--box'>
+                <GetStartedandLogin />
+              </div>
             </div>
           </div>
         </div>
