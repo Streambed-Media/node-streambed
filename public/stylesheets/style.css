@@ -35,10 +35,17 @@
   margin-top: 25px;
 }
 
-.upload-youtube {
-  padding-top: 50px;
+.component-title {
+  margin-bottom: 15px;
 }
 
+.upload-youtube {
+  padding-top: 20px;
+}
+
+.upload-youtube .form-group {
+  padding: 15px 0;
+}
 .ui.menu .item {
   padding: 0 !important;
   font-size: 17px;
@@ -86,10 +93,18 @@ input[type="file"] {
   cursor: pointer;
 }
 
+.publisher {
+  position: relative;
+  max-width: 1050px;
+  padding: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .upload .ui.form {
   overflow: hidden;
   transition: all .5s ease-out;
-  height: 280px;
+  height: 298px;
 }
 
 .file-upload {
@@ -127,6 +142,11 @@ input[type="file"] {
 .show {
   height: 0px;
   transition: height 0.6s ease-out;
+}
+
+.video-container {
+  border-bottom: 1px solid #c3c3c3;
+  padding-bottom: 20px;
 }
 
 .video-element {
@@ -180,8 +200,19 @@ input[type="file"] {
     left: -200px;
 }
 
-@media (min-width: 768px){
+.profile-title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profileImg {
+  position: relative;
+  width: 100%;
+  border-radius: 50%;
+}
+
+/* @media (min-width: 768px){
   .container-upload{
     width: 850px;
   }
-}
+} */

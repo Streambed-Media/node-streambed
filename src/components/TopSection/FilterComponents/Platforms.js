@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import runTheContent from '../../../helpers/GetToken';
-
 
 const Platforms = () => {
 

@@ -10,6 +10,7 @@ let accessToken = '';
 /***Using MVC model, this holds functions for the routes */
 /***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
+
   const { displayName, email, password } = req.body
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
@@ -32,6 +33,7 @@ exports.user_sign_up = (req, res) => {
               email: email,
               password: hash
             });
+            req.session.userId = user._id
             user
               .save()
               .then((result) => {

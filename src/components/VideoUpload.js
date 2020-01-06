@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Results } from './Results.js'
-import 'font-awesome/css/font-awesome.min.css';
+// import 'font-awesome/css/font-awesome.min.css';
 
 
-class Upload extends React.Component {
-       state = {
-            results: null,
-            fieldCount: 0,
-            errorText: '',
-            isUploaded: false,
-            percentage: '',
-            height: ''
-        }
+class VideoUpload extends React.Component {
+    state = {
+        results: null,
+        fieldCount: 0,
+        errorText: '',
+        isUploaded: false,
+        percentage: '',
+        height: ''
+    }
 
     viewProgress = (e) => {
         let that = this;
@@ -51,8 +51,7 @@ class Upload extends React.Component {
         };
 
         xhr.onerror = function(e) {
-            console.log('Error');
-            console.log(e);
+            console.log('Error: ', e);
         };
         xhr.onload = () => {
             
@@ -68,7 +67,7 @@ class Upload extends React.Component {
 
     handleChange = (e) => {
         const target = e.target.id
-        console.log(target)
+
         switch (target) {
             case 'title' :
                 this.setState((prevState) => prevState.fieldCount++)
@@ -82,15 +81,15 @@ class Upload extends React.Component {
         }
     }
 
-    checkForBlankFields(e) {
-        
-        console.log(this.state.fieldCount)
+    checkForBlankFields = (e) => {
+
         if( this.state.fieldCount !== 3 ) {
             e.preventDefault()
-            // this.setState({errorText: 'Please fill out all fields before submiting'})
+            return this.setState({errorText: 'Please fill out all fields before submiting'})
         }
-        // this.viewProgress()
+        this.viewProgress(e)
     }
+
     componentDidMount() {
         this.setState({height: this.props.height})
     }
@@ -115,25 +114,25 @@ const Form = (props) => {
     return (
         <div>
             <section className="upload">
-            <form className="ui form" id="form" onSubmit={props.checkForBlankFields}
-            action="/uploaded" method="POST" encType="multipart/form-data">
-                <div className="field">
-                    <label htmlFor="title">Video Title</label>
-                    <input type="text" className="myFiles" id="title" name="title" 
-                    aria-describedby="title" placeholder="Enter video title" onChange={(e)=>{props.handleChange(e)}}/>
-                </div>
-                <div className="field">
-                <label htmlFor="video">Video description</label>
-                    <input type="text" className="myFiles"  id="description" 
-                    name="description" placeholder="Enter video description" onChange={(e)=>{props.handleChange(e)}}/>
-                </div>
-                <div className="field">
-                    <input type="file" id="video" name="myFiles" className="myFiles" multiple onChange={(e)=>{props.handleChange(e)}}/>
-                    <label htmlFor="video" className="hiddenLabel"><i className="fas fa-upload"></i>Select Video: </label>
-                    {/* <input type="file" id="img" name="myFiles" className="myFiles fileSelect" multiple onChange={(e)=>{this.handleChange(e)}}/> */}
-                </div>
-                <button onClick={props.viewProgress} type="submit" className="ui button">Upload</button>
-                <p className="errorField">{props.errorText}</p>
+                <h1 className="component-title">Video Upload</h1>
+                <form className="ui form" id="form" action="/uploaded" method="POST" 
+                encType="multipart/form-data">
+                    <div className="field">
+                        <label htmlFor="title">Video Title</label>
+                        <input type="text" className="myFiles" id="title" name="title" 
+                        aria-describedby="title" placeholder="Enter video title" onChange={(e)=>{props.handleChange(e)}} required/>
+                    </div>
+                    <div className="field">
+                    <label htmlFor="video">Video description</label>
+                        <input type="text" className="myFiles"  id="description" 
+                        name="description" placeholder="Enter video description" onChange={(e)=>{props.handleChange(e)}}/>
+                    </div>
+                    <div className="field">
+                        <input type="file" id="video" name="myFiles" className="myFiles" multiple onChange={(e)=>{props.handleChange(e)}}/>
+                        <label htmlFor="video" className="hiddenLabel"><i className="fas fa-upload"></i>Select Video: </label>
+                    </div>
+                    <button onClick={props.checkForBlankFields} type="submit" className="ui button">Upload</button>
+                    <p className="errorField">{props.errorText}</p>
                 </form>
                 <span className="percent">Progress: </span>
                 <div className="progress-container">
@@ -143,4 +142,4 @@ const Form = (props) => {
         </div>
     )
 }
-export { Upload }
+export { VideoUpload }

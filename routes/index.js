@@ -129,16 +129,8 @@ router.get('/analytics', function(req, res, next) {
   analytics
     .runVideoAnalytics()
     .then((data) => {
-      console.log('the result: ', data);
-      res.render('analytics', {
-        display: 'block',
-        nav_items_show: 'block',
-        channel_snippet_title: data.snippet.title,
-        channel_id: data.id,
-        channel_statistics_subscriberCount: data.statistics.subscriberCount,
-        channel_statistics_viewCount: data.statistics.viewCount,
-        channel_statistics_videoCount: data.statistics.videoCount
-      });
+      console.log('the video Analytic result: ', data);
+      res.send({data})
     })
     .catch(console.err);
 });
@@ -146,12 +138,20 @@ router.get('/analytics', function(req, res, next) {
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
   console.log('file name: ', videoInfo.videoFilePath);
-  youtubeUpload.runUpload(videoInfo);
+  youtubeUpload.runUpload(videoInfo).then((data) => {
+    console.log('youtube data: ',data)
+    console.log(data.message)
+    if ( data.message ) 
+      return res.send(data)
+    else
+      res.send(data)
 
-  res.render('dashboard', {
-    title: 'Streambed',
-    header: 'this is a header'
-  });
+  }).catch((err) => {
+    
+ 
+    
+  })
+
 });
 
 router.get('/upload-youtube', (req, res) => {

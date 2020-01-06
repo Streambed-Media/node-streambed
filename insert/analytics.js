@@ -22,8 +22,9 @@ async function getVideoAnalytics(etag) {
     }
 
     const res = await youtube.channels.list({
-        part: 'snippet,contentDetails,statistics, contentDetails',
+        part: 'snippet,contentDetails,statistics, status, contentDetails',
         mine: true,
+        maxResults: 10
     });
     
     console.log('Status code: ' + res.status);
