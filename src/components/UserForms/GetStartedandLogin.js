@@ -28,7 +28,7 @@ const GetStartedandLogin = () => {
             className='main-screen--button'
             onClick={() => setGetStarted(true)}
           >
-            Register
+            Get Started
           </button>
           <button
             className='main-screen--button'

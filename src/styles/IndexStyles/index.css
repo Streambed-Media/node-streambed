@@ -25,4 +25,16 @@ body {
           align-items: flex-end;
   margin: 10px;
 }
+
+.container .streambed--logo--main {
+  width: 45vh;
+}
+
+/************************************Media Queries**********************************************/
+/* phones */
+@media screen and (max-width: 800px) {
+  .container .streambed--logo--main {
+    width: 25vh;
+  }
+}
 /*# sourceMappingURL=index.css.map */

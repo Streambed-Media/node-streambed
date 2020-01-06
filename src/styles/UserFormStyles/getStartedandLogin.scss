@@ -33,3 +33,14 @@ div {
   justify-content: center;
   align-items: center;
 }
+
+/************************************Media Queries**********************************************/
+
+/* phones */
+@media screen and (max-width: 800px) {
+  div {
+    .main-screen--button {
+      width: 175px;
+    }
+  }
+}

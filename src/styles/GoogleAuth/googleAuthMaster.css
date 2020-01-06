@@ -61,4 +61,13 @@ body .signout--container {
           align-items: flex-end;
   margin: 10px 10px 0 0;
 }
+
+/************************************Media Queries**********************************************/
+/* phones */
+@media screen and (max-width: 800px) {
+  body .login--box .trans--box {
+    width: 300px;
+    height: 220px;
+  }
+}
 /*# sourceMappingURL=googleAuthMaster.css.map */
