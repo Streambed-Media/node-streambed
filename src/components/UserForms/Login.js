@@ -4,7 +4,6 @@ import GoogleAuth from '../GoogleAuth_master';
 
 /****************************************************************/
 /*************Login page working with DB users! --Tommy *********/
-//TODO Doesnt let you access the dashboard, that is still done with Oauth currently
 //TODO still need to figure out oauth with db user
 /****************************************************************/
 
@@ -24,13 +23,13 @@ const Login = () => {
           required
           placeholder='&#xf023;   Password'
         />
-        <a className='forgotpass' href='#' rel='noopener'>
+        {/* <a className='forgotpass' href='#' rel='noopener'>
           Forgot password?
-        </a>
+        </a> */}
         <button type='submit' style={{ display: 'none' }}>
           Submit
         </button>
-        <button className="main-screen--button" type='submit'>
+        <button className='main-screen--button' type='submit'>
           Submit
         </button>
       </form>

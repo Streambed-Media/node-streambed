@@ -1,15 +1,42 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
 body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   font-family: 'Lato', sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: #757575;
 }
 
+.container--login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 80vh;
+}
+
 .streambed-logo {
   position: absolute;
   top: 0;
   width: 20vh;
+}
+
+div .streambed--logo--main {
+  width: 45vh;
 }
 
 .container .toggle-publish-analytics {
@@ -24,5 +51,16 @@ body {
       -ms-flex-align: end;
           align-items: flex-end;
   margin: 10px;
+}
+
+/************************************Media Queries**********************************************/
+/* phones */
+@media screen and (max-width: 800px) {
+  div .streambed--logo--main {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
 }
 /*# sourceMappingURL=index.css.map */

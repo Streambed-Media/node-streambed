@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
+// import runTheContent from '../../../helpers/GetToken';
 
 const Platforms = () => {
+  const [isChecked, setChecked] = useState(false);
 
   const Authenticate = (e) => {
-    const target = e.target.className
+    const target = e.target.className;
 
     switch (target) {
       case 'youtube':
-          document.getElementsByClassName( 'youtubeAuth' )[0].submit()
+        document.getElementsByClassName('youtubeAuth')[0].submit();
+        setChecked(true);
         break;
-        case 'facebook':
-          document.getElementsByClassName( 'facebookAuth' )[0].submit()
+      case 'facebook':
+        document.getElementsByClassName('facebookAuth')[0].submit();
         break;
     }
-  }
+  };
 
   return (
     <div className='platforms'>
@@ -28,10 +31,11 @@ const Platforms = () => {
           </label>
         </div>
         <div className='ui checkbox'>
-          <form className="youtubeAuth" action='/dashboard' method='POST'>
-            <input type='checkbox'
+          <form className='youtubeAuth' action='/dashboard' method='POST'>
+            <input
+              type='checkbox'
               onChange={Authenticate}
-              className="youtube"
+              className='youtube'
             />
             <label>
               <i className='youtube icon'>
@@ -41,14 +45,15 @@ const Platforms = () => {
           </form>
         </div>
         <div className='ui checkbox'>
-          <form className="facebookAuth" action='#' method='POST'>
-            <input type='checkbox'
+          <form className='facebookAuth' action='#' method='POST'>
+            <input
+              type='checkbox'
               onChange={Authenticate}
-              className="facebook"
+              className='facebook'
             />
             <label>
-            <i className="facebook icon">
-                <span className="social--media">Facebook</span>
+              <i className='facebook icon'>
+                <span className='social--media'>Facebook</span>
               </i>
             </label>
           </form>

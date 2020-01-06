@@ -16,6 +16,9 @@ body .login--box {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body .login--box .trans--box {
@@ -32,8 +35,8 @@ body .login--box .trans--box {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 480px;
-  height: 320px;
+  width: 440px;
+  height: auto;
   background: rgba(240, 240, 240, 0.45098);
   border-radius: 27px;
 }
@@ -60,5 +63,13 @@ body .signout--container {
       -ms-flex-align: end;
           align-items: flex-end;
   margin: 10px 10px 0 0;
+}
+
+/************************************Media Queries**********************************************/
+/* phones */
+@media screen and (max-width: 800px) {
+  body .login--box .trans--box {
+    width: 300px;
+  }
 }
 /*# sourceMappingURL=googleAuthMaster.css.map */

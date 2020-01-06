@@ -3,6 +3,10 @@ div {
     display: flex;
     flex-direction: column;
 
+    :first-child {
+      margin-top: 2em;
+    }
+
     ::placeholder {
       color: rgba(134, 134, 134, 0.644);
     }

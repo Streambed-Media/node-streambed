@@ -11,7 +11,7 @@ const MongoStore = require('connect-mongo')(session);
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
-const logOutRouter = require('./routes/logout')
+const logOutRouter = require('./routes/logout');
 
 var app = express();
 
@@ -23,9 +23,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // Two hours
-const SESS_LIFE = 1000 * 60 * 60 * 2
-const SESS_NAME = 'sid'
-const SESS_SECRET = 'mysecret'
+const SESS_LIFE = 1000 * 60 * 60 * 2;
+const SESS_NAME = 'sid';
+const SESS_SECRET = 'mysecret';
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,26 +33,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-  name: SESS_NAME,
-  //Dont save back to store
-  resave: false,
-  //Don't save any new sessions without any data in it
-  saveUninitialized: false,
-  secret: SESS_SECRET,
-  cookie: {
+app.use(
+  session({
+    name: SESS_NAME,
+    //Dont save back to store
+    resave: false,
+    //Don't save any new sessions without any data in it
+    saveUninitialized: false,
+    secret: SESS_SECRET,
+    cookie: {
       maxAge: SESS_LIFE,
       sameSite: true,
       secure: false
-  }
-}))
+    }
+  })
+);
 
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
 app.use('/logout', logOutRouter);
 
-
+//! ROUTE LOGOUT TESTING HERE
+app.post('/', (req, res) => {
+  req.session.destroy((err) => {
+    console.log(req.session);
+    res.clearCookie(req.session);
+    req.session = null;
+    res.redirect('/');
+  });
+});
+//!
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

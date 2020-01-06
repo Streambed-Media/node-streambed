@@ -9,7 +9,7 @@
   -ms-grid-rows: (1fr)[3];
       grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 4em;
-      grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters' 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters' 'der der der der der der der der der der';
+      grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters' 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters' 'der der der der der der der der der der';
   height: 100vh;
   padding-top: 1em;
   background: #fff;
@@ -89,7 +89,8 @@
   -ms-grid-column: 7;
   -ms-grid-column-span: 4;
   grid-area: filters;
-  margin: 0 2em 0 0;
+  margin: 0;
+  background-color: white;
 }
 
 .renderContent-wrapper .filters-container h1 {
@@ -165,7 +166,6 @@
   -ms-grid-column-span: 5;
   grid-area: carousel-box;
   margin: 0 0 0 2em;
-  width: 100%;
 }
 
 .renderContent-wrapper .carousel-box .video-carousel {
@@ -256,5 +256,47 @@
   -ms-grid-column: 1;
   -ms-grid-column-span: 6;
   grid-area: der;
+}
+
+/************************************Media Queries**********************************************/
+/* phones */
+@media screen and (max-width: 800px) {
+  .renderContent-wrapper {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+    -ms-grid-rows: (1fr)[5];
+        grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0;
+        grid-template-areas: 'butt butt' 'carousel-box carousel-box' 'basic-analytics basic-analytics' 'filters filters' 'der der';
+  }
+  .renderContent-wrapper .butterfly-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin: 0 0 2em 0;
+  }
+  .renderContent-wrapper .der--influ-container {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: der;
+    display: -ms-grid;
+    display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 4em;
+        grid-template-areas: 'der der' 'topi topi';
+  }
+  .renderContent-wrapper .der--influ-container .derivative--container {
+    display: none;
+  }
 }
 /*# sourceMappingURL=renderContent.css.map */

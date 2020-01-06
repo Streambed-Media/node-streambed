@@ -31,11 +31,7 @@ class GoogleAuth extends React.Component {
     if (this.state.isSignedIn) {
       return (
         <div className='signout--container'>
-          <form
-            onSubmit={this.isSignedIn}
-            action='/dashboard/logout'
-            method='POST'
-          >
+          <form onSubmit={this.isSignedIn} action='/logout' method='POST'>
             <input
               className='ui red google button'
               type='submit'
@@ -44,18 +40,18 @@ class GoogleAuth extends React.Component {
           </form>
         </div>
       );
-    } else {
-      return (
-        <div className='button--container'>
-          <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
-            <input
-              className='ui green google button'
-              type='submit'
-              value='Login with Google'
-            />
-          </form>
-        </div>
-      );
+      // } else {
+      //   return (
+      //     <div className='button--container'>
+      //       <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
+      //         <input
+      //           className='ui green google button'
+      //           type='submit'
+      //           value='Login with Google'
+      //         />
+      //       </form>
+      //     </div>
+      //   );
     }
   }
 

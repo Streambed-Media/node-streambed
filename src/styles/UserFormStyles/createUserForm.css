@@ -8,6 +8,10 @@ div .form-container {
           flex-direction: column;
 }
 
+div .form-container :first-child {
+  margin-top: 2em;
+}
+
 div .form-container ::-webkit-input-placeholder {
   color: rgba(134, 134, 134, 0.644);
 }
