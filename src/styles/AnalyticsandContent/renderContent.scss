@@ -68,7 +68,8 @@ $grey-box-background: #f8f8f8;
   // FILTERS CSS
   .filters-container {
     grid-area: filters;
-    margin: 0 2em 0 0;
+    margin: 0;
+    background-color: white;
 
     h1 {
       font-size: 1.3rem;
@@ -120,7 +121,6 @@ $grey-box-background: #f8f8f8;
   .carousel-box {
     grid-area: carousel-box;
     margin: 0 0 0 2em;
-    width: 100%;
 
     .video-carousel {
       height: 10rem;
@@ -189,6 +189,43 @@ $grey-box-background: #f8f8f8;
     /******************Derivative*******/
     .derivative--container {
       grid-area: der;
+    }
+  }
+}
+
+/************************************Media Queries**********************************************/
+
+/* phones */
+@media screen and (max-width: 800px) {
+  .renderContent-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0;
+    grid-template-areas:
+      'butt butt'
+      'carousel-box carousel-box'
+      'basic-analytics basic-analytics'
+      'filters filters'
+      'der der';
+    .butterfly-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 2em 0;
+    }
+    .der--influ-container {
+      grid-area: der;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 4em;
+      grid-template-areas:
+        'der der'
+        'topi topi';
+      .derivative--container {
+        display: none;
+      }
     }
   }
 }
