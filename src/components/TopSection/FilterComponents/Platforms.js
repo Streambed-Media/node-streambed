@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 // import runTheContent from '../../../helpers/GetToken';
 
-const Platforms = () => {
-  const [isChecked, setChecked] = useState(false);
+const Platforms = (props) => {
 
   const Authenticate = (e) => {
     const target = e.target.className;

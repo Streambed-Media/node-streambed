@@ -5,7 +5,6 @@ class VideoData extends React.Component {
     }
 
     componentDidMount(){
-        // fetch('http://localhost:5000/uploaded')
         fetch('http://localhost:5000/analytics')
         .then((response) => {
                 response.json().then((result)=> {
@@ -44,7 +43,7 @@ class VideoData extends React.Component {
                                                 <h4>Youtube Title: {this.state.data[key].title}</h4>
                                                 <h4>Youtube Publish Date: {this.state.data[key].publishedAt}</h4>
                                             </div>
-                                            <div>
+                                            <div className="profile-img-wrap">
                                                 <img className="profileImg" src={this.state.data[key].thumbnails.medium.url} alt="profile image" />
                                                 {/* <p>{this.state.data[key].thumbnails.medium.url}</p> */}
                                             </div>
@@ -52,7 +51,6 @@ class VideoData extends React.Component {
                                     }
                                 </React.Fragment>
                             )
-
                         
                     })}
                 </section>

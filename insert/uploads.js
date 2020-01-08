@@ -56,21 +56,19 @@ async function runUpload(videoInfo) {
         console.log('from node ', res.data);
 
         return res.data;
-}catch(err) {
-    let errors = Object.keys(err)
-    let errObj = {}
+    }catch(err) {
+        let errors = Object.keys(err)
+        let errObj = {}
 
-    errors.filter((key, i) => {
-        
-        if (key === 'errors') {
-            errObj = err[key]
-            console.log('Quota Exceeced for Youtube uploads: ', err[key])
-        } 
-        
-    })
+        errors.filter((key, i) => {
+            if (key === 'errors') {
+                errObj = err[key]
+                console.log('Quota Exceeced for Youtube uploads: ', err[key])
+            } 
+        })
 
-    return errObj[0]
-}
+        return errObj[0]
+    }
     
     
 }

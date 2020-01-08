@@ -3,9 +3,16 @@ import CreateUserForm from './CreateUserForm';
 import Login from './Login';
 import '../../styles/UserFormStyles/getStartedandLogin.css';
 
-const GetStartedandLogin = () => {
+const GetStartedandLogin = (props) => {
   const [getStarted, setGetStarted] = useState(false);
   const [login, setLogin] = useState(false);
+
+  const isLoginError = () => {
+    const error = props.url
+    const isMatch = /^\/\?error/gi.test(error)
+    return isMatch
+  }
+  
 
   /************************************Function to show correct components when one is selected */
   const startOrLog = () => {
@@ -18,12 +25,15 @@ const GetStartedandLogin = () => {
     } else if (login === true) {
       return (
         <div>
-          <Login />
+          <Login url={props}/>
         </div>
       );
     } else {
       return (
         <div className='get-log--buttons'>
+          {isLoginError(props) && 
+            <p className="login-error">Incorrect username or password</p>
+          }
           <button
             className='main-screen--button'
             onClick={() => setGetStarted(true)}
