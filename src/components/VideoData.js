@@ -15,7 +15,6 @@ class VideoData extends React.Component {
                         if(i === 3) {
                             console.log(result.data[key].thumbnails.medium.url)
                         }
-                        
                     })
                 this.setState(() => {
                     return {

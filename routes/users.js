@@ -34,6 +34,7 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+<<<<<<< HEAD
   try {
     const user = await User.findByCredentials(
       req.body.email,
@@ -49,6 +50,20 @@ router.post('/login', async (req, res) => {
     console.log(e);
     res.redirect('/?error=' + e);
   }
+=======
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password )
+        console.log('user: ', user)
+        
+        req.session.userId = user._id
+        console.log('login session',req.session)
+        res.render('dashboard')
+
+    }catch(e) {
+        console.log(e)
+        res.redirect('/?error=' + e)
+    }
+>>>>>>> updated all babel moved to dev, webpack , env variable
 });
 
 // GET all displayNames!
