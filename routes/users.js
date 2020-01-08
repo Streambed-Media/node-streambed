@@ -13,7 +13,7 @@ mongoose
     useCreateIndex: true
   })
   .catch((error) =>
-    console.log('Mongoose Connection not working, the Error: ', error)
+    console.log('Mongoose Connection is not working, the Error: ', error)
   );
 
 const redirectDashboard = (req, res, next) => {
@@ -34,21 +34,18 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    console.log('user: ', user);
-    // const token = await User.generateAuthToken()
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password )
+        console.log('user: ', user)
+        
+        req.session.userId = user._id
+        console.log('login session',req.session)
+        res.render('dashboard')
 
-    req.session.userId = user._id;
-    console.log('login session', req.session);
-    res.render('dashboard');
-  } catch (e) {
-    console.log(e);
-    res.redirect('/?error=' + e);
-  }
+    }catch(e) {
+        console.log(e)
+        res.redirect('/?error=' + e)
+    }
 });
 
 // GET all displayNames!

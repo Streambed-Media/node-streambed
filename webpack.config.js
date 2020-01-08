@@ -1,15 +1,15 @@
 const path = require('path');
-const env = process.env;
+const env = process.env.NODE_ENV;
 
 const isProduction = env === 'production';
 
 module.exports = {
   entry: './src/App.js',
-  mode: 'development',
+  mode: env,
   module: {
     rules: [
       {
-        loader: 'babel-loader',
+        use: ['babel-loader'],
         test: /\.js$/,
         exclude: /node-modules/
       },
