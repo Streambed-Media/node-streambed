@@ -208,6 +208,14 @@ $grey-box-background: #f8f8f8;
       'basic-analytics basic-analytics'
       'filters filters'
       'der der';
+    .basic-analytics-container {
+      margin: 0 1em 1em 1em;
+    }
+
+    .filters-container {
+      margin: 0 1em;
+    }
+
     .butterfly-container {
       display: flex;
       align-items: center;
@@ -219,10 +227,19 @@ $grey-box-background: #f8f8f8;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(2, 1fr);
-      grid-column-gap: 4em;
       grid-template-areas:
         'der der'
         'topi topi';
+      .influencer-container {
+        margin: 0 1em 1em 1em;
+        h1 {
+          margin: 0 0 1em 0;
+        }
+        .influencers {
+          margin: 0;
+        }
+      }
+
       .derivative--container {
         display: none;
       }

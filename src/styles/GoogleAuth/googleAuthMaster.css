@@ -5,10 +5,6 @@
           box-sizing: border-box;
 }
 
-body {
-  background-image: url(../../../public/images/streambedLogoBackground.svg) !important;
-}
-
 body .login--box {
   display: -webkit-box;
   display: -ms-flexbox;
