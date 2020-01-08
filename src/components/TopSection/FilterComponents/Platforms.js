@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Platforms = () => {
+const Platforms = (props) => {
 
   const Authenticate = (e) => {
     const target = e.target.className

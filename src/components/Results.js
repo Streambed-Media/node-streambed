@@ -48,7 +48,8 @@ class Results extends React.Component {
                 })}
                 <img key={this.state.imgName} width="200px" src={"../uploads/"+this.state.imgName} alt="thumbnail" />
                 <VideoElem videoName={"../uploads/"+this.state.videoName}/>
-                <UploadYoutube />
+                {this.props.getUrl === '/upload-youtube' ? <VideoConfirmation /> : <UploadYoutube />}
+                
                 {console.log(this.state)}
             </div>
         )

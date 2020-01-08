@@ -35,23 +35,19 @@ class App extends React.Component {
         if (loginURL === '/upload-youtube') {
             this.handleCheckboxChange()
         }
-        if (loginURL === '/users/login') {
-            // this.handleCheckboxChange()
-        }
         if (isMatch) {
             this.setState({ isSignedIn: true });
         }
     }
 
     render() {
-        console.log(this.getUrl(), this.state.isSignedIn);
         if (this.state.isSignedIn === false) {
             return (
                 <div className='container'>
-                    <img src='images/streambedHeader.svg' alt='streambed logo'></img>
+                    <img src='images/streambedHeader.svg' className='streambed-logo' alt='streambed logo'></img>
                     <div className='login--box'>
                         <div className='trans--box'>
-                            <GetStartedandLogin />
+                            <GetStartedandLogin url={this.getUrl()}/>
                         </div>
                     </div>
                 </div>

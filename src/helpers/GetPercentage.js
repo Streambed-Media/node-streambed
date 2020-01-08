@@ -6,29 +6,24 @@ class GetPercentage {
       this.path = path;
       this.percentage = percentage;
     }
-    toTheHundreth (num) {
-      console.log('to hundy ',num ,Math.round(num * 101) / 100)
-  
+    toTheHundreth (num) { 
       return Math.floor(num * 100 )/100;
     }
+
     seconds (num) {
-  
       let format = this.toTheHundreth( num )
       let numString = format+''
   
       let isSingleDigit = /^.+\.\w{1}$/.test(numString)
       let addedColons = numString.split('.').join(':')
-      console.log('addedColons ',addedColons)
       let timeString = isSingleDigit ? '00:00:0'+numString : '00:0'+addedColons
   
       return timeString
     }
   
     minutes (num) {
-      console.log('minutes ', num)
       let roundNum = this.toTheHundreth(num)
       let numString = roundNum+''
-      console.log('string',numString)
       let addedColons = numString.split('.').join(':')
       console.log(addedColons)
       //Checks true if only one digit for seconds 
@@ -44,14 +39,12 @@ class GetPercentage {
   
       } else if ( isWholeNumber ) {
         addedColons = numString+':00'
-  
       }
       let isSingleDigit = /^\w{1}\./.test(numString)
       let timeString = isSingleDigit ? '00:0'+addedColons : '00:'+addedColons
   
       //Final make sure the string is of the correct length
       let isCorrectLength = /^.{8}/.test(timeString)
-      console.log('replaced',addedColons, timeString, isCorrectLength)
   
       if ( isCorrectLength ) {
         return timeString
