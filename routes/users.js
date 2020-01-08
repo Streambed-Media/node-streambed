@@ -6,7 +6,11 @@ const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
 
 /**Put you DB path here, you can use this default path to host it local at this address */
+<<<<<<< HEAD
 mongoose.connect('mongodb://localhost/test', {
+=======
+mongoose.connect(process.env.MONGO_URL, {
+>>>>>>> Added wallet, large updates to the rest
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -47,22 +51,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// const auth = async (req, res, next) => {
-//     try {
-//         const token = req.header('Authorization').replace('Bearer ', '')
-//         const decoded = jwt.verify(token, 'somepassword')
-//         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
 
-//         if (!user) {
-//             throw new Error()
-//         }
 
-//         req.user = user
-//         next()
-//     } catch (e) {
-//         res.status(401).send({ error: 'Please authenticate.' })
-//     }
-// }
 
 // GET all displayNames!
 router.get('/', UsersController.user_display_names);

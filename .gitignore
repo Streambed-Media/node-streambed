@@ -2,3 +2,4 @@ node_modules
 oauthTwo.keys.json
 public/bundle.js
 package-lock.json
+.env

@@ -11,13 +11,12 @@ const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
 const ffmpeg = require('fluent-ffmpeg');
 const getPercentage = require('../src/helpers/GetPercentage');
+const HDMW = require('oip-hdmw')
+const Wallet = HDMW.Wallet;
+
+
 
 let videoInfo = {};
-
-const scopes = [
-  'https://www.googleapis.com/auth/youtube.upload',
-  'https://www.googleapis.com/auth/youtube'
-];
 
 // Set Storage of uploaded video or file on the server
 let storage = multer.diskStorage({
@@ -49,9 +48,19 @@ const thumbler  =  (time, callback) => {
   )
 }
 
+//Runs async addFile function to get hash for ipfs
+const getIpfsHash = () => {
+  ipfs.addFile(videoInfo.videoFileName, videoInfo.videoFilePath).then((data) => {
+
+    console.log('ipfs data: ',data)
+    console.log('https://ipfs.io/ipfs/'+data)
+
+  }).catch(console.err);
+}
 
 
-router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
+
+router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   console.log('req body: ', req.body.body);
   console.log('req files: ', req.file);
   const body = req.body.body;
@@ -62,6 +71,8 @@ router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
   videoInfo.videoFileName = file.filename;
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
+ 
+  getIpfsHash()
 
  
   getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds)=>{
@@ -86,17 +97,14 @@ router.post('/uploaded', upload.single('myFiles'), (req, res, next) => {
     console.log(videoInfo.videoFilePath,'time: ', time)
     //Grabs thumbnail from video and saves it
     thumbler(time, () => {
+      
       res.render('dashboard', {
         title: 'Streambed'
       })
     })
   });
   
-  //Runs async addFile function to get hash for ipfs
-  // ipfs.addFile(videoInfo.videoFileName, videoInfo.videoFilePath).then((data) => {
-  //   console.log(data)
-  //   console.log('https://ipfs.io/ipfs/',data)
-  // }).catch(console.err);
+     
 
 });
 
@@ -113,7 +121,9 @@ router.get('/upload', (req, res) => {
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
+  let myWallet = new Wallet();
 
+  console.log("My Mnemonic: '" + myWallet.getMnemonic() + "'");
   const { userId } = req.session
 
   // If session id exist skips login / signup page and back to the users dashboard

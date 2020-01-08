@@ -15,6 +15,12 @@ const logOutRouter = require('./routes/logout');
 
 var app = express();
 
+const {
+  NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET
+} = process.env
+
+console.log( NODE_ENV, MONGO_URL, SESS_LIFE , SESS_NAME, SESS_SECRET)
+
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 
@@ -22,27 +28,21 @@ hbs.registerPartials(partialsPath);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// Two hours
-const SESS_LIFE = 1000 * 60 * 60 * 2;
-const SESS_NAME = 'sid';
-const SESS_SECRET = 'mysecret';
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-  session({
-    name: SESS_NAME,
-    //Dont save back to store
-    resave: false,
-    //Don't save any new sessions without any data in it
-    saveUninitialized: false,
-    secret: SESS_SECRET,
-    cookie: {
-      maxAge: SESS_LIFE,
+app.use(session({
+  name: SESS_NAME,
+  //Dont save back to store
+  resave: false,
+  //Don't save any new sessions without any data in it
+  saveUninitialized: false,
+  secret: SESS_SECRET,
+  cookie: {
+      maxAge: +SESS_LIFE,
       sameSite: true,
       secure: false
     }
