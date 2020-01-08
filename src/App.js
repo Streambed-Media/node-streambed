@@ -59,7 +59,7 @@ class App extends React.Component {
           <div className='container--login'>
             <div className='login--box'>
               <div className='trans--box'>
-                <GetStartedandLogin />
+                <GetStartedandLogin url={this.getUrl()}/>
               </div>
             </div>
           </div>
