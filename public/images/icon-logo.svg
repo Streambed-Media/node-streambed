@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 241.82 258.97" style="enable-background:new 0 0 241.82 258.97;" xml:space="preserve">
+	 
+<style type="text/css">
+	.st0{fill:#2F63E3; stroke: #81E8BD; stroke-width: 7px;}
+</style>
+<g>
+	<g>
+		<path class="st0" d="M235.27,29.31l6.55-24.46C166.2-15.4,88.21,29.64,67.96,105.26l24.46,6.55
+			C109.06,49.68,173.14,12.67,235.27,29.31z"/>
+		<path class="st0" d="M223.69,72.53l6.55-24.46c-51.78-13.87-105.19,16.98-119.06,68.77l24.46,6.55
+			C145.9,85.09,185.4,62.27,223.69,72.53z"/>
+		<path class="st0" d="M212.12,115.75l6.55-24.46c-27.95-7.48-56.78,9.16-64.26,37.12l24.46,6.55
+			C182.74,120.5,197.66,111.88,212.12,115.75z"/>
+	</g>
+	<g>
+		<path class="st0" d="M6.55,229.66L0,254.12c75.62,20.25,153.61-24.79,173.86-100.41l-24.46-6.55
+			C132.76,209.29,68.68,246.3,6.55,229.66z"/>
+		<path class="st0" d="M18.12,186.44l-6.55,24.46c51.78,13.87,105.19-16.98,119.06-68.77l-24.46-6.55
+			C95.92,173.88,56.42,196.7,18.12,186.44z"/>
+		<path class="st0" d="M29.7,143.22l-6.55,24.46c27.95,7.48,56.78-9.16,64.26-37.12l-24.46-6.55
+			C59.08,138.47,44.16,147.09,29.7,143.22z"/>
+	</g>
+</g>
+<filter id="pictureFilter" >
+    <feGaussianBlur stdDeviation="5" />
+  </filter> 
+</svg>

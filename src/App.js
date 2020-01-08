@@ -50,9 +50,10 @@ class App extends React.Component {
     if (this.state.isSignedIn === false) {
       return (
         <div>
+          <div className='bg--image'></div>
           <img
             className='streambed--logo--main'
-            src='images/StreambedLogo.png'
+            src='images/StreambedLogo.svg'
             alt='streambed logo'
           ></img>
           <div className='container--login'>
