@@ -13,7 +13,7 @@ mongoose
     useCreateIndex: true
   })
   .catch((error) =>
-    console.log('Mongoose Connection not working, the Error: ', error)
+    console.log('Mongoose Connection is not working, the Error: ', error)
   );
 
 const redirectDashboard = (req, res, next) => {
@@ -34,23 +34,6 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-<<<<<<< HEAD
-  try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    console.log('user: ', user);
-    // const token = await User.generateAuthToken()
-
-    req.session.userId = user._id;
-    console.log('login session', req.session);
-    res.render('dashboard');
-  } catch (e) {
-    console.log(e);
-    res.redirect('/?error=' + e);
-  }
-=======
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password )
         console.log('user: ', user)
@@ -63,7 +46,6 @@ router.post('/login', async (req, res) => {
         console.log(e)
         res.redirect('/?error=' + e)
     }
->>>>>>> updated all babel moved to dev, webpack , env variable
 });
 
 // GET all displayNames!
