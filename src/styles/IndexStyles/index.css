@@ -15,7 +15,7 @@ html #app {
   position: fixed;
   -webkit-filter: blur(40px);
           filter: blur(40px);
-  opacity: 0.7;
+  opacity: 0.6;
   left: 0;
   right: 0;
   z-index: -9999;
@@ -36,18 +36,30 @@ html #app {
   height: 80vh;
 }
 
-.streambed-logo {
-  position: absolute;
-  top: 0;
-  width: 20vh;
-}
-
 div .streambed--logo--main {
   padding: 2em;
   width: 45vh;
 }
 
-.container .toggle-publish-analytics {
+.container .header--container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #81e8bd;
+}
+
+.container .header--container .streambed-logo {
+  padding: 0 0 0 1em;
+  width: 20vh;
+}
+
+.container .header--container .toggle-publish-analytics {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -58,7 +70,7 @@ div .streambed--logo--main {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
-  margin: 10px;
+  padding: 10px;
 }
 
 /************************************Media Queries**********************************************/

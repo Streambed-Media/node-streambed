@@ -13,7 +13,7 @@ html {
   background-size: 75%;
   position: fixed;
   filter: blur(40px);
-  opacity: 0.7;
+  opacity: 0.6;
   left: 0;
   right: 0;
   z-index: -9999;
@@ -28,11 +28,6 @@ html {
   height: 80vh;
 }
 
-.streambed-logo {
-  position: absolute;
-  top: 0;
-  width: 20vh;
-}
 div {
   .streambed--logo--main {
     padding: 2em;
@@ -41,11 +36,21 @@ div {
 }
 
 .container {
-  .toggle-publish-analytics {
+  .header--container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 10px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #81e8bd;
+    .streambed-logo {
+      padding: 0 0 0 1em;
+      width: 20vh;
+    }
+    .toggle-publish-analytics {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 10px;
+    }
   }
 }
 
