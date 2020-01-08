@@ -1,13 +1,13 @@
 {
   "web": {
-    "client_id": "",
+    "client_id": "646245159630-n5bd8cnlosvhfhqmdhmpi42i2r15ds85.apps.googleusercontent.com",
     "project_id": "utility-replica-233119",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "",
+    "client_secret": "xoDB2bhVV4XU_UCiIAbrFkJ_",
     "redirect_uris": ["http://localhost:3000/oauth2callback"],
-    "apiKey": "",
+    "apiKey": "AIzaSyBBljCRN3lzgVtokktJdZh0rtG9geuysHs",
     "javascript_origins": ["http://localhost:3000"]
   }
 }

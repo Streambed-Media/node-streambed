@@ -11,10 +11,6 @@ const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
 const ffmpeg = require('fluent-ffmpeg');
 const getPercentage = require('../src/helpers/GetPercentage');
-const HDMW = require('oip-hdmw')
-const Wallet = HDMW.Wallet;
-
-
 
 let videoInfo = {};
 
@@ -32,7 +28,7 @@ let upload = multer({
   storage: storage
 });
 
-const thumbler  =  (time, callback) => {
+const thumbler = (time, callback) => {
   let thumb = Thumbler(
     {
       type: 'video',
@@ -41,24 +37,23 @@ const thumbler  =  (time, callback) => {
       time: time,
       size: '300x200' // this optional if null will use the dimentions of the video
     },
-     function(err, path) {
+    function(err, path) {
       if (err) return err;
       return callback();
     }
-  )
-}
+  );
+};
 
 //Runs async addFile function to get hash for ipfs
 const getIpfsHash = () => {
-  ipfs.addFile(videoInfo.videoFileName, videoInfo.videoFilePath).then((data) => {
-
-    console.log('ipfs data: ',data)
-    console.log('https://ipfs.io/ipfs/'+data)
-
-  }).catch(console.err);
-}
-
-
+  ipfs
+    .addFile(videoInfo.videoFileName, videoInfo.videoFilePath)
+    .then((data) => {
+      console.log('ipfs data: ', data);
+      console.log('https://ipfs.io/ipfs/' + data);
+    })
+    .catch(console.err);
+};
 
 router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   console.log('req body: ', req.body.body);
@@ -71,41 +66,29 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   videoInfo.videoFileName = file.filename;
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
- 
-  getIpfsHash()
 
- 
-  getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds)=>{
-  
-    let time = ''
+  getIpfsHash();
 
-    let differenceInMinutes = seconds / 60
-    
-    if ( differenceInMinutes < 1 ) {
-  
-      time = getPercentage.seconds( differenceInMinutes )
-  
-    }else if ( differenceInMinutes >= 1 && differenceInMinutes < 60 ) {
-  
-      time = getPercentage.minutes( differenceInMinutes )
-  
-    } else if ( differenceInMinutes >= 60 ) {
-  
-      time = getPercentage.hours( differenceInMinutes )
-  
+  getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds) => {
+    let time = '';
+
+    let differenceInMinutes = seconds / 60;
+
+    if (differenceInMinutes < 1) {
+      time = getPercentage.seconds(differenceInMinutes);
+    } else if (differenceInMinutes >= 1 && differenceInMinutes < 60) {
+      time = getPercentage.minutes(differenceInMinutes);
+    } else if (differenceInMinutes >= 60) {
+      time = getPercentage.hours(differenceInMinutes);
     }
-    console.log(videoInfo.videoFilePath,'time: ', time)
+    console.log(videoInfo.videoFilePath, 'time: ', time);
     //Grabs thumbnail from video and saves it
     thumbler(time, () => {
-      
       res.render('dashboard', {
         title: 'Streambed'
-      })
-    })
+      });
+    });
   });
-  
-     
-
 });
 
 router.get('/uploaded', (req, res) => {
@@ -114,21 +97,16 @@ router.get('/uploaded', (req, res) => {
 
 /* Sending data back to React componant for upload route */
 router.get('/upload', (req, res) => {
-
   res.render('dashboard', { token: accessToken });
-
 });
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
-  let myWallet = new Wallet();
-
-  console.log("My Mnemonic: '" + myWallet.getMnemonic() + "'");
-  const { userId } = req.session
+  const { userId } = req.session;
 
   // If session id exist skips login / signup page and back to the users dashboard
-  if ( userId ) {
-    res.redirect('/users/login')
+  if (userId) {
+    res.redirect('/users/login');
   } else {
     res.render('index', { title: 'Streambed' });
   }
@@ -140,7 +118,7 @@ router.get('/analytics', function(req, res, next) {
     .runVideoAnalytics()
     .then((data) => {
       console.log('the video Analytic result: ', data);
-      res.send({data})
+      res.send({ data });
     })
     .catch(console.err);
 });
@@ -148,24 +126,18 @@ router.get('/analytics', function(req, res, next) {
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
   console.log('file name: ', videoInfo.videoFilePath);
-  youtubeUpload.runUpload(videoInfo).then((data) => {
-    console.log('youtube data: ',data)
-    console.log(data.message)
-    if ( data.message ) 
-      return res.send(data)
-    else
-      res.send(data)
-
-  }).catch((err) => {
-    
- 
-    
-  })
-
+  youtubeUpload
+    .runUpload(videoInfo)
+    .then((data) => {
+      console.log('youtube data: ', data);
+      console.log(data.message);
+      if (data.message) return res.send(data);
+      else res.send(data);
+    })
+    .catch((err) => {});
 });
 
 router.get('/upload-youtube', (req, res) => {
-
   res.send([videoInfo]);
 });
 
