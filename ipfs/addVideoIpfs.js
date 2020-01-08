@@ -5,7 +5,6 @@ const ipfs = new ipfsClient({host: 'localhost', port: '5001', protocol: 'http'})
 
 class Ipfs {
     async addFile(filename, filePath) {
-       console.log( filename, filePath)
         const file = fs.readFileSync(filePath)
      
         try{
@@ -16,8 +15,6 @@ class Ipfs {
         } catch(e) {
             return 'The IPFS error: ' + e
         }
-        
-        
     }
 }
 module.exports = new Ipfs()

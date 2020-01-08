@@ -8,8 +8,8 @@ import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import DropDown from './components/Dropdown';
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
-// import 'font-awesome/css/font-awesome.min.css';
-
+// import newWallet  from '../wallet/wallet'
+// console.log(newWallet)
 class App extends React.Component {
   state = {
     isSignedIn: false,
