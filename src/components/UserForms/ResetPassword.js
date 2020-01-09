@@ -16,7 +16,7 @@ const ResetPassword = () => {
       body: JSON.stringify({
         password: pw
       })
-    }).then(() => console.log('done'));
+    });
   };
 
   const handleResetPassword = () => {

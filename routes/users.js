@@ -6,6 +6,9 @@ const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
 const bcrypt = require('bcrypt');
 
+//This is used to avoid error with depreciation with findoneandupdate in the reset route
+mongoose.set('useFindAndModify', false);
+
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
   .connect('mongodb://localhost/test', {

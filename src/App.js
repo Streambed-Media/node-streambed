@@ -9,6 +9,7 @@ import DropDown from './components/Dropdown';
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
 import ResetPassword from './components/UserForms/ResetPassword';
+import Hamburger from './components/UserForms/Hamburger';
 // import newWallet  from '../wallet/wallet'
 // console.log(newWallet)
 class App extends React.Component {
@@ -77,8 +78,9 @@ class App extends React.Component {
               className='streambed-logo'
             />
             <div className='toggle-publish-analytics'>
-              <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
-              <ResetPassword />
+              <Hamburger isSignedIn={this.state.isSignedIn} />
+              {/* <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
+              <ResetPassword /> */}
               <div className='ui toggle checkbox'>
                 <input
                   type='checkbox'
