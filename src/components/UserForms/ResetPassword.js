@@ -16,7 +16,7 @@ const ResetPassword = () => {
       confirmButtonText: 'Submit',
       showLoaderOnConfirm: true,
       preConfirm: (login) => {
-        return fetch(`//api.github.com/users/${login}`)
+        return fetch(`/users/reset`)
           .then((response) => {
             if (!response.ok) {
               throw new Error(response.statusText);

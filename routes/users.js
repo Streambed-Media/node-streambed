@@ -30,25 +30,38 @@ router.post('/signup', redirectDashboard, UsersController.user_sign_up);
 
 // Pretty much only used if session id still exist
 router.get('/login', (req, res) => {
-  res.render('dashboard');
+  const { userId } = req.session;
+
+  // If session id doesn't exist skips redirects back to login page
+  if (!userId) {
+    console.log('For you tommy, long waited 🙂 ');
+    res.redirect('/');
+  } else {
+    res.render('dashboard', { title: 'Streambed' });
+  }
 });
 
 router.post('/login', async (req, res) => {
-    try {
-        const user = await User.findByCredentials(req.body.email, req.body.password )
-        console.log('user: ', user)
-        
-        req.session.userId = user._id
-        console.log('login session',req.session)
-        res.render('dashboard')
+  try {
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    console.log('user: ', user);
 
-    }catch(e) {
-        console.log(e)
-        res.redirect('/?error=' + e)
-    }
+    req.session.userId = user._id;
+    console.log('login session', req.session);
+    res.render('dashboard');
+  } catch (e) {
+    console.log(e);
+    res.redirect('/?error=' + e);
+  }
 });
 
-// GET all displayNames!
-router.get('/', UsersController.user_display_names);
+/****Route to reset password*************/
+router.get('/reset', (req, res) => {
+  console.log(req.session.userId);
+  User.find({ _id: req.session.userId }).then((user) => console.log(user));
+});
 
 module.exports = router;
