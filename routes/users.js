@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../task-manager/src/models/user');
 const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
+const bcrypt = require('bcrypt');
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
@@ -59,9 +60,14 @@ router.post('/login', async (req, res) => {
 });
 
 /****Route to reset password*************/
-router.get('/reset', (req, res) => {
-  console.log(req.session.userId);
-  User.find({ _id: req.session.userId }).then((user) => console.log(user));
+router.post('/reset', (req, res) => {
+  const pass = req.body.password;
+  bcrypt.hash(pass, 8, (err, hash) => {
+    User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { password: hash } }
+    ).then(() => console.log(hash));
+  });
 });
 
 module.exports = router;

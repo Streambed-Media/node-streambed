@@ -6,24 +6,36 @@ const ResetPassword = () => {
   //****************************************SweetAlert modal */
   const MySwal = withReactContent(Swal);
 
+  //Fetch function for modal
+  const handleFetch = (pw) => {
+    fetch('/users/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        password: pw
+      })
+    }).then(() => console.log('done'));
+  };
+
   const handleResetPassword = () => {
     MySwal.mixin({
-      input: 'text',
+      input: 'password',
       confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
       progressSteps: ['1', '2']
     })
       .queue(['Enter New Password', 'Re-enter Password'])
       .then((result) => {
-        if (result.value) {
-          const answers = JSON.stringify(result.value);
+        if (result.value[0] === result.value[1]) {
+          handleFetch(result.value[0]);
           Swal.fire({
-            title: 'All done!',
-            html: `
-              Your answers:
-              <pre><code>${answers}</code></pre>
-            `,
-            confirmButtonText: 'Lovely!'
+            title: 'All done!'
+          });
+        } else {
+          Swal.fire({
+            title: 'Please enter matching passwords'
           });
         }
       });
@@ -31,7 +43,7 @@ const ResetPassword = () => {
   //****************************************SweetAlert modal end */
   return (
     <div>
-      <button className='reset--pw' onClick={handleResetPassword}>
+      <button className='reset--pw' onClick={() => handleResetPassword()}>
         Reset Password
       </button>
     </div>
