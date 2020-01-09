@@ -18,7 +18,8 @@ class App extends React.Component {
     checked: true
   };
 
-  handleCheckboxChange = (e) => {
+  handleCheckboxChange = () => {
+    console.log('TESTING CHECKBOX');
     this.setState({ checked: !this.state.checked });
   };
 
@@ -78,10 +79,14 @@ class App extends React.Component {
               className='streambed-logo'
             />
             <div className='toggle-publish-analytics'>
-              <Hamburger isSignedIn={this.state.isSignedIn} />
+              <Hamburger
+                isSignedIn={this.state.isSignedIn}
+                isChecked={this.state.checked}
+                checkboxHandler={this.handleCheckboxChange}
+              />
               {/* <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
               <ResetPassword /> */}
-              <div className='ui toggle checkbox'>
+              {/* <div className='ui toggle checkbox'>
                 <input
                   type='checkbox'
                   name='publisher-analytics'
@@ -89,7 +94,7 @@ class App extends React.Component {
                   onChange={this.handleCheckboxChange}
                 />
                 <label>Publisher / Analytics </label>
-              </div>
+              </div> */}
             </div>
           </div>
           {this.state.checked === true ? (

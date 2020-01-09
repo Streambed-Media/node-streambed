@@ -8,7 +8,7 @@ body {
 }
 
 .nav {
-  width: 30vw;
+  width: 15vw;
   border-width: 0 1px 1px 0;
   border-style: solid;
   border-color: #888;
@@ -20,13 +20,6 @@ body {
   -webkit-transition: right 0.3s ease-in;
   -o-transition: right 0.3s ease-in;
   transition: right 0.3s ease-in;
-}
-
-@media screen and (max-width: 600px) {
-  .nav {
-    width: 50vw;
-    right: -60vw;
-  }
 }
 
 .close {
@@ -41,6 +34,7 @@ body {
 
 .nav.show {
   right: 0;
+  background-color: #fff;
 }
 
 .menu-button {
@@ -67,4 +61,13 @@ body {
   padding: 16px 10px;
   font-size: 24px;
   border-bottom: 1px solid #555;
+}
+
+/*****Phone Responsiveness*****/
+
+@media screen and (max-width: 600px) {
+  .nav {
+    width: 50vw;
+    right: -60vw;
+  }
 }

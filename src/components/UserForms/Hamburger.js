@@ -2,6 +2,7 @@ import React from 'react';
 import '../../styles/Hamburger/Hamburger.css';
 import ResetPassword from './ResetPassword';
 import GoogleAuth_Master from '../GoogleAuth_master';
+import PubAnalytics from './PubAnalytics';
 
 class Hamburger extends React.Component {
   constructor(props) {
@@ -31,6 +32,14 @@ class Hamburger extends React.Component {
             <i className='fas fa-times' />
           </div>
           <ul className='menu-items'>
+            <li className='menu-list'>
+              <a className='menu-link'>
+                <PubAnalytics
+                  isChecked={this.props.isChecked}
+                  checkboxHandler={this.props.checkboxHandler}
+                />
+              </a>
+            </li>
             <li className='menu-list'>
               <a className='menu-link'>
                 <ResetPassword />

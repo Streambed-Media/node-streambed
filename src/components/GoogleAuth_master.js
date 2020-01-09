@@ -2,8 +2,7 @@ import React from 'react';
 import '../styles/GoogleAuth/googleAuthMaster.css';
 
 /***********************************************************Google Oauth login page component ***************/
-//!!!!!!!!!!!!!!!!!!!Need to work on this form submit, when switching accounts it doesn't switch right away
-//!!!!!!!!!!!!!!!!Also need to render SignOut and make sign out correctly with auth
+
 class GoogleAuth extends React.Component {
   state = {
     isSignedIn: false
@@ -40,18 +39,6 @@ class GoogleAuth extends React.Component {
           </form>
         </div>
       );
-      // } else {
-      //   return (
-      //     <div className='button--container'>
-      //       <form onSubmit={this.isSignedIn} action='/dashboard' method='POST'>
-      //         <input
-      //           className='ui green google button'
-      //           type='submit'
-      //           value='Login with Google'
-      //         />
-      //       </form>
-      //     </div>
-      //   );
     }
   }
 
