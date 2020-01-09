@@ -50,6 +50,21 @@ div {
       flex-direction: column;
       align-items: flex-end;
       padding: 10px;
+      //This is for reset button
+      .reset--pw {
+        background-color: #939598;
+        border: none;
+        border-radius: 0.25rem;
+        margin: 0.2em 0.8em 0 0;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-size: 0.9rem;
+
+        padding: 3px 2px;
+        text-decoration: none;
+      }
     }
   }
 }

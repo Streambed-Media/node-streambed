@@ -8,7 +8,6 @@ import GoogleAuth from '../GoogleAuth_master';
 /****************************************************************/
 
 const Login = () => {
-
   return (
     <div>
       <form className='form-container' method='POST' action='/users/login'>
@@ -24,12 +23,6 @@ const Login = () => {
           required
           placeholder='&#xf023;   Password'
         />
-        {/* <a className='forgotpass' href='#' rel='noopener'>
-          Forgot password?
-        </a> */}
-        <button type='submit' style={{ display: 'none' }}>
-          Submit
-        </button>
         <button className='main-screen--button' type='submit'>
           Submit
         </button>

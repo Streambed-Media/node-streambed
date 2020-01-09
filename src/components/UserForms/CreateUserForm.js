@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import '../../styles/UserFormStyles/createUserForm.css';
-
 
 const CreateUserForm = () => {
   //Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
-
 
   useEffect(() => {
     // fetch(`http://localhost:5000/users/signup`)
@@ -18,32 +16,31 @@ const CreateUserForm = () => {
     // });
   }, []);
   const getUserData = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     fetch(`http://localhost:5000/users/signup`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-      // let usernames = data.map((c) => c.displayName);
-      // console.log(usernames);
-      // setAllUsers(usernames);
-    });
-  }
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // let usernames = data.map((c) => c.displayName);
+        // console.log(usernames);
+        // setAllUsers(usernames);
+      });
+  };
 
-    
   /**************************STATE SECTION************************/
- //**Display Name States */
- const [username, setUsername] = useState('');
- const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
+  //**Display Name States */
+  const [username, setUsername] = useState('');
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
 
- //**Password States */
- const [password, setPassword] = useState('');
- const [rePassword, setRePassword] = useState('');
- const [passErrorMessage, setPassErrorMessage] = useState('');
+  //**Password States */
+  const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
+  const [passErrorMessage, setPassErrorMessage] = useState('');
 
- //**Email States */
- const [email, setEmail] = useState('');
- const [reEmail, setReEmail] = useState('');
- const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  //**Email States */
+  const [email, setEmail] = useState('');
+  const [reEmail, setReEmail] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
   /*****************************STATE SECTION******************************/
 
   /*******************************Function to compare password, usename, email fields */
@@ -71,23 +68,23 @@ const CreateUserForm = () => {
         password: password
       })
     })
-    .then((response) => response.json())
-    .then((message) => {
-      if (message.error) {
-        setUsernameErrorMessage(message.error);
-      } else {
-        setUsernameErrorMessage('');
-        setPassErrorMessage(message.message);
-      }
+      .then((response) => response.json())
+      .then((message) => {
+        if (message.error) {
+          setUsernameErrorMessage(message.error);
+        } else {
+          setUsernameErrorMessage('');
+          setPassErrorMessage(message.message);
+        }
 
-      console.log(message);
-    });
-}
+        console.log(message);
+      });
+  };
 
-const onFormSubmit = (e) => {
-  e.preventDefault();
-  validateForm();
-};
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    validateForm();
+  };
   /*************The placeholders are fontawesome unicode, allows them to show in the placeholder field *****************/
   /*************Password fields get set to state to compare before submit*/
   return (
@@ -143,27 +140,22 @@ const onFormSubmit = (e) => {
         />
         {/**********************************Error message prints out for passwords not matching */}
         <div>{passErrorMessage}</div>
-        <div className="link-wrapper">{passErrorMessage === "User Created" ? (
- 
-          <a className="item" href="/users/login">
-          <div className="ui menu">
-            Login
+        <div className='link-wrapper'>
+          {passErrorMessage === 'User Created' ? (
+            <a className='item' href='/users/login'>
+              <div className='ui menu'>Login</div>
+            </a>
+          ) : (
+            <button
+              type='submit'
+              onClick={onFormSubmit}
+              value='submit'
+              className='main-screen--button'
+            >
+              Submit
+            </button>
+          )}
         </div>
-        </a>
-       
-        )
-        : (
-        <button
-          type='submit'
-          onClick={onFormSubmit}
-          value='submit'
-          className='main-screen--button'
-        >
-          Submit
-        </button>
-        )}</div>
-        
-        
       </form>
     </div>
   );

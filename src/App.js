@@ -8,6 +8,7 @@ import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import DropDown from './components/Dropdown';
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
+import ResetPassword from './components/UserForms/ResetPassword';
 // import newWallet  from '../wallet/wallet'
 // console.log(newWallet)
 class App extends React.Component {
@@ -77,6 +78,7 @@ class App extends React.Component {
             />
             <div className='toggle-publish-analytics'>
               <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
+              <ResetPassword />
               <div className='ui toggle checkbox'>
                 <input
                   type='checkbox'

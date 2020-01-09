@@ -45,6 +45,8 @@
     "react-scripts": "^3.3.0",
     "semantic-ui-css": "^2.4.1",
     "server-destroy": "^1.0.1",
+    "sweetalert2": "^9.5.4",
+    "sweetalert2-react-content": "^2.0.2",
     "thumbler": "^1.1.2",
     "validator": "^12.1.0",
     "webpack": "^4.41.2",
