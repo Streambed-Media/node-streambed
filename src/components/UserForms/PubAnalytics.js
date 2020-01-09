@@ -4,6 +4,7 @@ const PubAnalytics = (props) => {
   /**Recieves functions from app component, used here to pass the onChange back up to App */
 
   const onCheckChange = () => {
+    props.handleClose();
     props.checkboxHandler();
   };
 

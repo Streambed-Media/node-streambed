@@ -37,12 +37,13 @@ class Hamburger extends React.Component {
                 <PubAnalytics
                   isChecked={this.props.isChecked}
                   checkboxHandler={this.props.checkboxHandler}
+                  handleClose={this.handleMenuButtonClick}
                 />
               </a>
             </li>
             <li className='menu-list'>
               <a className='menu-link'>
-                <ResetPassword />
+                <ResetPassword handleClose={this.handleMenuButtonClick} />
               </a>
             </li>
             <li className='menu-list'>

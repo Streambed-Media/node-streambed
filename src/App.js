@@ -19,7 +19,6 @@ class App extends React.Component {
   };
 
   handleCheckboxChange = () => {
-    console.log('TESTING CHECKBOX');
     this.setState({ checked: !this.state.checked });
   };
 

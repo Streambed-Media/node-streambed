@@ -2,7 +2,7 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-const ResetPassword = () => {
+const ResetPassword = (props) => {
   //****************************************SweetAlert modal */
   const MySwal = withReactContent(Swal);
 
@@ -28,14 +28,18 @@ const ResetPassword = () => {
     })
       .queue(['Enter New Password', 'Re-enter Password'])
       .then((result) => {
-        if (result.value[0] === result.value[1]) {
+        if (!result.value[0]) {
+          Swal.fire({
+            title: 'Password cannot be blank'
+          });
+        } else if (result.value[0] !== result.value[1]) {
+          Swal.fire({
+            title: 'Please enter matching passwords'
+          });
+        } else {
           handleFetch(result.value[0]);
           Swal.fire({
             title: 'All done!'
-          });
-        } else {
-          Swal.fire({
-            title: 'Please enter matching passwords'
           });
         }
       });
