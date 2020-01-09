@@ -3,40 +3,32 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 const ResetPassword = () => {
+  //****************************************SweetAlert modal */
   const MySwal = withReactContent(Swal);
 
   const handleResetPassword = () => {
-    MySwal.fire({
-      title: 'Enter new password',
+    MySwal.mixin({
       input: 'text',
-      inputAttributes: {
-        autocapitalize: 'off'
-      },
-      showCancelButton: false,
-      confirmButtonText: 'Submit',
-      showLoaderOnConfirm: true,
-      preConfirm: (login) => {
-        return fetch(`/users/reset`)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(response.statusText);
-            }
-            return response.json();
-          })
-          .catch((error) => {
-            Swal.showValidationMessage(`Request failed: ${error}`);
+      confirmButtonText: 'Next &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2']
+    })
+      .queue(['Enter New Password', 'Re-enter Password'])
+      .then((result) => {
+        if (result.value) {
+          const answers = JSON.stringify(result.value);
+          Swal.fire({
+            title: 'All done!',
+            html: `
+              Your answers:
+              <pre><code>${answers}</code></pre>
+            `,
+            confirmButtonText: 'Lovely!'
           });
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire({
-          title: `${result.value.login}'s avatar`,
-          imageUrl: result.value.avatar_url
-        });
-      }
-    });
+        }
+      });
   };
+  //****************************************SweetAlert modal end */
   return (
     <div>
       <button className='reset--pw' onClick={handleResetPassword}>
