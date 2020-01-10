@@ -11,36 +11,30 @@ mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-    .connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    })
-    .catch((error) =>
-        console.log('Mongoose Connection is not working, the Error: ', error)
-    );
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .catch((error) =>
+    console.log('Mongoose Connection is not working, the Error: ', error)
+  );
 
 const redirectDashboard = (req, res, next) => {
-    if (req.session.userId) {
-        res.redirect('/users/login');
-    } else {
-        res.redirect('/');
-        console.log("Session Id doesn't exist");
-        // next();
-    }
+  if (req.session.userId) {
+    res.redirect('/users/login');
+  } else {
+    res.redirect('/');
+    console.log("Session Id doesn't exist");
+    // next();
+  }
 };
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */
 router.post('/signup', UsersController.user_sign_up);
 
 // Pretty much only used if session id still exist
-<<<<<<< HEAD
 router.get('/login', UsersController.user_login_get);
-=======
-router.get('/login', (req, res) => {
-
-  const { userId } = req.session;
->>>>>>> f16df7cf9b5a33cf27c18a5ba77e15f5b1a1cafe
 
 //Acutal route to check login creds
 router.post('/login', UsersController.user_login_post);
