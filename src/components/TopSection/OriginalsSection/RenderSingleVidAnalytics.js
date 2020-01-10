@@ -29,12 +29,6 @@ class RenderSingleVidAnalytics extends React.Component {
   /**Functions to get views and watch time for specific video, wrapped in Brads helper function to get accessToken**/
   getSingleVidAnalytics() {
     runTheContent((accessToken) => {
-      console.log(
-        'tommys request',
-        accessToken,
-        output,
-        this.props.selectedVideoId
-      );
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day%2CinsightTrafficSourceType&endDate=${output}&filters=video==${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2CestimatedMinutesWatched&sort=day%2C-views&startDate=2005-02-14&key=${web.apiKey}`,
         {
@@ -48,7 +42,6 @@ class RenderSingleVidAnalytics extends React.Component {
         .then((response) => response.json())
         .then(
           (response) => {
-            console.log('Get single vid', response);
             let totalViews = response.rows
               .map((row) => row[2])
               .reduce((a, b) => a + b);
@@ -98,7 +91,6 @@ class RenderSingleVidAnalytics extends React.Component {
               this.setState({
                 keyWord: response.rows[0][0]
               });
-              console.log('WORKING');
             }
           },
           function(err) {

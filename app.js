@@ -54,18 +54,7 @@ app.use(
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
-app.use('/logout', logOutRouter);
-
-//! ROUTE LOGOUT TESTING HERE
-app.post('/', (req, res) => {
-  req.session.destroy((err) => {
-    console.log(req.session);
-    res.clearCookie(req.session);
-    req.session = null;
-    res.redirect('/');
-  });
-});
-//!
+//app.use('/logout', logOutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
