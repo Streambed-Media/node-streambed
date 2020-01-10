@@ -5,7 +5,6 @@ import withReactContent from 'sweetalert2-react-content';
 const ResetPassword = (props) => {
   //****************************************SweetAlert modal */
   const MySwal = withReactContent(Swal);
-
   //Fetch function for modal
   const handleFetch = (pw) => {
     fetch('/users/reset', {
@@ -20,6 +19,7 @@ const ResetPassword = (props) => {
   };
 
   const handleResetPassword = () => {
+    props.handleClose();
     MySwal.mixin({
       input: 'password',
       confirmButtonText: 'Next &rarr;',

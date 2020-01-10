@@ -23,11 +23,11 @@ class Hamburger extends React.Component {
     return (
       <div className='ham--container'>
         <div className='menu-button' onClick={this.handleMenuButtonClick}>
-          <i className='fas fa-bars' />
+          <i className='fas fa-bars' style={{ color: '#2f63e3' }} />
         </div>
 
         {/*	Sidebar */}
-        <nav className={`nav ${isSidebarOpen ? 'show' : ''}`}>
+        <nav className={`nav ${isSidebarOpen ? 'show' : 'close--nav'}`}>
           <div onClick={this.handleMenuButtonClick} className='close'>
             <i className='fas fa-times' />
           </div>
