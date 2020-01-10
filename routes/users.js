@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const User = require('../task-manager/src/models/user');
 const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
+const bcrypt = require('bcrypt');
+
+//This is used to avoid error with depreciation with findoneandupdate in the reset route
+mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
@@ -31,33 +35,44 @@ router.post('/signup', UsersController.user_sign_up);
 
 // Pretty much only used if session id still exist
 router.get('/login', (req, res) => {
-    const { userId } = req.session;
 
-    // If session id doesn't exist skips redirects back to login page
-    if (!userId) {
-        console.log('For you tommy, long waited :) ')
-        res.redirect('/');
-    } else {
-        res.render('dashboard', { title: 'Streambed' });
-    }
+  const { userId } = req.session;
+
+  // If session id doesn't exist skips redirects back to login page
+  if (!userId) {
+    console.log('For you tommy, long waited 🙂 ');
+    res.redirect('/');
+  } else {
+    res.render('dashboard', { title: 'Streambed' });
+  }
 });
 
 router.post('/login', async (req, res) => {
-    try {
-        const user = await User.findByCredentials(req.body.email, req.body.password)
-        console.log('user: ', user)
+  try {
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    console.log('user: ', user);
 
-        req.session.userId = user._id
-        console.log('login session', req.session)
-        res.render('dashboard')
-
-    } catch (e) {
-        console.log(e)
-        res.redirect('/?error=' + e)
-    }
+    req.session.userId = user._id;
+    console.log('login session', req.session);
+    res.render('dashboard');
+  } catch (e) {
+    console.log(e);
+    res.redirect('/?error=' + e);
+  }
 });
 
-// GET all displayNames!
-router.get('/', UsersController.user_display_names);
+/****Route to reset password*************/
+router.post('/reset', (req, res) => {
+  const pass = req.body.password;
+  bcrypt.hash(pass, 8, (err, hash) => {
+    User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { password: hash } }
+    ).then(() => console.log(hash));
+  });
+});
 
 module.exports = router;

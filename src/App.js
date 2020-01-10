@@ -8,6 +8,8 @@ import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import DropDown from './components/Dropdown';
 import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
+import ResetPassword from './components/UserForms/ResetPassword';
+import Hamburger from './components/UserForms/Hamburger';
 // import newWallet  from '../wallet/wallet'
 // console.log(newWallet)
 class App extends React.Component {
@@ -16,7 +18,7 @@ class App extends React.Component {
     checked: true
   };
 
-  handleCheckboxChange = (e) => {
+  handleCheckboxChange = () => {
     this.setState({ checked: !this.state.checked });
   };
 
@@ -76,8 +78,14 @@ class App extends React.Component {
               className='streambed-logo'
             />
             <div className='toggle-publish-analytics'>
-              <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
-              <div className='ui toggle checkbox'>
+              <Hamburger
+                isSignedIn={this.state.isSignedIn}
+                isChecked={this.state.checked}
+                checkboxHandler={this.handleCheckboxChange}
+              />
+              {/* <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
+              <ResetPassword /> */}
+              {/* <div className='ui toggle checkbox'>
                 <input
                   type='checkbox'
                   name='publisher-analytics'
@@ -85,11 +93,11 @@ class App extends React.Component {
                   onChange={this.handleCheckboxChange}
                 />
                 <label>Publisher / Analytics </label>
-              </div>
+              </div> */}
             </div>
           </div>
           {this.state.checked === true ? (
-            <div className='analytics-info'>
+            <div>
               <RenderContent checked={this.state.checked} />
             </div>
           ) : (

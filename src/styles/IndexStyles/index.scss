@@ -1,6 +1,10 @@
 html {
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  body {
+    overflow: hidden;
+  }
   #app {
     height: 100%;
   }
@@ -50,6 +54,21 @@ div {
       flex-direction: column;
       align-items: flex-end;
       padding: 10px;
+      //This is for reset button
+      .reset--pw {
+        background-color: #939598;
+        border: none;
+        border-radius: 0.25rem;
+        margin: 0.2em 0.8em 0 0;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-size: 0.9rem;
+
+        padding: 1em;
+        text-decoration: none;
+      }
     }
   }
 }
@@ -58,6 +77,11 @@ div {
 
 /* phones */
 @media screen and (max-width: 800px) {
+  html {
+    body {
+      overflow: scroll;
+    }
+  }
   div {
     .streambed--logo--main {
       display: block;
