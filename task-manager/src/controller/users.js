@@ -1,17 +1,10 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-//! This was taking from Brad's index route
-const client = require('../../../client');
-let accessToken = '';
 
 /***Using MVC model, this holds functions for the routes */
-/***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
+/***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
-  console.log('TEST');
   const { displayName, email, password } = req.body;
-  console.log(req.body);
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
   })
@@ -52,37 +45,48 @@ exports.user_sign_up = (req, res) => {
     })
     .catch();
 };
+/***User creation end*/
 
-// Leaving incase we want to add a jwt token instead of session id
-exports.user_login = (req, res, next) => {
-  const token = jwt.sign(
-    {
-      email: user[0].email,
-      userId: user[0]._id
-    },
-    process.env.JWT_KEY,
-    {
-      expiresIn: '1h'
-    }
-  );
+/******Login GET */
+exports.user_login_get = (req, res) => {
+  const { userId } = req.session;
+
+  // If session id doesn't exist skips redirects back to login page
+  if (!userId) {
+    console.log('For you tommy, long waited 🙂 ');
+    res.redirect('/');
+  } else {
+    res.render('dashboard', { title: 'Streambed' });
+  }
 };
+/****Login Get End */
 
-//Pulls displayNames to compare on the front end
-exports.user_display_names = (req, res, next) => {
-  User.find()
-    .select('displayName')
-    .then((docs) => {
-      const response = {
-        count: docs.length,
-        users: docs
-      };
-      console.log(response);
-      res.status(200).json(docs);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
+/**Login POST */
+exports.user_login_post = async (req, res) => {
+  try {
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    console.log('user: ', user);
+
+    req.session.userId = user._id;
+    console.log('login session', req.session);
+    res.render('dashboard');
+  } catch (e) {
+    console.log(e);
+    res.redirect('/?error=' + e);
+  }
+};
+/**Login POST end*/
+
+/****Reset password */
+exports.user_resetpw = (req, res) => {
+  const pass = req.body.password;
+  bcrypt.hash(pass, 8, (err, hash) => {
+    User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { password: hash } }
+    ).then(() => console.log(hash));
+  });
 };

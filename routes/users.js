@@ -33,44 +33,12 @@ const redirectDashboard = (req, res, next) => {
 router.post('/signup', redirectDashboard, UsersController.user_sign_up);
 
 // Pretty much only used if session id still exist
-router.get('/login', (req, res) => {
-  const { userId } = req.session;
+router.get('/login', UsersController.user_login_get);
 
-  // If session id doesn't exist skips redirects back to login page
-  if (!userId) {
-    console.log('For you tommy, long waited 🙂 ');
-    res.redirect('/');
-  } else {
-    res.render('dashboard', { title: 'Streambed' });
-  }
-});
-
-router.post('/login', async (req, res) => {
-  try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    console.log('user: ', user);
-
-    req.session.userId = user._id;
-    console.log('login session', req.session);
-    res.render('dashboard');
-  } catch (e) {
-    console.log(e);
-    res.redirect('/?error=' + e);
-  }
-});
+//Acutal route to check login creds
+router.post('/login', UsersController.user_login_post);
 
 /****Route to reset password*************/
-router.post('/reset', (req, res) => {
-  const pass = req.body.password;
-  bcrypt.hash(pass, 8, (err, hash) => {
-    User.findOneAndUpdate(
-      { _id: req.session.userId },
-      { $set: { password: hash } }
-    ).then(() => console.log(hash));
-  });
-});
+router.post('/reset', UsersController.user_resetpw);
 
 module.exports = router;
