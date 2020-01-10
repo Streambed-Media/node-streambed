@@ -11,29 +11,31 @@ mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('mongodb://localhost/test', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  })
-  .catch((error) =>
-    console.log('Mongoose Connection is not working, the Error: ', error)
-  );
+    .connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    })
+    .catch((error) =>
+        console.log('Mongoose Connection is not working, the Error: ', error)
+    );
 
 const redirectDashboard = (req, res, next) => {
-  if (req.session.userId) {
-    res.redirect('/users/login');
-  } else {
-    console.log("Session Id doesn't exist");
-    next();
-  }
+    if (req.session.userId) {
+        res.redirect('/users/login');
+    } else {
+        res.redirect('/');
+        console.log("Session Id doesn't exist");
+        // next();
+    }
 };
 
 /*POST user signup, posting to /users/signup with json will create entry in DB */
-router.post('/signup', redirectDashboard, UsersController.user_sign_up);
+router.post('/signup', UsersController.user_sign_up);
 
 // Pretty much only used if session id still exist
 router.get('/login', (req, res) => {
+
   const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page

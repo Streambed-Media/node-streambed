@@ -103,7 +103,7 @@ router.get('/upload', (req, res) => {
 /* GET login page. */
 router.get('/', function(req, res, next) {
   const { userId } = req.session;
-
+  console.log(userId)
   // If session id exist skips login / signup page and back to the users dashboard
   if (userId) {
     res.redirect('/users/login');
