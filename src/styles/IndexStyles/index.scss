@@ -1,6 +1,10 @@
 html {
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  body {
+    overflow: hidden;
+  }
   #app {
     height: 100%;
   }
@@ -73,6 +77,11 @@ div {
 
 /* phones */
 @media screen and (max-width: 800px) {
+  html {
+    body {
+      overflow: scroll;
+    }
+  }
   div {
     .streambed--logo--main {
       display: block;

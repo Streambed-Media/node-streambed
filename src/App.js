@@ -97,7 +97,7 @@ class App extends React.Component {
             </div>
           </div>
           {this.state.checked === true ? (
-            <div className='analytics-info'>
+            <div>
               <RenderContent checked={this.state.checked} />
             </div>
           ) : (
