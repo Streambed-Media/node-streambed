@@ -1,24 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const mongoose = require('mongoose');
-const User = require('../task-manager/src/models/user');
-const checkAuth = require('../task-manager/src/middleware/check-auth');
 const UsersController = require('../task-manager/src/controller/users');
-const bcrypt = require('bcrypt');
-
-//This is used to avoid error with depreciation with findoneandupdate in the reset route
-mongoose.set('useFindAndModify', false);
-
-/**Put you DB path here, you can use this default path to host it local at this address */
-mongoose
-  .connect('mongodb://localhost/test', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  })
-  .catch((error) =>
-    console.log('Mongoose Connection is not working, the Error: ', error)
-  );
 
 const redirectDashboard = (req, res, next) => {
   if (req.session.userId) {
