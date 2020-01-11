@@ -30,6 +30,7 @@ router.post('/', (req, res) => {
   });
 });
 
+//! Need this to clear youtube Oauth session, not working currently
 /*******Logout route */
 router.post('/logout', (req, res) => {
   console.log(req.session);
