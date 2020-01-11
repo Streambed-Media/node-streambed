@@ -48,8 +48,9 @@ div .form-container input {
   color: #4d4d4d;
 }
 
-div .form-container .forgotpass {
-  text-align: right;
-  font-size: 0.8rem;
+div .form-container .link-wrapper .item .continue--button {
+  background: #2f63e3;
+  padding: 0.5em;
+  color: white;
 }
 /*# sourceMappingURL=createUserForm.css.map */
