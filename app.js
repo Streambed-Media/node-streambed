@@ -10,7 +10,6 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
-const logOutRouter = require('./routes/logout');
 
 var app = express();
 
@@ -68,7 +67,6 @@ app.use(
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
-//app.use('/logout', logOutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
