@@ -1,32 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/UserFormStyles/createUserForm.css';
 
 const CreateUserForm = () => {
-  //Currently pulling from backend created with mongoose/mongoDB, everything seems to be working correctly
-
-  useEffect(() => {
-    // fetch(`http://localhost:5000/users/signup`)
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   console.log(data)
-    //   // let usernames = data.map((c) => c.displayName);
-    //   // console.log(usernames);
-    //   // setAllUsers(usernames);
-    // });
-  }, []);
-  const getUserData = (e) => {
-    e.preventDefault();
-    fetch(`http://localhost:5000/users/signup`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // let usernames = data.map((c) => c.displayName);
-        // console.log(usernames);
-        // setAllUsers(usernames);
-      });
-  };
-
   /**************************STATE SECTION************************/
   //**Display Name States */
   const [username, setUsername] = useState('');
@@ -89,7 +64,7 @@ const CreateUserForm = () => {
   /*************Password fields get set to state to compare before submit*/
   return (
     <div>
-      <form className='form-container'>
+      <form className='form-container' onSubmit={onFormSubmit} value='submit'>
         <input
           type='text'
           name='displayName'
@@ -143,15 +118,12 @@ const CreateUserForm = () => {
         <div className='link-wrapper'>
           {passErrorMessage === 'User Created' ? (
             <a className='item' href='/users/login'>
-              <div className='ui menu'>Login</div>
+              <div className='main-screen--button continue--button'>
+                Continue to dashboard
+              </div>
             </a>
           ) : (
-            <button
-              type='submit'
-              onClick={onFormSubmit}
-              value='submit'
-              className='main-screen--button'
-            >
+            <button type='submit' className='main-screen--button'>
               Submit
             </button>
           )}

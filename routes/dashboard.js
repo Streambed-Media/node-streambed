@@ -11,7 +11,7 @@ const scopes = [
   'https://www.googleapis.com/auth/youtube'
 ];
 
-/* Route for /dashboard get request to grab tokens from RenderContent component */
+/*Not used currently, Route for /dashboard get request to grab tokens from RenderContent component */
 router.get('/', function(req, res) {
   console.log('the access token', access_token);
   res.header('authorization', access_token);
@@ -20,18 +20,28 @@ router.get('/', function(req, res) {
 
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
-  client
-    .authenticate(scopes)
-    .then((data) => {
-        // const token = jwt.sign({token: data.credentials.access_token}, 'me')
-        let token = data.credentials.access_token;
-        // let token = '10821309850928375'
-        access_token = token
-        res.header('authorization' , token)
-        res.status(200)
-        .render('dashboard')
-    })
+  client.authenticate(scopes).then((data) => {
+    // const token = jwt.sign({token: data.credentials.access_token}, 'me')
+    let token = data.credentials.access_token;
+    // let token = '10821309850928375'
+    access_token = token;
+    res.header('authorization', token);
+    res.status(200).render('dashboard');
+  });
 });
 
+//! Need this to clear youtube Oauth session, not working currently
+/*******Logout route */
+router.post('/logout', (req, res) => {
+  console.log(req.session);
+  access_token = '';
+  res.header('authorization', access_token);
+  res.clearCookie(req.session);
+  req.session.destroy((err) => {
+    if (err) console.log(err);
+    return res.redirect('/');
+  });
+});
+/*******Logout route end*/
 
 module.exports = router;

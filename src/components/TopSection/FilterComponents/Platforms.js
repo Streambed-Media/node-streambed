@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 // import runTheContent from '../../../helpers/GetToken';
 
 const Platforms = (props) => {
-
   const Authenticate = (e) => {
     const target = e.target.className;
 
     switch (target) {
       case 'youtube':
         document.getElementsByClassName('youtubeAuth')[0].submit();
-        setChecked(true);
         break;
       case 'facebook':
         document.getElementsByClassName('facebookAuth')[0].submit();
@@ -47,6 +45,7 @@ const Platforms = (props) => {
           <form className='facebookAuth' action='#' method='POST'>
             <input
               type='checkbox'
+              disabled
               onChange={Authenticate}
               className='facebook'
             />

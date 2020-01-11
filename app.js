@@ -6,7 +6,7 @@ const logger = require('morgan');
 const hbs = require('hbs');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-
+const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
@@ -17,6 +17,20 @@ var app = express();
 const SESS_NAME = 'sid';
 const SESS_SECRET = 'mysecret';
 const SESS_LIFE = 1000 * 60 * 60 * 2;
+
+//This is used to avoid error with depreciation with findoneandupdate in the reset route
+mongoose.set('useFindAndModify', false);
+
+/**Put you DB path here, you can use this default path to host it local at this address */
+mongoose
+  .connect('mongodb://localhost/test', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .catch((error) =>
+    console.log('Mongoose Connection is not working, the Error: ', error)
+  );
 
 //const { NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET } = process.env;
 
@@ -54,18 +68,7 @@ app.use(
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
-app.use('/logout', logOutRouter);
-
-//! ROUTE LOGOUT TESTING HERE
-app.post('/', (req, res) => {
-  req.session.destroy((err) => {
-    console.log(req.session);
-    res.clearCookie(req.session);
-    req.session = null;
-    res.redirect('/');
-  });
-});
-//!
+//app.use('/logout', logOutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

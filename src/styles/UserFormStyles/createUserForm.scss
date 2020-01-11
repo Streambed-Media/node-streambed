@@ -29,9 +29,14 @@ div {
       color: rgb(77, 77, 77);
     }
 
-    .forgotpass {
-      text-align: right;
-      font-size: 0.8rem;
+    .link-wrapper {
+      .item {
+        .continue--button {
+          background: #2f63e3;
+          padding: 0.5em;
+          color: white;
+        }
+      }
     }
   }
 }
