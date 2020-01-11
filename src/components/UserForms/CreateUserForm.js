@@ -89,7 +89,7 @@ const CreateUserForm = () => {
   /*************Password fields get set to state to compare before submit*/
   return (
     <div>
-      <form className='form-container'>
+      <form className='form-container' onSubmit={onFormSubmit} value='submit'>
         <input
           type='text'
           name='displayName'
@@ -146,12 +146,7 @@ const CreateUserForm = () => {
               <div className='ui menu'>Login</div>
             </a>
           ) : (
-            <button
-              type='submit'
-              onClick={onFormSubmit}
-              value='submit'
-              className='main-screen--button'
-            >
+            <button type='submit' className='main-screen--button'>
               Submit
             </button>
           )}
