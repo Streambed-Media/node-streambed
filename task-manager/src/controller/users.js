@@ -78,7 +78,7 @@ exports.user_login_post = async (req, res) => {
     res.redirect('/?error=' + e);
   }
 };
-/**Login POST end*/
+/**Login POST End*/
 
 /****Reset password */
 exports.user_resetpw = (req, res) => {
@@ -90,3 +90,18 @@ exports.user_resetpw = (req, res) => {
     ).then(() => console.log(hash));
   });
 };
+/****Reset password End*/
+
+/** Save rT **/
+exports.user_rT = (req, res) => {
+  const rT = req.body.rT;
+  const userId = req.body.userId;
+  console.log(rT);
+  console.log(userId);
+  bcrypt.hash(rT, 8, (err, hash) => {
+    User.findOneAndUpdate({ _id: userId }, { $set: { rT: hash } }).then(() =>
+      console.log(hash)
+    );
+  });
+};
+/** Save rT End**/

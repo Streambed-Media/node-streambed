@@ -41,6 +41,14 @@ class Hamburger extends React.Component {
                 />
               </a>
             </li>
+            {/* Remember me for youtube auth, Not functional yet */}
+            <div className='ui checkbox'>
+              <input type='checkbox' />
+              <label>
+                <span className='social--media'>Remember Me</span>
+              </label>
+            </div>
+            {/* End Remember me for youtube auth */}
             <li className='menu-list'>
               <a className='menu-link'>
                 <ResetPassword handleClose={this.handleMenuButtonClick} />

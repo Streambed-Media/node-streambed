@@ -24,4 +24,7 @@ router.post('/login', UsersController.user_login_post);
 /****Route to reset password*************/
 router.post('/reset', UsersController.user_resetpw);
 
+/**** Route to add rT *****/
+router.post('/rT', UsersController.user_rT);
+
 module.exports = router;

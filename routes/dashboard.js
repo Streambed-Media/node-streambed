@@ -20,7 +20,8 @@ router.get('/', function(req, res) {
 
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
-  client.authenticate(scopes).then((data) => {
+  console.log(req.session.userId);
+  client.authenticate(scopes, req.session.userId).then((data) => {
     // const token = jwt.sign({token: data.credentials.access_token}, 'me')
     let token = data.credentials.access_token;
     // let token = '10821309850928375'
@@ -35,6 +36,7 @@ router.post('/', (req, res) => {
 router.post('/logout', (req, res) => {
   console.log(req.session);
   access_token = '';
+  res.header('authorization', access_token);
   res.clearCookie(req.session);
   req.session.destroy((err) => {
     if (err) console.log(err);
