@@ -93,6 +93,16 @@ div .streambed--logo--main {
 }
 
 /************************************Media Queries**********************************************/
+/* laptops */
+@media screen and (max-width: 1380px) {
+  html {
+    overflow: auto;
+  }
+  html body {
+    overflow: auto;
+  }
+}
+
 /* phones */
 @media screen and (max-width: 800px) {
   html body {
