@@ -1,15 +1,22 @@
 import React from 'react';
 
 
-class UploadYoutube extends React.Component {
+class YoutubeUpload extends React.Component {
     state = {
-        results: null
+        results: null,
+        checkbox: {},
+  
     }
 
+
     getYouTubeData = (e) => {
-        e.preventDefault()
+        const checkbox = this.state['checkbox']
+
+        console.log(checkbox)
+        // e.preventDefault()
         fetch('http://localhost:5000/upload-youtube', {
             method: 'POST',
+            body: JSON.stringify(checkbox),
             headers: {
               'Content-Type': 'application/json'
             }
@@ -28,8 +35,30 @@ class UploadYoutube extends React.Component {
 
     }
 
+    checkBoxValue = (e) => {
+        e.preventDefault()
+
+        const checked = document.querySelectorAll('input[name="uploadChecked"]')
+        let val = {}
+        for (let check of checked) {
+            console.log(check.checked)
+            if ( check.checked ) {
+                val[check.value] = check.value
+                console.log(check.value)
+            }
+        }
+        
+        console.log(val)
+        this.setState(()=>{
+            return {
+                checkbox: val
+            }
+        },this.getYouTubeData)
+    }
+
 
     render(){
+        console.log(this.state.checkbox)
         return (
             <div>
                 <section className="upload-youtube">
@@ -39,17 +68,36 @@ class UploadYoutube extends React.Component {
                         
                         Object.keys(this.state.results).map((key, i) => {
                             return (
-                                <h3>Video Uploaded!</h3>
+                                <h3 key={i}>Video Uploaded!</h3>
                             )
                             // console.log(youtube[key])
                             // return youtube[key]
                         })
                     :
+                    
                     <form action="/upload-youtube" method="POST" encType="multipart/form-data">
+                        
+                        <div className="upload-container">
+                        
+                        <div className="checkbox-container">
                         <div className="form-group">
-                            <label htmlFor="myFile">Upload to Youtube :</label>
+                            <label className="upload-type" htmlFor="myFile">Upload location</label>
                         </div>
-                        <button onClick={this.getYouTubeData} type="submit" className="ui button">Upload</button>
+                        <div className="checkbox-upload">
+                            
+                            <input type="checkbox" id="youtube" name="uploadChecked" value="youtube" defaultChecked={true}/>
+                            <img className="upload-icon" src="../images/youtube-icon.png" alt="youtube icon"/>
+                            <label htmlFor="youtube">Youtube</label>
+                        </div>
+
+                        <div className="checkbox-upload">
+                            <input type="checkbox" id="ipfs" name="uploadChecked" value="ipfs"/>
+                            <img className="upload-icon" src="../images/ipfs-icon.png" alt="ipfs icon"/>
+                            <label htmlFor="ipfs">IPFS</label>
+                        </div>
+                        </div>
+                        <button onClick={this.checkBoxValue} type="submit" className="ui button youtube-btn">Upload</button>
+                        </div>
                     </form>}
                 </section>
             </div>
@@ -57,4 +105,4 @@ class UploadYoutube extends React.Component {
     }
 }
 
-export { UploadYoutube }
+export { YoutubeUpload }

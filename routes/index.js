@@ -86,9 +86,9 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
     thumbler(time, () => {
       res.render('dashboard', {
         title: 'Streambed'
-      });
-    });
-  });
+      })
+    })
+  })
 });
 
 router.get('/uploaded', (req, res) => {
@@ -103,7 +103,7 @@ router.get('/upload', (req, res) => {
 /* GET login page. */
 router.get('/', function(req, res, next) {
   const { userId } = req.session;
-  console.log(userId)
+ 
   // If session id exist skips login / signup page and back to the users dashboard
   if (userId) {
     res.redirect('/users/login');
@@ -125,16 +125,20 @@ router.get('/analytics', function(req, res, next) {
 
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', (req, res) => {
+  let keys = Object.keys(req.body)
+  console.log('ipfs',keys)
+
   console.log('file name: ', videoInfo.videoFilePath);
-  youtubeUpload
-    .runUpload(videoInfo)
-    .then((data) => {
-      console.log('youtube data: ', data);
-      console.log(data.message);
-      if (data.message) return res.send(data);
-      else res.send(data);
-    })
-    .catch((err) => {});
+  res.send({hey: 'hey'})
+  // youtubeUpload
+  //   .runUpload(videoInfo)
+  //   .then((data) => {
+  //     console.log('youtube data: ', data);
+  //     console.log(data.message);
+  //     if (data.message) return res.send(data);
+  //     else res.send(data);
+  //   })
+  //   .catch((err) => {});
 });
 
 router.get('/upload-youtube', (req, res) => {

@@ -1,14 +1,17 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const { createWallet, getCoin, getAddress } = require('../../../wallet/wallet');
 //! This was taking from Brad's index route
 const client = require('../../../client');
 let accessToken = '';
 
+
+// console.log(getCoin())
 /***Using MVC model, this holds functions for the routes */
 /***Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
+  console.log(getAddress('brad'))
   console.log('TEST');
   const { displayName, email, password } = req.body;
   console.log(req.body);

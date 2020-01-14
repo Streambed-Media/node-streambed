@@ -25,7 +25,6 @@ router.post('/', (req, res) => {
     .then((data) => {
         // const token = jwt.sign({token: data.credentials.access_token}, 'me')
         let token = data.credentials.access_token;
-        // let token = '10821309850928375'
         access_token = token
         res.header('authorization' , token)
         res.status(200)
