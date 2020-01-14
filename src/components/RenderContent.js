@@ -57,9 +57,12 @@ const RenderContent = (props) => {
       <ButterflyScore />
       <CarouselComp getSingleVideoId={getSingleVideoId} videoData={videoData} />
       <Filters />
-      <RenderSingleVidAnalytics selectedVideoId={selectedVideoId} />
+      <RenderSingleVidAnalytics
+        selectedVideoId={selectedVideoId}
+        videoData={videoData}
+      />
       <div className='der--influ-container'>
-        <Derivative />
+        <Derivative videoData={videoData} />
         <TopInfluencers />
       </div>
     </div>

@@ -60,7 +60,7 @@ class Client {
       // grab the url that will be used for authorization
       this.authorizeUrl = this.oAuth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: scopes
+        scope: scopes.join(' ')
       });
       const server = http
         .createServer(async (req, res) => {
@@ -68,6 +68,8 @@ class Client {
             if (req.url.indexOf('/oauth2callback') > -1) {
               const qs = new url.URL(req.url, 'http://localhost:3000')
                 .searchParams;
+
+              console.log(req.url);
 
               res.end(
                 'Authentication successful! Please return to the console.'
@@ -80,10 +82,10 @@ class Client {
               //   this.oAuth2Client.credentials = tokens;
               //   resolve(this.oAuth2Client);
               this.oAuth2Client.setCredentials(tokens);
-              console.log('where is this', tokens);
+
               /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
               /** UserId is used in the route to look up the logged in user and save the rT**/
-              if (tokens.access_token) {
+              if (tokens.refresh_token) {
                 console.log(tokens.refresh_token);
                 fetch('http://localhost:5000/users/rT', {
                   method: 'POST',
@@ -92,7 +94,7 @@ class Client {
                   },
                   body: JSON.stringify({
                     userId,
-                    rT: tokens.access_token
+                    rT: tokens.refresh_token
                   })
                 });
               }
