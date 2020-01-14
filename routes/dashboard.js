@@ -20,14 +20,16 @@ router.get('/', function(req, res) {
 
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
-  client.authenticate(scopes).then((data) => {
-    // const token = jwt.sign({token: data.credentials.access_token}, 'me')
-    let token = data.credentials.access_token;
-    // let token = '10821309850928375'
-    access_token = token;
-    res.header('authorization', token);
-    res.status(200).render('dashboard');
-  });
+  client
+    .authenticate(scopes)
+    .then((data) => {
+        // const token = jwt.sign({token: data.credentials.access_token}, 'me')
+        let token = data.credentials.access_token;
+        access_token = token
+        res.header('authorization' , token)
+        res.status(200)
+        .render('dashboard')
+    })
 });
 
 //! Need this to clear youtube Oauth session, not working currently

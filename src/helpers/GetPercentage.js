@@ -29,8 +29,8 @@ class GetPercentage {
         //Checks true if only one digit for seconds 
         let isOfLength = /:.{1}$/.test(addedColons)
         let isWholeNumber = /^.{2}$/.test(numString)
-        console.log('iswholenum ', isWholeNumber)
-        console.log('isOfLength', isOfLength)
+        console.log('iswholenum ', isWholeNumber, 'isOfLength', isOfLength)
+ 
         if (isOfLength) {
             let correctTime = addedColons.split('')
             correctTime.splice(3, 0, '0')
@@ -55,11 +55,11 @@ class GetPercentage {
         let getMinute = num - 60
         let getHour = num / 60
         let isSingleHour = /^.{1}\./.test(getHour)
-        console.log(isSingleHour)
-        console.log('format hour', getHour)
-        console.log('get minutes', getMinute)
 
-        console.log('hours', num)
+        console.log('format hour', getHour, 'get minutes', getMinute, 
+         'isSingleHour ', isSingleHour, 'housrs ', num
+        )
+
         if (isSingleHour) {
             let format = '' + this.toTheHundreth(getHour)
             let split = format.split('.').join(':')

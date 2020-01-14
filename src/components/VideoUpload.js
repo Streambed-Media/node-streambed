@@ -45,7 +45,7 @@ class VideoUpload extends React.Component {
                 const translate = (e.loaded / e.total) * 200;
                 console.log(translate)
                 const percentage = (e.loaded / e.total) * 100;
-                percent.textContent += percentage +' %'
+                percent.textContent = percentage +' %'
                 progressBar.style.transform = `translate(${translate}px, 0)`
             }
         };

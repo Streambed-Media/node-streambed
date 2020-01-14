@@ -1,5 +1,5 @@
 import React from 'react';
-import { UploadYoutube } from './YoutubeUpload'
+import { YoutubeUpload } from './YoutubeUpload'
 
 
 class Results extends React.Component {
@@ -37,20 +37,22 @@ class Results extends React.Component {
 
         return (
             <div className="content-container">
+                <div className="content-wrapper">
                 {this.state.results.map((results, i) => 
                 {
                     return (
                         <React.Fragment key={i}>
-                            <p>Title: &nbsp;&nbsp;{results.title}</p>
-                            <p>Description: &nbsp;&nbsp;{results.desc}</p>
+                            <p className='result-item'>Title: &nbsp;&nbsp;{results.title}</p>
+                            <p className='result-item'>Description: &nbsp;&nbsp;{results.desc}</p>
                         </React.Fragment>
                     ) 
                 })}
-                <img key={this.state.imgName} width="200px" src={"../uploads/"+this.state.imgName} alt="thumbnail" />
+                <img className='result-item' key={this.state.imgName} width="200px" src={"../uploads/"+this.state.imgName} alt="thumbnail" />
                 <VideoElem videoName={"../uploads/"+this.state.videoName}/>
-                {this.props.getUrl === '/upload-youtube' ? <VideoConfirmation /> : <UploadYoutube />}
+                {this.props.getUrl === '/upload-youtube' ? <VideoConfirmation /> : <YoutubeUpload />}
                 
                 {console.log(this.state)}
+                </div>
             </div>
         )
     }
