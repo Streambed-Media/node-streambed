@@ -12,6 +12,7 @@ import ResetPassword from './components/UserForms/ResetPassword';
 import Hamburger from './components/UserForms/Hamburger';
 // import newWallet  from '../wallet/wallet'
 // console.log(newWallet)
+
 class App extends React.Component {
   state = {
     isSignedIn: false,

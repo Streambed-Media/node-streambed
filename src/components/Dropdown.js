@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { VideoUpload } from './VideoUpload';
+import { YoutubeUpload } from './YoutubeUpload'
 import { Results } from './Results';
 import VideoData from './VideoData';
 import GetVideos from './GetVideos';
@@ -56,6 +57,8 @@ const CreateDropdown = (props) => {
             {value.optionVal === 'data' && <VideoData /> }
             {value.optionVal === 'videos' && <GetVideos /> }
             {value.optionVal === 'upload' || !value.optionVal ? <VideoUpload /> : null}
+            {/* Change after youtubeupload buttons are figured out */}
+            <YoutubeUpload />
         </div>
   );
 };
