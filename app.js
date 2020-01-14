@@ -33,8 +33,6 @@ mongoose
 
 //const { NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET } = process.env;
 
-//console.log(NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET);
-
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
 
