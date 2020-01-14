@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/UserFormStyles/createUserForm.css';
 import GoogleAuth from '../GoogleAuth_master';
 
 /****************************************************************/
 /*************Login page working with DB users! --Tommy *********/
-//TODO still need to figure out oauth with db user
 /****************************************************************/
 
 const Login = () => {

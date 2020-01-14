@@ -64,12 +64,12 @@ exports.user_login_get = (req, res) => {
 /**Login POST */
 exports.user_login_post = async (req, res) => {
   try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    console.log('user: ', user);
-
+    const { email, password } = req.body;
+    let user = await User.findOne({ email });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Invalid Credentials' });
+    }
     req.session.userId = user._id;
     console.log('login session', req.session);
     res.render('dashboard');
@@ -105,3 +105,20 @@ exports.user_rT = (req, res) => {
   });
 };
 /** Save rT End**/
+
+/******Remember and rT GET */
+exports.user_remember = async (req, res) => {
+  try {
+    const rememberInfo = await User.findOne(
+      { _id: req.session.userId },
+      'rT'
+    ).populate('rT');
+    if (!rememberInfo) {
+      return res.status(404).json({ msg: 'No remember' });
+    }
+    res.status(200).json({ msg: 'Remember me' });
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
+/****Remember and rT Get End */
