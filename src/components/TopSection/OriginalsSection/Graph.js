@@ -1,5 +1,5 @@
 import React from 'react';
-import orgGraph from '../../../../public/images/orgGraph.png';
+//import orgGraph from '../../../../public/images/orgGraph.png';
 
 const Graph = (props) => {
   if (props.videoData === false) {
@@ -7,7 +7,7 @@ const Graph = (props) => {
   }
   return (
     <div>
-      <img src='images/orgGraph.png' alt='' />
+      <img src='images/orgGraph.png' alt='graph' />
     </div>
   );
 };
