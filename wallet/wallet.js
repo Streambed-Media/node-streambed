@@ -2,7 +2,6 @@ const HDMW = require('oip-hdmw');
 const Wallet = HDMW.Wallet;
 const protobufjs = require('oip-protobufjs');
 console.log(protobufjs)
-const hey = require('../dummy.js');
 //node : 10.15.1
 //npm : 6.13.4
 
