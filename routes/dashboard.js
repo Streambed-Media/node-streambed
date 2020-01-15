@@ -21,6 +21,7 @@ router.get('/', function(req, res) {
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
   console.log(req.session.userId);
+
   client.authenticate(scopes, req.session.userId).then((data) => {
     // const token = jwt.sign({token: data.credentials.access_token}, 'me')
     let token = data.credentials.access_token;

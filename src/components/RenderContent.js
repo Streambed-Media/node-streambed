@@ -18,7 +18,7 @@ const RenderContent = (props) => {
     console.log(props);
     // let url = window.location.href;
     // const accessToken = url.replace(/^.+=/gi, '');
-
+    fetch('/users/remember').then(() => console.log('cool'));
     //Runs the get request function to grab token from headers and calls your current funciton as a callback.
     runTheContent((accessToken) => {
       fetch(

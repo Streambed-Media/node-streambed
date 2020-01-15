@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const client = require('../../../client');
 
 /***Using MVC model, this holds functions for the routes */
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
@@ -68,7 +69,7 @@ exports.user_login_post = async (req, res) => {
     let user = await User.findOne({ email });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid Credentials' });
+      return res.redirect('/?error=' + e);
     }
     req.session.userId = user._id;
     console.log('login session', req.session);
@@ -98,24 +99,32 @@ exports.user_rT = (req, res) => {
   const userId = req.body.userId;
   console.log(rT);
   console.log(userId);
-  bcrypt.hash(rT, 8, (err, hash) => {
-    User.findOneAndUpdate({ _id: userId }, { $set: { rT: hash } }).then(() =>
-      console.log(hash)
-    );
-  });
+  User.findOneAndUpdate({ _id: userId }, { $set: { rT: rT } }).then(() =>
+    console.log(rT)
+  );
 };
 /** Save rT End**/
 
+//TODO Basically, trying to retrieve the store refreshToken and set it in the client.js so the accessToken can be refreshed
 /******Remember and rT GET */
 exports.user_remember = async (req, res) => {
   try {
+    console.log(req.session.userId);
+    console.log('hello?');
     const rememberInfo = await User.findOne(
-      { _id: req.session.userId },
+      {
+        _id: req.session.userId
+      },
       'rT'
-    ).populate('rT');
+    );
     if (!rememberInfo) {
+      console.log('No remember');
       return res.status(404).json({ msg: 'No remember' });
     }
+    let { rT } = rememberInfo;
+    console.log(rT);
+    client.refresh(rT);
+    console.log('finished');
     res.status(200).json({ msg: 'Remember me' });
   } catch (error) {
     res.status(500).send('Server Error');

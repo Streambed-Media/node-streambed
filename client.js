@@ -69,7 +69,7 @@ class Client {
               const qs = new url.URL(req.url, 'http://localhost:3000')
                 .searchParams;
 
-              console.log(req.url);
+              console.log(this.authorizeUrl);
 
               res.end(
                 'Authentication successful! Please return to the console.'
@@ -113,6 +113,14 @@ class Client {
       destroyer(server);
     });
   }
+  //TODO Pulls refresh token on front end with fetch, passes to here and sets refresh token. Now I dont know what to do
+  refresh(rT) {
+    this.oAuth2Client.setCredentials({
+      refresh_token: rT
+    });
+    console.log('DID we make it?');
+  }
+  //TODO
 }
 
 module.exports = new Client();
