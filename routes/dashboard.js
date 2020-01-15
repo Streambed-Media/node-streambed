@@ -4,7 +4,7 @@ const fs = require('fs');
 const client = require('../client.js');
 const jwt = require('jsonwebtoken');
 
-let access_token = '';
+//let access_token = '';
 
 const scopes = [
   'https://www.googleapis.com/auth/youtube.upload',

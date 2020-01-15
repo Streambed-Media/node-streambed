@@ -69,8 +69,6 @@ class Client {
               const qs = new url.URL(req.url, 'http://localhost:3000')
                 .searchParams;
 
-              console.log(this.authorizeUrl);
-
               res.end(
                 'Authentication successful! Please return to the console.'
               );
@@ -81,6 +79,8 @@ class Client {
 
               //   this.oAuth2Client.credentials = tokens;
               //   resolve(this.oAuth2Client);
+              let { refresh_token, access_token, expiry_date } = tokens;
+
               this.oAuth2Client.setCredentials(tokens);
 
               /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
@@ -115,10 +115,16 @@ class Client {
   }
   //TODO Pulls refresh token on front end with fetch, passes to here and sets refresh token. Now I dont know what to do
   refresh(rT) {
+    console.log('Line 118 in Client.js', rT);
     this.oAuth2Client.setCredentials({
       refresh_token: rT
     });
-    console.log('DID we make it?');
+  }
+
+  async getNewAcc() {
+    const results = await this.oAuth2Client.refreshAccessToken();
+    const { access_token } = results.credentials;
+    return access_token;
   }
   //TODO
 }

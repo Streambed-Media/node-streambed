@@ -109,8 +109,6 @@ exports.user_rT = (req, res) => {
 /******Remember and rT GET */
 exports.user_remember = async (req, res) => {
   try {
-    console.log(req.session.userId);
-    console.log('hello?');
     const rememberInfo = await User.findOne(
       {
         _id: req.session.userId
@@ -122,10 +120,12 @@ exports.user_remember = async (req, res) => {
       return res.status(404).json({ msg: 'No remember' });
     }
     let { rT } = rememberInfo;
-    console.log(rT);
     client.refresh(rT);
-    console.log('finished');
-    res.status(200).json({ msg: 'Remember me' });
+    const aT = await client.getNewAcc();
+    console.log('ALMOST THERE', aT);
+
+    res.header('authorization', aT);
+    res.status(200).render('dashboard');
   } catch (error) {
     res.status(500).send('Server Error');
   }
