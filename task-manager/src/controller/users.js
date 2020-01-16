@@ -2,14 +2,14 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const { createWallet, getCoin, getAddress } = require('../../../wallet/wallet');
 
-createWallet()
-.then((data) => {
-  return getAddress(data)
-})
-.then((data) =>{
-  console.log('address ',data)
-})
-.catch(err => console.log(err))
+// createWallet()
+// .then((data) => {
+//   return getAddress(data)
+// })
+// .then((data) =>{
+//   console.log('address ',data)
+// })
+// .catch(err => console.log(err))
 // console.log(getCoin())
 /***Using MVC model, this holds functions for the routes */
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */

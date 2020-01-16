@@ -6,7 +6,6 @@ class YoutubeUpload extends React.Component {
         results: null,
         checkbox: {},
         checkBoxErr: false,
-        checkBoxDefault: true
     }
 
     
@@ -78,27 +77,35 @@ class YoutubeUpload extends React.Component {
                             if ( key === 'err' ) {
                                 return (
                                     <div key={i} className="youtube-error">
-                                        <h4 key={i}>{ youtube_data[key] }</h4>
+                                        <h5 key={i}>{ youtube_data[key] }</h5>
                                     </div>
                                 )
                             } else {
                                 let snippet = youtube_data.snippet;
                                 let status = youtube_data.status;
                                 return (
-                                    <React.Fragment key={wrapper}>
+                                    <React.Fragment key={i}>
                                         {key === 'snippet' &&
-                                            <div key={i} className="youtube-snippet">  
-                                                <p key={i} className="publishedAt">Published At: { snippet.publishedAt }</p>
-                                                <p key={i} className="channel-title">Channel Title: {snippet.channelTitle}</p>
-                                                <p key={i} className="channelId">Channel Id: {snippet.channelId }</p>
+                                            <div className="youtube-snippet">
+                                                <div className="data-header">
+                                                <h3>Video</h3>
+                                                <i className="fas fa-video"></i>
+                                                </div>  
+                                                <h4 className="publishedAt">Published At: <span>{ snippet.publishedAt }</span></h4>
+                                                <h4 className="channel-title">Channel Title: <span>{ snippet.channelTitle }</span></h4>
+                                                <h4 className="channelId">Channel Id: <span>{ snippet.channelId }</span></h4>
                                             </div>
                                         }
                                         {key === 'status' &&
-                                            <div key={j++} className="youtube-status">
-                                                <p key={j++} className="upload-status">Upload Status: { status.uploadStatus}</p>
-                                                <p key={j++} className="privacy">Privacy: { status.privacyStatus}</p>
-                                                <p key={j++} className="embeddable">Embedable for other sites: { status.embeddable ? <span>True</span>: <span>false</span>}</p>
-                                                <p key={j++} className="public-stats">Public stats viewable: { status.publicStatsViewable ? <span>True</span>: <span>false</span>}</p>
+                                            <div className="youtube-status">
+                                                <div className="data-header">
+                                                    <h3>Video Status</h3>
+                                                    <i className="fas fa-eye"></i>
+                                                </div>  
+                                                <h4 className="upload-status">Upload Status: <span>{ status.uploadStatus }</span></h4>
+                                                <h4 className="privacy">Privacy: <span>{ status.privacyStatus }</span></h4>
+                                                <h4 className="embeddable">Embedable for other sites: { status.embeddable ? <span>True</span>: <span>false</span>}</h4>
+                                                <h4 className="public-stats">Public stats viewable: { status.publicStatsViewable ? <span>True</span>: <span>false</span>}</h4>
                                             </div>
                                         }
                                     </React.Fragment>
@@ -115,7 +122,7 @@ class YoutubeUpload extends React.Component {
                         </div>
                         <div className="upload-container">
                             <div className="checkbox-container">
-                                {this.state.checkBoxErr && <p className="checkboxErr">{this.state.checkBoxErr}</p>}
+                                {this.state.checkBoxErr && <h4 className="checkboxErr">{this.state.checkBoxErr}</h4>}
                                 
                                 <div className="form-group">
                                     <h4 className="upload-type">Upload Location</h4>

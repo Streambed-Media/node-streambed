@@ -37,7 +37,7 @@ class Results extends React.Component {
 
         return (
             <div className="content-container">
-                <div className="content-wrapper">
+                <div style={this.props.isUploaded && {background: 'none'}} className="content-wrapper">
                 {this.state.results.map((results, i) => 
                 {
                     return (

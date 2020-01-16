@@ -13,7 +13,6 @@ const CreateDropdown = (props) => {
         if (form === null) return;
         form.style.height = '298px' 
     }
-    // Props for Results page after uploaded to youtube
   
     
     const getDropDownVal = (e) => {
@@ -45,7 +44,7 @@ const CreateDropdown = (props) => {
                     <label>Video Options</label>
                     <select className="ui search dropdown" onChange={getDropDownVal}>
                     <option defaultValue value="">Choose...</option>
-                    <option value="upload">Upload Video</option>
+                    <option value="upload">Video Upload</option>
                     <option value="data">Video Data</option>
                     <option value="videos">Get Videos</option>
                     </select>

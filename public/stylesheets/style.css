@@ -40,10 +40,36 @@
   }
   
   .upload-youtube {
+    background: #F3FAF5;
     padding-top: 20px;
+    border-radius: 5px;
+  }
+
+  .upload-youtube .data-header {
+    padding-bottom: 30px;
+  }
+
+  .youtube-callback-data {
+    padding: 10px;
+    display: flex;
+  }
+
+  .youtube-callback-data h4 {
+    margin-top: 0px;
+    position: relative;
+    left: 15px;
+  }
+
+  .youtube-callback-data  .fas {
+    padding: 10px;
+  }
+
+  .youtube-snippet, .youtube-status {
+    width: 50%;
   }
 
   .youtube-error {
+    width: 100%;
     background: #fd5b5b;
     padding: 10px;
   }
@@ -155,10 +181,6 @@
     padding-left: 15px;
   }
 
-  .content-wrapper {
-    background: #f7f7f7;
-  }
-
   .result-item {
     font-weight: 600;
     padding-left: 15px;
@@ -219,35 +241,58 @@
       left: -200px;
   }
 
-  .youtube-data div:nth-child(-n+3) {
-    position: relative;
-    top: 35px;
+  .youtube-data > div {
+    background: #22a7410f;
+    margin-top: 25px;
+    padding: 5px;
+    border-radius: 5px;
   }
   
+  .youtube-data h3, .youtube-callback-data h3 {
+    margin: 0;
+  }
+
   .profile-title-container {
+    position: relative;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
   }
 
   .profile-img-wrap {
-    width: 12em;
-    position: relative;
-    top: -60px;
-  }
-  .profile-title-container .data-header {
+    width: 11em;
     position: absolute;
-
+    top: -70px;
+    right: 0px;
   }
 
   .data-header {
+    position: relative;
     width: 300px;
     display: flex;
+    height: 35px;
+    white-space: nowrap;
+    align-items: center;
   }
 
   .data-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 10px;
+  }
+
+  .data-wrap span, .youtube-callback-data span {
+    font-weight: 100;
+    margin-left: 5px;
+  }
+
+  .data-header > svg {
+    width: 100px;
+    height: 2px;
+    padding: 0 10px;
+    fill: darkseagreen;
+  }
+
+  .data-header > .fas {
+    font-size: 30px;
+    color: darkseagreen;
   }
 
   .upload-type {
@@ -261,6 +306,7 @@
     position: relative;
     width: 100%;
     border-radius: 50%;
+    border: 10px solid #fff;
   }
 
   .upload-container {
@@ -319,6 +365,14 @@
   }
 
   @media (max-width: 540px){
+    .youtube-callback-data {
+      display: block;
+    }
+
+    .youtube-status {
+      margin-top: 50px;
+    }
+
     .upload-youtube .form-group {
       display: none;
     }
@@ -337,6 +391,18 @@
     .form-group._540px {
       padding-left: 10px;
       display: block;
+    }
+
+    .profile-img-wrap {
+      width: 7em;
+    }
+
+    .data-header svg {
+      display: none;
+    }
+
+    .data-header > .fas {
+      padding: 10px;
     }
   }
   
