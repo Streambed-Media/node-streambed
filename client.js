@@ -1,13 +1,13 @@
 'use strict';
 
 const { google } = require('googleapis');
-const fetch = require('node-fetch');
 const http = require('http');
 const url = require('url');
 const opn = require('open');
 const destroyer = require('server-destroy');
 const fs = require('fs');
 const path = require('path');
+const User = require('./task-manager/src/models/user');
 
 const keyPath = path.join(__dirname, 'oauthTwo.keys.json');
 
@@ -27,6 +27,13 @@ your keyfile, and add a 'redirect_uris' section.  For example:
 "redirect_uris": [
   "http://localhost:3000/oauth2callback"
 ]`;
+
+//*******************************************READ ME******************************************************/
+/****** This Client.js is uesd to set up google Oauth, code below used package to create url***************/
+/******Then a page is created with the URL which the user is directed to to auth***************************/
+/******It set the object returned with a method, then the refresh token is stored in the DB****************/
+// https://github.com/googleapis/google-api-nodejs-client/blob/c00d1892fe70d7ebf934bcebe3e8a5036c62440c/README.md
+/****************************************READ ME********************************************************* */
 
 class Client {
   constructor(options) {
@@ -84,19 +91,12 @@ class Client {
               this.oAuth2Client.setCredentials(tokens);
 
               /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
-              /** UserId is used in the route to look up the logged in user and save the rT**/
+              /** UserId is used look up the logged in user and save the rT**/
               if (tokens.refresh_token) {
-                console.log(tokens.refresh_token);
-                fetch('http://localhost:5000/users/rT', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    userId,
-                    rT: tokens.refresh_token
-                  })
-                });
+                User.findOneAndUpdate(
+                  { _id: userId },
+                  { $set: { rT: tokens.refresh_token } }
+                ).then(() => console.log('Line 93 Clientjs', rT));
               }
 
               resolve(this.oAuth2Client);
@@ -113,7 +113,7 @@ class Client {
       destroyer(server);
     });
   }
-  //TODO Pulls refresh token on front end with fetch, passes to here and sets refresh token. Now I dont know what to do
+  // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back
   refresh(rT) {
     console.log('Line 118 in Client.js', rT);
     this.oAuth2Client.setCredentials({
@@ -126,7 +126,6 @@ class Client {
     const { access_token } = results.credentials;
     return access_token;
   }
-  //TODO
 }
 
 module.exports = new Client();

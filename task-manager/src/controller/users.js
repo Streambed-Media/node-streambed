@@ -93,19 +93,7 @@ exports.user_resetpw = (req, res) => {
 };
 /****Reset password End*/
 
-/** Save rT **/
-exports.user_rT = (req, res) => {
-  const rT = req.body.rT;
-  const userId = req.body.userId;
-  console.log(rT);
-  console.log(userId);
-  User.findOneAndUpdate({ _id: userId }, { $set: { rT: rT } }).then(() =>
-    console.log(rT)
-  );
-};
-/** Save rT End**/
-
-//TODO Basically, trying to retrieve the store refreshToken and set it in the client.js so the accessToken can be refreshed
+//Retrieves the stored refreshToken and sets it in the client.js so the accessToken can be refreshed
 /******Remember and rT GET */
 exports.user_remember = async (req, res) => {
   try {
@@ -116,6 +104,17 @@ exports.user_remember = async (req, res) => {
       'rT'
     );
     if (!rememberInfo) {
+      //!
+      // client.authenticate(scopes, req.session.userId).then((data) => {
+      //   // const token = jwt.sign({token: data.credentials.access_token}, 'me')
+      //   let token = data.credentials.access_token;
+      //   // let token = '10821309850928375'
+      //   access_token = token;
+      //   res.header('authorization', token);
+      //   res.status(200).render('dashboard');
+      // });
+      //!
+
       console.log('No remember');
       return res.status(404).json({ msg: 'No remember' });
     }

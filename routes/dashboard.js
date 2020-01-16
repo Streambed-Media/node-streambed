@@ -12,16 +12,14 @@ const scopes = [
 ];
 
 /*Not used currently, Route for /dashboard get request to grab tokens from RenderContent component */
-router.get('/', function(req, res) {
-  console.log('the access token', access_token);
-  res.header('authorization', access_token);
-  res.send({ data: 'some random data if needed to be sent' });
-});
+// router.get('/', function(req, res) {
+//   console.log('the access token', access_token);
+//   res.header('authorization', access_token);
+//   res.send({ data: 'some random data if needed to be sent' });
+// });
 
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
-  console.log(req.session.userId);
-
   client.authenticate(scopes, req.session.userId).then((data) => {
     // const token = jwt.sign({token: data.credentials.access_token}, 'me')
     let token = data.credentials.access_token;
