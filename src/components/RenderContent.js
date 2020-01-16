@@ -16,11 +16,9 @@ const RenderContent = (props) => {
 
   useEffect(() => {
     console.log(props);
-    // let url = window.location.href;
-    // const accessToken = url.replace(/^.+=/gi, '');
-
     //Runs the get request function to grab token from headers and calls your current funciton as a callback.
     runTheContent((accessToken) => {
+  
       fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
         {

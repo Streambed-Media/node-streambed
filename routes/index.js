@@ -55,6 +55,23 @@ const getIpfsHash = () => {
     .catch(console.err);
 };
 
+const youtubeupload = async (req, res) => {
+  try {
+      const uploaded = await youtubeUpload
+        .runUpload(videoInfo)
+        .then((data) => {
+        //  console.log( 'data ', data)
+          return data
+        })
+        .catch((err) => console.log(err));
+        console.log('UPLOAD ', uploaded)
+        return uploaded
+      } catch(e) {
+        console.log(e.message)
+        return 'Syntax Error'
+      }
+}
+
 router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   console.log('req body: ', req.body.body);
   console.log('req files: ', req.file);
@@ -122,21 +139,21 @@ router.get('/analytics', function(req, res, next) {
 });
 
 /* POST route for video file up to youtube*/
-router.post('/upload-youtube', (req, res) => {
+router.post('/upload-youtube', async (req, res) => {
   let keys = Object.keys(req.body)
   console.log('ipfs',keys)
-  getIpfsHash();
-  console.log('file name: ', videoInfo.videoFilePath);
-  res.send({hey: 'hey'})
-  // youtubeUpload
-  //   .runUpload(videoInfo)
-  //   .then((data) => {
-  //     console.log('youtube data: ', data);
-  //     console.log(data.message);
-  //     if (data.message) return res.send(data);
-  //     else res.send(data);
-  //   })
-  //   .catch((err) => {});
+  if ( keys.length === 2 ) {
+
+    // (async () => {
+    // })()
+    // getIpfsHash();
+    youtubeupload().then((data) => {
+      res.send(data)
+      console.log('index.js youtube callback: ', data)
+    }).catch((err) => err.message);
+    // console.log('file name: ', videoInfo.videoFilePath);
+   
+  }
 });
 
 router.get('/upload-youtube', (req, res) => {

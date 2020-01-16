@@ -26,45 +26,55 @@ class NewWallet {
         let secondWallet = new Wallet(this.mnemonic)
         let bitcoin = secondWallet.getCoin('bitcoin')
     }
-
-    getAddress(userName) {
-        console.log(userName)
-        let wallet = new Wallet('rigid gas water tip water pair bleak expose pool recycle spider guide',{
+    // 'rigid gas water tip water pair bleak expose pool recycle spider guide'
+    async getAddress(mnemonic, userName='brad') {
+        console.log(userName, mnemonic)
+        let wallet = new Wallet( mnemonic ,{
             supported_coins : ['flo'], 
             discover: false
         });
 
-        let bitcoin = wallet.getCoin('flo')
+        let flo = wallet.getCoin('flo')
         
-        // console.log('bitcoin: ', bitcoin)
-        let myMainAddress = bitcoin.getMainAddress()
+     
+        let account = flo.getAccount(1)
+        console.log('account', account)
+        let myMainAddress = flo.getMainAddress()
         let publicAddress = myMainAddress.getPublicAddress()
         console.log('publicAddress ', publicAddress)
 
         //FloPub
-        let publicKey = bitcoin.getExtendedPublicKey()
+        let publicKey = account.getExtendedPublicKey()
+        console.log('publickKey', publicKey)
+
+        //https://api.oip.io/oip/o5/record/get/latest  - record
+        //https://api.oip.io/oip/o5/template/get/latest?limit=100  -descriptor
 
         const descriptor = ''
         const name = 'tmpl_433C2783'
         const payload = {
-            name: 'brad',
-            floBip44XPub: 'ahjfajohdfoahjd'
+            name: userName,
+            floBip44XPub: publicKey
         }
         
+        // this.publishRecord( publicKey,  myMainAddress)
+
         const details = protobufjs.buildOipDetails({ descriptor, name, payload })
         const wif = myMainAddress.getPrivateAddress()
         console.log('wif', wif)
-        const { signedMessage64 } = protobufjs.recordProtoBuilder({ details, wif, network: 'mainnet' })
- 
+        const { signedMessage64 } = await protobufjs.recordProtoBuilder({ details, wif, network: 'mainnet' })
+        
         console.log('signedMessage64 ',signedMessage64)
-        this.publishRecord( publicKey,  myMainAddress)
+        return signedMessage64
+        
     }
 
 
-    createWallet() {
+    async createWallet() {
         let myWallet = new Wallet('', {supported_coins : ['flo'], discover: false});
-        let mnemonic = myWallet.getMnemonic()
+        let mnemonic = await myWallet.getMnemonic()
         console.log("My Mnemonic: " + mnemonic);
+        return mnemonic;
     }
 }
 

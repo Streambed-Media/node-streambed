@@ -17,13 +17,6 @@ const userSchema = new mongoose.Schema({
   // googleAccessToken: { type: String, required: true }
 });
 
-// userSchema.methods.generateAuthToken = async function() {
-//   const user = this;
-//   user.token = jwt.sign({_id: user._id.toString()}, 'somepassword')
-//   await user.save()
-//   return token
-// }
-
 userSchema.statics.findByCredentials = async (email, password) => {
 
   const user = await User.findOne({ email })
@@ -41,17 +34,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user
 }
 
-
-//Middleware .pre is before the event, when saving data 'save'
-// userSchema.pre('save', async function(next){
-//   const user = this
-
-//   if (user.isModified('password')) {
-//     user.password = await bcrypt.hash(user.password, 8)
-//   }
-//   console.log('coming from pre')
-//   next()
-// })
 
 const User = mongoose.model('User', userSchema);
 

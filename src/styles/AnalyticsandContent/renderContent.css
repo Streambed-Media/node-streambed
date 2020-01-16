@@ -9,7 +9,9 @@
   -ms-grid-rows: (1fr)[3];
       grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 4em;
-      grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters' 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters' 'der der der der der der der der der der';
+      grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters'
+ 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters'
+ 'der der der der der der der der der der';
   height: 100vh;
   padding-top: 1em;
   background: #fff;
@@ -178,7 +180,8 @@
 
 .renderContent-wrapper .carousel-box img {
   width: auto;
-  border-radius: 25%;
+  border-radius: 15%;
+  padding: 0 1px;
 }
 
 .renderContent-wrapper .carousel-box div ul li {
@@ -269,7 +272,11 @@
     -ms-grid-rows: (1fr)[5];
         grid-template-rows: repeat(5, 1fr);
     grid-column-gap: 0;
-        grid-template-areas: 'butt butt' 'carousel-box carousel-box' 'basic-analytics basic-analytics' 'filters filters' 'der der';
+        grid-template-areas: 'butt butt'
+ 'carousel-box carousel-box'
+ 'basic-analytics basic-analytics'
+ 'filters filters'
+ 'der der';
   }
   .renderContent-wrapper .basic-analytics-container {
     margin: 0 1em 1em 1em;
@@ -298,7 +305,8 @@
     display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        grid-template-areas: 'der der' 'topi topi';
+        grid-template-areas: 'der der'
+ 'topi topi';
   }
   .renderContent-wrapper .der--influ-container .influencer-container {
     margin: 0 1em 1em 1em;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { VideoUpload } from './VideoUpload';
-import { YoutubeUpload } from './YoutubeUpload'
 import { Results } from './Results';
 import VideoData from './VideoData';
 import GetVideos from './GetVideos';
@@ -14,17 +13,16 @@ const CreateDropdown = (props) => {
         if (form === null) return;
         form.style.height = '298px' 
     }
-    // Props for Results page after uploaded to youtube
   
     
     const getDropDownVal = (e) => {
-        let target = document.getElementsByClassName('ui search dropdown')[0]
-        let optionVal = target.value
+        let target = document.getElementsByClassName('ui search dropdown')[0];
+        let optionVal = target.value;
         let selectedText = target.options[target.selectedIndex].text;
 
         // If Upload button was hit to upload video file to youtube
         if(props.getUrl === '/upload-youtube' && value.onLoad) {
-            console.log('ran how many times')
+
             setValue({optionVal: 'results', onLoad: false})
           
         }else {
@@ -46,19 +44,17 @@ const CreateDropdown = (props) => {
                     <label>Video Options</label>
                     <select className="ui search dropdown" onChange={getDropDownVal}>
                     <option defaultValue value="">Choose...</option>
-                    <option value="upload">Upload Video</option>
+                    <option value="upload">Video Upload</option>
                     <option value="data">Video Data</option>
                     <option value="videos">Get Videos</option>
                     </select>
                 </div>
             </div>
             {console.log(value.optionVal)}
-            {/* {value.optionVal === 'results' && <Results /> } */}
+            {value.optionVal === 'results' && <Results /> }
             {value.optionVal === 'data' && <VideoData /> }
             {value.optionVal === 'videos' && <GetVideos /> }
             {value.optionVal === 'upload' || !value.optionVal ? <VideoUpload /> : null}
-            {/* Change after youtubeupload buttons are figured out */}
-            <YoutubeUpload />
         </div>
   );
 };
