@@ -11,12 +11,12 @@ const scopes = [
   'https://www.googleapis.com/auth/youtube'
 ];
 
-/*Not used currently, Route for /dashboard get request to grab tokens from RenderContent component */
-// router.get('/', function(req, res) {
-//   console.log('the access token', access_token);
-//   res.header('authorization', access_token);
-//   res.send({ data: 'some random data if needed to be sent' });
-// });
+/*Route for /dashboard get request to grab tokens from RenderContent component */
+router.get('/', function(req, res) {
+  console.log('the access token', access_token);
+  res.header('authorization', access_token);
+  res.send({ data: 'some random data if needed to be sent' });
+});
 
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
