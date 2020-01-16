@@ -42,9 +42,14 @@
   .upload-youtube {
     padding-top: 20px;
   }
+
+  .youtube-error {
+    background: #fd5b5b;
+    padding: 10px;
+  }
   
   .upload-youtube .form-group {
-    padding: 15px 0;
+    padding: 10px 0;
   }
   .ui.menu .item {
     padding: 0 !important;
@@ -155,7 +160,12 @@
   }
 
   .result-item {
+    font-weight: 600;
     padding-left: 15px;
+  }
+
+  .result-item:first-child {
+    margin-top: 10px;
   }
   
   .video-element {
@@ -208,10 +218,36 @@
       background: darkseagreen;
       left: -200px;
   }
+
+  .youtube-data div:nth-child(-n+3) {
+    position: relative;
+    top: 35px;
+  }
   
   .profile-title-container {
     display: flex;
     justify-content: space-between;
+  }
+
+  .profile-img-wrap {
+    width: 12em;
+    position: relative;
+    top: -60px;
+  }
+  .profile-title-container .data-header {
+    position: absolute;
+
+  }
+
+  .data-header {
+    width: 300px;
+    display: flex;
+  }
+
+  .data-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .upload-type {
@@ -266,15 +302,41 @@
   .checkbox-upload label:nth-child(1) {
     margin-right: 10px;
   }
+
+  .checkboxErr {
+    color: #cc0000;
+  }
   
   .ui.button.youtube-btn {
     border-radius: 0;
     margin: 0;
     background: #c3c3c3 none;
   }
-  /* @media (min-width: 768px){
-    .container-upload{
-      width: 850px;
+  @media (min-width: 540px){
+    .form-group._540px {
+      display: none;
     }
-  } */
+  }
+
+  @media (max-width: 540px){
+    .upload-youtube .form-group {
+      display: none;
+    }
+    .checkbox-container {
+      padding-left: 0;
+    }
+
+    .ui.button.youtube-btn {
+      padding: .8rem;
+    }
+
+    .publisher {
+      padding: 25px 10px;
+    }
+
+    .form-group._540px {
+      padding-left: 10px;
+      display: block;
+    }
+  }
   

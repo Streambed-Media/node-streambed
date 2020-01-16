@@ -75,8 +75,17 @@ class Client {
                             );
                             server.destroy();
                             const { tokens } = await this.oAuth2Client.getToken(qs.get('code'));
-                            console.log(tokens)
-                           
+                   
+                          
+                            let token = '1//0fNn51Zjk6AQUCgYIARAAGA8SNwF-L9IrSfngFr89K9pZ2WeHb6GsK2BylIS_A88hS_7Nkh2EddBv-8ww8Ic6LVEVgIKWRyRfLwU'
+                            this.oAuth2Client.on('tokens', (token) => {
+                                console.log('T ',token)
+                                if (token.refresh_token) {
+                                  // store the refresh_token in my database!
+                                  console.log('store the refresh_token in my database!' ,token.refresh_token);
+                                }
+                                console.log('not true ',token.access_token);
+                              });
                             this.oAuth2Client.credentials = tokens;
                             resolve(this.oAuth2Client);
                         }

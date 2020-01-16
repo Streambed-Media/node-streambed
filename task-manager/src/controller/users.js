@@ -1,12 +1,15 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const { createWallet, getCoin, getAddress } = require('../../../wallet/wallet');
-//! This was taking from Brad's index route
-const client = require('../../../client');
-let accessToken = '';
 
-
+createWallet()
+.then((data) => {
+  return getAddress(data)
+})
+.then((data) =>{
+  console.log('address ',data)
+})
+.catch(err => console.log(err))
 // console.log(getCoin())
 /***Using MVC model, this holds functions for the routes */
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
@@ -56,15 +59,15 @@ exports.user_sign_up = (req, res) => {
 
 /******Login GET */
 exports.user_login_get = (req, res) => {
-  const { userId } = req.session;
+  // const { userId } = req.session;
 
-  // If session id doesn't exist skips redirects back to login page
-  if (!userId) {
-    console.log('For you tommy, long waited 🙂 ');
-    res.redirect('/');
-  } else {
+  // // If session id doesn't exist skips redirects back to login page
+  // if (!userId) {
+  //   console.log('For you tommy, long waited 🙂 ');
+  //   res.redirect('/');
+  // } else {
     res.render('dashboard', { title: 'Streambed' });
-  }
+  // }
 };
 /****Login Get End */
 
