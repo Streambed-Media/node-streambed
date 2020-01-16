@@ -39,6 +39,7 @@ class GoogleAuth extends React.Component {
               className='ui red google button'
               type='submit'
               value='Logout'
+              onClick={() => localStorage.clear()}
             />
           </form>
         </div>

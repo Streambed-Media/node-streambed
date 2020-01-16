@@ -10,33 +10,37 @@ import CarouselComp from './TopSection/Carousel/CarouselComp';
 import runTheContent from '../helpers/GetToken';
 
 /****************************************Renders All content on page through multiple props*/
+/** On mount, this will run rt which gets new accesstoken from the provided refresh in the DB **/
 const RenderContent = (props) => {
   const [videoData, setVideoData] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
 
   useEffect(() => {
-    console.log(props);
-    // let url = window.location.href;
-    // const accessToken = url.replace(/^.+=/gi, '');
-    fetch('/users/rt').then(() => {
-      runTheContent((accessToken) => {
-        fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + accessToken
-            }
+    const localVidData = JSON.parse(localStorage.getItem('VideoData'));
+    if (localVidData) {
+      console.log('Line 25 RnderContent Hitt dis');
+      setVideoData(localVidData);
+      return;
+    }
+    runTheContent((accessToken) => {
+      fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: 'Bearer ' + accessToken
           }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            setVideoData(data.items);
-          });
-      });
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setVideoData(data.items);
+          localStorage.setItem('VideoData', JSON.stringify(data.items));
+        });
     });
+
     //Runs the get request function to grab token from headers and calls your current funciton as a callback.
   }, []);
 

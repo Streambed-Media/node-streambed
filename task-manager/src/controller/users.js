@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
+const fetch = require('node-fetch');
 
 /***Using MVC model, this holds functions for the routes */
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
@@ -72,6 +73,7 @@ exports.user_login_post = async (req, res) => {
       return res.redirect('/?error=' + e);
     }
     req.session.userId = user._id;
+    const renderRefresh = await fetch('http://localhost:5000/users/rt');
     console.log('login session', req.session);
     res.render('dashboard');
   } catch (e) {
@@ -104,6 +106,7 @@ exports.user_rt = async (req, res) => {
       ['rT', 'rememberYoutube']
     );
     let { rT, rememberYoutube } = rememberInfo;
+
     if (rememberYoutube === false) {
       console.log('No remember');
       return res.status(200).json({ msg: 'No remember' });
