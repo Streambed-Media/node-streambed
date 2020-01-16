@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   },
   password: { type: String, required: true },
   rT: { type: String, default: '' },
-  rememberYoutube: { type: String, default: false }
+  rememberYoutube: { type: Boolean, default: false }
 });
 
 const User = mongoose.model('User', userSchema);

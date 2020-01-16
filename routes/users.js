@@ -17,7 +17,7 @@ router.post('/reset', UsersController.user_resetpw);
 // Get rT
 router.get('/rt', UsersController.user_rt);
 
-// Set if you want to be remebered
+// Set if user wants to be remebered
 router.post('/remember', UsersController.user_remember);
 
 //Get if they want to be remebered to set state on the frontend

@@ -101,16 +101,17 @@ exports.user_rt = async (req, res) => {
       {
         _id: req.session.userId
       },
-      'rT'
+      ['rT', 'rememberYoutube']
     );
-    if (!rememberInfo) {
+    let { rT, rememberYoutube } = rememberInfo;
+    if (rememberYoutube === false) {
       console.log('No remember');
-      return res.status(404).json({ msg: 'No remember' });
+      return res.status(200).json({ msg: 'No remember' });
     }
-    let { rT } = rememberInfo;
+
+    console.log('Line 111 in rt route', rememberYoutube);
     client.refresh(rT);
     const aT = await client.getNewAcc();
-    console.log('ALMOST THERE', aT);
 
     res.header('authorization', aT);
     res.status(200).render('dashboard');
@@ -120,16 +121,15 @@ exports.user_rt = async (req, res) => {
 };
 /****Remember and rT Get End */
 
-/******Remember is the user wants to use refresh token */
+/******Remember if the user wants to use refresh token */
 exports.user_remember = async (req, res) => {
   try {
     const remember = await User.findOneAndUpdate(
       { _id: req.session.userId },
       { $set: { rememberYoutube: req.body.rememberYoutube } }
     );
-    if (remember) {
-      console.log('YO');
-    }
+    console.log('LINE 130 Remember Route', req.body.rememberYoutube);
+    res.status(200).json({ msg: 'Updated successfully' });
   } catch (error) {
     res.status(500).send('Server Error');
   }
@@ -146,7 +146,7 @@ exports.user_getremember = async (req, res) => {
       'rememberYoutube'
     );
     const { rememberYoutube } = remember;
-    console.log(rememberYoutube);
+    console.log('LINE 148 getremember', rememberYoutube);
     res.status(201).json({
       rememberYoutube
     });
