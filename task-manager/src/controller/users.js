@@ -95,7 +95,7 @@ exports.user_resetpw = (req, res) => {
 
 //Retrieves the stored refreshToken and sets it in the client.js so the accessToken can be refreshed
 /******Remember and rT GET */
-exports.user_remember = async (req, res) => {
+exports.user_rt = async (req, res) => {
   try {
     const rememberInfo = await User.findOne(
       {
@@ -104,17 +104,6 @@ exports.user_remember = async (req, res) => {
       'rT'
     );
     if (!rememberInfo) {
-      //!
-      // client.authenticate(scopes, req.session.userId).then((data) => {
-      //   // const token = jwt.sign({token: data.credentials.access_token}, 'me')
-      //   let token = data.credentials.access_token;
-      //   // let token = '10821309850928375'
-      //   access_token = token;
-      //   res.header('authorization', token);
-      //   res.status(200).render('dashboard');
-      // });
-      //!
-
       console.log('No remember');
       return res.status(404).json({ msg: 'No remember' });
     }
@@ -125,6 +114,42 @@ exports.user_remember = async (req, res) => {
 
     res.header('authorization', aT);
     res.status(200).render('dashboard');
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
+/****Remember and rT Get End */
+
+/******Remember is the user wants to use refresh token */
+exports.user_remember = async (req, res) => {
+  try {
+    const remember = await User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { rememberYoutube: req.body.rememberYoutube } }
+    );
+    if (remember) {
+      console.log('YO');
+    }
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
+/****Remember and rT Get End */
+
+/******Get remember value*/
+exports.user_getremember = async (req, res) => {
+  try {
+    const remember = await User.findOne(
+      {
+        _id: req.session.userId
+      },
+      'rememberYoutube'
+    );
+    const { rememberYoutube } = remember;
+    console.log(rememberYoutube);
+    res.status(201).json({
+      rememberYoutube
+    });
   } catch (error) {
     res.status(500).send('Server Error');
   }

@@ -15,6 +15,12 @@ router.post('/login', UsersController.user_login_post);
 router.post('/reset', UsersController.user_resetpw);
 
 // Get rT
-router.get('/remember', UsersController.user_remember);
+router.get('/rt', UsersController.user_rt);
+
+// Set if you want to be remebered
+router.post('/remember', UsersController.user_remember);
+
+//Get if they want to be remebered to set state on the frontend
+router.get('/getremember', UsersController.user_getremember);
 
 module.exports = router;

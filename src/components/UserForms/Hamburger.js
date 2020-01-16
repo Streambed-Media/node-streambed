@@ -4,17 +4,42 @@ import ResetPassword from './ResetPassword';
 import GoogleAuth_Master from '../GoogleAuth_master';
 import PubAnalytics from './PubAnalytics';
 
+//TODO continue working on getting this to fetch the value on mount or something like that so you can add it to the state and should the box as checked
 class Hamburger extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isSidebarOpen: false
+      isSidebarOpen: false,
+      remember: false
     };
+  }
+  componentWillUpdate() {
+    fetch('/users/getremember')
+      .then((response) => response.json())
+      .then((message) => {
+        console.log(message);
+        const { rememberYoutube } = message;
+        this.setState({ remember: rememberYoutube });
+      });
   }
 
   handleMenuButtonClick = () => {
     this.setState({ isSidebarOpen: !this.state.isSidebarOpen });
+  };
+
+  rememberYoutube = () => {
+    this.setState({ remember: !this.state.remember });
+    console.log(this.state.remember);
+    fetch('/users/remember', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        rememberYoutube: this.state.remember
+      })
+    });
   };
 
   render() {
@@ -43,7 +68,7 @@ class Hamburger extends React.Component {
             </li>
             {/* Remember me for youtube auth, Not functional yet */}
             <div className='ui checkbox'>
-              <input type='checkbox' />
+              <input type='checkbox' onChange={this.rememberYoutube} />
               <label>
                 <span className='social--media'>Remember Me</span>
               </label>

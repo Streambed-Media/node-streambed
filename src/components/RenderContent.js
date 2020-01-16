@@ -18,7 +18,7 @@ const RenderContent = (props) => {
     console.log(props);
     // let url = window.location.href;
     // const accessToken = url.replace(/^.+=/gi, '');
-    fetch('/users/remember').then(() => {
+    fetch('/users/rt').then(() => {
       runTheContent((accessToken) => {
         fetch(
           `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
