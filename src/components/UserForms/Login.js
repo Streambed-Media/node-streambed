@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../styles/UserFormStyles/createUserForm.css';
 import GoogleAuth from '../GoogleAuth_master';
 

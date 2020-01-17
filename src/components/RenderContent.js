@@ -16,7 +16,7 @@ const RenderContent = (props) => {
   const [selectedVideoId, setSelectedVideoId] = useState(null);
 
   useEffect(() => {
-    const localVidData = JSON.parse(localStorage.getItem('VideoData'));
+    const localVidData = JSON.parse(sessionStorage.getItem('VideoData'));
     if (localVidData) {
       console.log('Line 25 RnderContent Hitt dis');
       setVideoData(localVidData);
@@ -37,7 +37,7 @@ const RenderContent = (props) => {
         .then((data) => {
           console.log(data);
           setVideoData(data.items);
-          localStorage.setItem('VideoData', JSON.stringify(data.items));
+          sessionStorage.setItem('VideoData', JSON.stringify(data.items));
         });
     });
 
