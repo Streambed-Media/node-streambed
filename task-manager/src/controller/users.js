@@ -105,38 +105,31 @@ exports.user_resetpw = (req, res) => {
 
 //Retrieves the stored refreshToken and sets it in the client.js so the accessToken can be refreshed
 /******Remember and rT GET */
-// exports.user_rt = async (req, res) => {
-//   try {
-//     const rememberInfo = await User.findOne(
-//       {
-//         _id: req.session.userId
-//       },
-//       ['rT', 'rememberYoutube']
-//     );
-//     let { rT, rememberYoutube } = rememberInfo;
+exports.user_rt = async (req, res) => {
+  try {
+    const rememberInfo = await User.findOne(
+      {
+        _id: req.session.userId
+      },
+      ['rT', 'rememberYoutube']
+    );
+    let { rT, rememberYoutube } = rememberInfo;
 
-<<<<<<< HEAD
     // if (rememberYoutube === false) {
     //   console.log('No remember');
     //   return res.status(200).json({ msg: 'No remember' });
     // }
-=======
-//     // if (rememberYoutube === false) {
-//     //   console.log('No remember');
-//     //   return res.status(200).json({ msg: 'No remember' });
-//     // }
->>>>>>> a143b7103dbc2923dedcd2c890157a7fe51eead7
 
-//     console.log('Line 111 in rt route', rememberYoutube);
-//     client.refresh(rT);
-//     const aT = await client.getNewAcc();
+    console.log('Line 111 in rt route', rememberYoutube);
+    client.refresh(rT);
+    const aT = await client.getNewAcc();
 
-//     res.header('authorization', aT);
-//     res.status(200).render('dashboard');
-//   } catch (error) {
-//     res.status(500).send('Server Error');
-//   }
-// };
+    res.header('authorization', aT);
+    res.status(200).render('dashboard');
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
 /****Remember and rT Get End */
 
 /******Remember if the user wants to use refresh token */
@@ -173,8 +166,3 @@ exports.user_getremember = async (req, res) => {
   }
 };
 /****Remember and rT Get End */
-
-exports.user_dashboard = (req, res) => {
-  res.header('authorization', access_token);
-  res.send({ data: 'some random data if needed to be sent' });
-};
