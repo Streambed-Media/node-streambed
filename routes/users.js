@@ -15,8 +15,9 @@ router.post('/login', UsersController.user_login_post);
 router.post('/reset', UsersController.user_resetpw);
 
 // Get rT
-router.get('/rt', UsersController.user_rt);
+//router.get('/rt', UsersController.user_rt);
 
+router.get('/', UsersController.user_dashboard);
 // Set if user wants to be remebered
 router.post('/remember', UsersController.user_remember);
 
