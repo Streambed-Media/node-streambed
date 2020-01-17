@@ -107,10 +107,10 @@ exports.user_rt = async (req, res) => {
     );
     let { rT, rememberYoutube } = rememberInfo;
 
-    if (rememberYoutube === false) {
-      console.log('No remember');
-      return res.status(200).json({ msg: 'No remember' });
-    }
+    // if (rememberYoutube === false) {
+    //   console.log('No remember');
+    //   return res.status(200).json({ msg: 'No remember' });
+    // }
 
     console.log('Line 111 in rt route', rememberYoutube);
     client.refresh(rT);
