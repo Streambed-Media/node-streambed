@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import GoogleAuthMaster from './components/GoogleAuth_master';
-// import streambedLogo from '../public/images/streambedHeader.svg';
 import RenderContent from './components/RenderContent';
 import GetStartedandLogin from './components/UserForms/GetStartedandLogin';
 import DropDown from './components/Dropdown';
@@ -10,8 +9,7 @@ import './styles/IndexStyles/index.css';
 import 'semantic-ui-css/semantic.min.css';
 import ResetPassword from './components/UserForms/ResetPassword';
 import Hamburger from './components/UserForms/Hamburger';
-// import newWallet  from '../wallet/wallet'
-// console.log(newWallet)
+
 class App extends React.Component {
   state = {
     isSignedIn: false,

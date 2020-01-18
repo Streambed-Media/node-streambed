@@ -55,6 +55,23 @@ const getIpfsHash = () => {
     .catch(console.err);
 };
 
+const youtubeupload = async (req, res) => {
+  try {
+      const uploaded = await youtubeUpload
+        .runUpload(videoInfo)
+        .then((data) => {
+        //  console.log( 'data ', data)
+          return data
+        })
+        .catch((err) => console.log(err));
+        console.log('UPLOAD ', uploaded)
+        return uploaded
+      } catch(e) {
+        console.log(e.message)
+        return 'Syntax Error'
+      }
+}
+
 router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   console.log('req body: ', req.body.body);
   console.log('req files: ', req.file);
@@ -66,8 +83,6 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   videoInfo.videoFileName = file.filename;
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
-
-  getIpfsHash();
 
   getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds) => {
     let time = '';
@@ -86,9 +101,9 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
     thumbler(time, () => {
       res.render('dashboard', {
         title: 'Streambed'
-      });
-    });
-  });
+      })
+    })
+  })
 });
 
 router.get('/uploaded', (req, res) => {
@@ -103,7 +118,7 @@ router.get('/upload', (req, res) => {
 /* GET login page. */
 router.get('/', function(req, res, next) {
   const { userId } = req.session;
-  console.log(userId)
+ 
   // If session id exist skips login / signup page and back to the users dashboard
   if (userId) {
     res.redirect('/users/login');
@@ -124,17 +139,21 @@ router.get('/analytics', function(req, res, next) {
 });
 
 /* POST route for video file up to youtube*/
-router.post('/upload-youtube', (req, res) => {
-  console.log('file name: ', videoInfo.videoFilePath);
-  youtubeUpload
-    .runUpload(videoInfo)
-    .then((data) => {
-      console.log('youtube data: ', data);
-      console.log(data.message);
-      if (data.message) return res.send(data);
-      else res.send(data);
-    })
-    .catch((err) => {});
+router.post('/upload-youtube', async (req, res) => {
+  let keys = Object.keys(req.body)
+  console.log('ipfs',keys)
+  if ( keys.length === 2 ) {
+
+    // (async () => {
+    // })()
+    // getIpfsHash();
+    youtubeupload().then((data) => {
+      res.send(data)
+      console.log('index.js youtube callback: ', data)
+    }).catch((err) => err.message);
+    // console.log('file name: ', videoInfo.videoFilePath);
+   
+  }
 });
 
 router.get('/upload-youtube', (req, res) => {

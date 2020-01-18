@@ -1,8 +1,18 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
+const { createWallet, getCoin, getAddress } = require('../../../wallet/wallet');
 
-/***Using MVC model, this holds functions for the routes */
+// createWallet()
+// .then((data) => {
+//   return getAddress(data)
+// })
+// .then((data) =>{
+//   console.log('address ',data)
+// })
+// .catch(err => console.log(err))
+// console.log(getCoin())
+
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
   const { displayName, email, password } = req.body;
@@ -50,13 +60,14 @@ exports.user_sign_up = (req, res) => {
 
 /******Login GET */
 exports.user_login_get = (req, res) => {
-  const { userId } = req.session;
+  // const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page
   if (!userId) {
     res.redirect('/');
   } else {
     res.render('dashboard', { title: 'Streambed' });
+    // }
   }
 };
 /****Login Get End */

@@ -4,10 +4,6 @@ html {
   overflow: hidden;
 }
 
-html body {
-  overflow: hidden;
-}
-
 html #app {
   height: 100%;
 }

@@ -17,12 +17,12 @@ const SESS_NAME = 'sid';
 const SESS_SECRET = 'mysecret';
 const SESS_LIFE = 1000 * 60 * 60 * 2;
 
-//This is used to avoid error with depreciation with findoneandupdate in the reset route
+//This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('mongodb://localhost/test', {
+  .connect('', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -32,8 +32,6 @@ mongoose
   );
 
 //const { NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET } = process.env;
-
-//console.log(NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET);
 
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);

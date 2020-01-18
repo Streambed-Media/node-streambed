@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * Usage: node upload.js PATH_TO_VIDEO_FILE
- */
-
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
@@ -15,14 +11,15 @@ const youtube = google.youtube({
     auth: client.oAuth2Client,
 });
 
-// very basic example of uploading a video to youtube
+// uploading a video to youtube
 async function runUpload(videoInfo) {
-    const filePath = videoInfo.videoFilePath
-
-    const fileSize = fs.statSync( filePath ).size;
+      
     try {
+        const filePath = videoInfo.videoFilePath
+        if ( !filePath ) throw new Error("Wrong file path.");
 
-    
+        const fileSize = fs.statSync(filePath).size;
+        
         const res = await youtube.videos.insert(
             {
                 part: 'id,snippet,status',
@@ -49,7 +46,7 @@ async function runUpload(videoInfo) {
                     readline.clearLine(process.stdout, 0);
                     readline.cursorTo(process.stdout, 0, null);
                     process.stdout.write(`${Math.round(progress)}% complete`);
-                },
+                }
             }
         );
         console.log('\n\n');
@@ -57,20 +54,17 @@ async function runUpload(videoInfo) {
 
         return res.data;
     }catch(err) {
-        let errors = Object.keys(err)
-        let errObj = {}
+        console.log('\n\n');
+        const error = new Error(err)
+        console.log('uploads.js page: ', error.message )
 
-        errors.filter((key, i) => {
-            if (key === 'errors') {
-                errObj = err[key]
-                console.log('Quota Exceeced for Youtube uploads: ', err[key])
-            } 
-        })
+        // Path wrong, Not O-authed, Too many uploads
+        if ( error ) {
 
-        return errObj[0]
-    }
-    
-    
+            return {err: error.message}
+
+        } else return {err: err}
+    }   
 }
 
 
