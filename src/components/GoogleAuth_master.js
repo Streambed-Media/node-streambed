@@ -1,39 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/GoogleAuth/googleAuthMaster.css';
 
 /***********************************************************Google Oauth login page component ***************/
 
-class GoogleAuth extends React.Component {
-  state = {
-    isSignedIn: false
-  };
+const GoogleAuth = (props) => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   /**This is taking props form App, setting state to true when you get signedIn to render the signout button**/
-  componentDidMount() {
-    this.setState({ isSignedIn: this.props.isSignedIn });
-  }
-
-  /**These functions arent really used currently**/
-  onSignInClick = () => {
-    this.setState({
-      isSignedIn: true
-    });
-  };
-
-  onSignOutClick = () => {
-    this.setState({
-      isSignedIn: false
-    });
-  };
+  useEffect(() => {
+    setIsSignedIn(props.isSignedIn);
+  }, []);
 
   //Will render sign in or sign out button conditionally
-  renderAuthButton() {
-    if (this.state.isSignedIn) {
+  const renderAuthButton = () => {
+    if (isSignedIn) {
       return (
         <div>
           <form
-            onSubmit={this.isSignedIn}
-            action='/dashboard/logout'
             method='POST'
+            action='/dashboard/logout'
+            onSubmit={() => sessionStorage.clear()}
           >
             <input
               className='ui red google button'
@@ -44,10 +30,8 @@ class GoogleAuth extends React.Component {
         </div>
       );
     }
-  }
+  };
 
-  render() {
-    return <div>{this.renderAuthButton()}</div>;
-  }
-}
+  return <div>{renderAuthButton()}</div>;
+};
 export default GoogleAuth;

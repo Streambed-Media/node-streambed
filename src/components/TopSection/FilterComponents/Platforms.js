@@ -1,17 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import runTheContent from '../../../helpers/GetToken';
 
 const Platforms = (props) => {
-  const Authenticate = (e) => {
-    const target = e.target.className;
+  const [hasRT, setHasRT] = useState('');
 
-    switch (target) {
-      case 'youtube':
-        document.getElementsByClassName('youtubeAuth')[0].submit();
-        break;
-      case 'facebook':
-        document.getElementsByClassName('facebookAuth')[0].submit();
-        break;
+  useEffect(() => {
+    fetch('/users/getrT')
+      .then((response) => response.json())
+      .then((message) => {
+        const { rT } = message;
+
+        setHasRT(rT);
+      });
+  });
+
+  const youtubeAuth = () => {
+    if (hasRT) {
+      console.log('sup dude');
+      fetch('/users/deleterT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        setHasRT('');
+        sessionStorage.clear();
+        location.reload();
+      });
+    } else {
+      fetch('/dashboard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        location.reload();
+      });
     }
   };
 
@@ -28,33 +52,25 @@ const Platforms = (props) => {
           </label>
         </div>
         <div className='ui checkbox'>
-          <form className='youtubeAuth' action='/dashboard' method='POST'>
-            <input
-              type='checkbox'
-              onChange={Authenticate}
-              className='youtube'
-            />
-            <label>
-              <i className='youtube icon'>
-                <span className='social--media'>Youtube</span>
-              </i>
-            </label>
-          </form>
+          <input
+            type='checkbox'
+            className='youtube'
+            onChange={youtubeAuth}
+            checked={hasRT !== '' ? true : false}
+          />
+          <label>
+            <i className='youtube icon'>
+              <span className='social--media'>Youtube</span>
+            </i>
+          </label>
         </div>
         <div className='ui checkbox'>
-          <form className='facebookAuth' action='#' method='POST'>
-            <input
-              type='checkbox'
-              disabled
-              onChange={Authenticate}
-              className='facebook'
-            />
-            <label>
-              <i className='facebook icon'>
-                <span className='social--media'>Facebook</span>
-              </i>
-            </label>
-          </form>
+          <input type='checkbox' disabled className='facebook' />
+          <label>
+            <i className='facebook icon'>
+              <span className='social--media'>Facebook</span>
+            </i>
+          </label>
         </div>
         <div className='ui checkbox'>
           <input type='checkbox' disabled />

@@ -91,7 +91,7 @@
   -ms-grid-column: 7;
   -ms-grid-column-span: 4;
   grid-area: filters;
-  margin: 0;
+  margin: 0 2em 0 0;
   background-color: white;
 }
 
@@ -227,7 +227,7 @@
   -ms-grid-column: 7;
   -ms-grid-column-span: 4;
   grid-area: topi;
-  margin: 2em 0 5em 0;
+  margin: 2em 0 6em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers {
@@ -243,7 +243,7 @@
   background-color: #f8f8f8;
   border-radius: 10px;
   height: 29em;
-  margin: 0 2em 0 0;
+  margin: 0 2em 2em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .item {
@@ -261,7 +261,18 @@
   grid-area: der;
 }
 
+.renderContent-wrapper .der--influ-container .derivative--container img {
+  width: 100%;
+}
+
 /************************************Media Queries**********************************************/
+/* laptops */
+@media screen and (max-width: 1380px) {
+  .renderContent-wrapper .der--influ-container .influencer-container {
+    margin-bottom: 0;
+  }
+}
+
 /* phones */
 @media screen and (max-width: 800px) {
   .renderContent-wrapper {
@@ -304,9 +315,13 @@
     display: -ms-grid;
     display: grid;
         grid-template-columns: repeat(2, 1fr);
+<<<<<<< HEAD
+        grid-template-areas: 'der der' 'topi topi';
+=======
         grid-template-rows: repeat(2, 1fr);
         grid-template-areas: 'der der'
  'topi topi';
+>>>>>>> upstream/master
   }
   .renderContent-wrapper .der--influ-container .influencer-container {
     margin: 0 1em 1em 1em;
@@ -317,8 +332,14 @@
   .renderContent-wrapper .der--influ-container .influencer-container .influencers {
     margin: 0;
   }
+  .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one {
+    margin-top: 4em;
+  }
+  .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two {
+    margin-top: 4em;
+  }
   .renderContent-wrapper .der--influ-container .derivative--container {
-    display: none;
+    margin: 1em 0;
   }
 }
 /*# sourceMappingURL=renderContent.css.map */

@@ -10,13 +10,23 @@ import CarouselComp from './TopSection/Carousel/CarouselComp';
 import runTheContent from '../helpers/GetToken';
 
 /****************************************Renders All content on page through multiple props*/
+/** On mount, this will run rt which gets new accesstoken from the provided refresh in the DB **/
 const RenderContent = (props) => {
   const [videoData, setVideoData] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
 
   useEffect(() => {
+<<<<<<< HEAD
+    const localVidData = JSON.parse(sessionStorage.getItem('VideoData'));
+    if (localVidData) {
+      console.log('Line 25 RnderContent Hitt dis');
+      setVideoData(localVidData);
+      return;
+    }
+=======
     console.log(props);
     //Runs the get request function to grab token from headers and calls your current funciton as a callback.
+>>>>>>> upstream/master
     runTheContent((accessToken) => {
   
       fetch(
@@ -33,8 +43,11 @@ const RenderContent = (props) => {
         .then((data) => {
           console.log(data);
           setVideoData(data.items);
+          sessionStorage.setItem('VideoData', JSON.stringify(data.items));
         });
     });
+
+    //Runs the get request function to grab token from headers and calls your current funciton as a callback
   }, []);
 
   /******************************************************************************************************
@@ -55,9 +68,12 @@ const RenderContent = (props) => {
       <ButterflyScore />
       <CarouselComp getSingleVideoId={getSingleVideoId} videoData={videoData} />
       <Filters />
-      <RenderSingleVidAnalytics selectedVideoId={selectedVideoId} />
+      <RenderSingleVidAnalytics
+        selectedVideoId={selectedVideoId}
+        videoData={videoData}
+      />
       <div className='der--influ-container'>
-        <Derivative />
+        <Derivative videoData={videoData} />
         <TopInfluencers />
       </div>
     </div>

@@ -74,7 +74,15 @@ div {
 }
 
 /************************************Media Queries**********************************************/
-
+/* laptops */
+@media screen and (max-width: 1380px) {
+  html {
+    overflow: auto;
+    body {
+      overflow: auto;
+    }
+  }
+}
 /* phones */
 @media screen and (max-width: 800px) {
   html {

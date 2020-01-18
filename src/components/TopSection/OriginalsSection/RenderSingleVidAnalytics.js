@@ -127,12 +127,10 @@ class RenderSingleVidAnalytics extends React.Component {
       <div className='basic-analytics-container'>
         <h2>Originals</h2>
         <div className='basic-analytics'>
-          <Graph />
+          <Graph videoData={this.props.videoData} />
           {this.renderSingleVidAnalytics()}
           <Scoring />
         </div>
-        {/* <h2>Top search terms for a video</h2> */}
-        {/* <div className='basic-analytics'>{this.renderTopSeachTerm()}</div> */}
       </div>
     );
   }

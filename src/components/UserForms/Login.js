@@ -4,7 +4,6 @@ import GoogleAuth from '../GoogleAuth_master';
 
 /****************************************************************/
 /*************Login page working with DB users! --Tommy *********/
-//TODO still need to figure out oauth with db user
 /****************************************************************/
 
 const Login = () => {

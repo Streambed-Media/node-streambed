@@ -46,7 +46,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.getUrl(), this.state.isSignedIn);
     if (this.state.isSignedIn === false) {
       return (
         <div>
@@ -59,7 +58,7 @@ class App extends React.Component {
           <div className='container--login'>
             <div className='login--box'>
               <div className='trans--box'>
-                <GetStartedandLogin url={this.getUrl()}/>
+                <GetStartedandLogin url={this.getUrl()} />
               </div>
             </div>
           </div>
@@ -81,17 +80,6 @@ class App extends React.Component {
                 isChecked={this.state.checked}
                 checkboxHandler={this.handleCheckboxChange}
               />
-              {/* <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
-              <ResetPassword /> */}
-              {/* <div className='ui toggle checkbox'>
-                <input
-                  type='checkbox'
-                  name='publisher-analytics'
-                  checked={this.state.checked}
-                  onChange={this.handleCheckboxChange}
-                />
-                <label>Publisher / Analytics </label>
-              </div> */}
             </div>
           </div>
           {this.state.checked === true ? (

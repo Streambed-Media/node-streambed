@@ -68,7 +68,7 @@ $grey-box-background: #f8f8f8;
   // FILTERS CSS
   .filters-container {
     grid-area: filters;
-    margin: 0;
+    margin: 0 2em 0 0;
     background-color: white;
 
     h1 {
@@ -169,7 +169,7 @@ $grey-box-background: #f8f8f8;
     /*******************Top influencer*******/
     .influencer-container {
       grid-area: topi;
-      margin: 2em 0 5em 0;
+      margin: 2em 0 6em 0;
       .influencers {
         display: flex;
         justify-content: space-evenly;
@@ -177,7 +177,8 @@ $grey-box-background: #f8f8f8;
         background-color: $grey-box-background;
         border-radius: 10px;
         height: 29em;
-        margin: 0 2em 0 0;
+        margin: 0 2em 2em 0;
+
         .item {
           margin: 0 0 4em 0;
         }
@@ -189,11 +190,24 @@ $grey-box-background: #f8f8f8;
     /******************Derivative*******/
     .derivative--container {
       grid-area: der;
+      img {
+        width: 100%;
+      }
     }
   }
 }
 
 /************************************Media Queries**********************************************/
+/* laptops */
+@media screen and (max-width: 1380px) {
+  .renderContent-wrapper {
+    .der--influ-container {
+      .influencer-container {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
 
 /* phones */
 @media screen and (max-width: 800px) {
@@ -226,7 +240,7 @@ $grey-box-background: #f8f8f8;
       grid-area: der;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 1fr);
+      //grid-template-rows: repeat(2, 1fr);
       grid-template-areas:
         'der der'
         'topi topi';
@@ -237,11 +251,17 @@ $grey-box-background: #f8f8f8;
         }
         .influencers {
           margin: 0;
+          .list--one {
+            margin-top: 4em;
+          }
+          .list--two {
+            margin-top: 4em;
+          }
         }
       }
 
       .derivative--container {
-        display: none;
+        margin: 1em 0;
       }
     }
   }
