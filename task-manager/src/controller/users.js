@@ -111,16 +111,11 @@ exports.user_rt = async (req, res) => {
       {
         _id: req.session.userId
       },
-      ['rT', 'rememberYoutube']
+      ['rT']
     );
-    let { rT, rememberYoutube } = rememberInfo;
+    let { rT } = rememberInfo;
 
-    // if (rememberYoutube === false) {
-    //   console.log('No remember');
-    //   return res.status(200).json({ msg: 'No remember' });
-    // }
-
-    console.log('Line 111 in rt route', rememberYoutube);
+    console.log('Line 111 in rt route', rT);
     client.refresh(rT);
     const aT = await client.getNewAcc();
 
@@ -130,39 +125,41 @@ exports.user_rt = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
-/****Remember and rT Get End */
 
-/******Remember if the user wants to use refresh token */
-exports.user_remember = async (req, res) => {
-  try {
-    const remember = await User.findOneAndUpdate(
-      { _id: req.session.userId },
-      { $set: { rememberYoutube: req.body.rememberYoutube } }
-    );
-    console.log('LINE 130 Remember Route', req.body.rememberYoutube);
-    res.status(200).json({ msg: 'Updated successfully' });
-  } catch (error) {
-    res.status(500).send('Server Error');
-  }
-};
-/****Remember and rT Get End */
-
-/******Get remember value*/
-exports.user_getremember = async (req, res) => {
+/******Get rT value*/
+exports.user_getrT = async (req, res) => {
   try {
     const remember = await User.findOne(
       {
         _id: req.session.userId
       },
-      'rememberYoutube'
+      'rT'
     );
-    const { rememberYoutube } = remember;
-    console.log('LINE 148 getremember', rememberYoutube);
+    const { rT } = remember;
+    console.log('LINE 148 getremember', rT);
     res.status(201).json({
-      rememberYoutube
+      rT
     });
   } catch (error) {
     res.status(500).send('Server Error');
   }
 };
-/****Remember and rT Get End */
+/****get rT Get End */
+
+/****Delete rT from DB */
+exports.user_deleterT = async (req, res) => {
+  try {
+    const remember = await User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { rT: '' } }
+    );
+    res.removeHeader('Authorization');
+    res.status(201).json({
+      msg: 'Signed out of Youtube'
+    });
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
+
+/****End Delete rT from DB */

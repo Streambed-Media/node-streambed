@@ -29,15 +29,13 @@ router.post('/', (req, res) => {
 });
 
 /*******Logout route */
-router.post('/logout', (req, res) => {
-  //! Thinking of fetching rememberYoutube on frontend, then passing to logout on click, checking if false here, then clearing rT if false
-
+router.post('/logout', async (req, res) => {
   access_token = '';
   res.removeHeader('Authorization');
   res.clearCookie(req.session);
   req.session.destroy((err) => {
-    if (err) console.log('line 41', err);
-    return res.redirect('/');
+    if (err) console.log(err);
+    res.redirect('/');
   });
 });
 /*******Logout route end*/

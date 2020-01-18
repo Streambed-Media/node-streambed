@@ -82,17 +82,6 @@ class App extends React.Component {
                 isChecked={this.state.checked}
                 checkboxHandler={this.handleCheckboxChange}
               />
-              {/* <GoogleAuthMaster isSignedIn={this.state.isSignedIn} />
-              <ResetPassword /> */}
-              {/* <div className='ui toggle checkbox'>
-                <input
-                  type='checkbox'
-                  name='publisher-analytics'
-                  checked={this.state.checked}
-                  onChange={this.handleCheckboxChange}
-                />
-                <label>Publisher / Analytics </label>
-              </div> */}
             </div>
           </div>
           {this.state.checked === true ? (

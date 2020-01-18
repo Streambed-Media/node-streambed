@@ -14,14 +14,13 @@ router.post('/login', UsersController.user_login_post);
 /****Route to reset password*************/
 router.post('/reset', UsersController.user_resetpw);
 
-// Get rT
+// Refresh rT
 router.get('/rt', UsersController.user_rt);
 
-//router.get('/', UsersController.user_dashboard);
-// Set if user wants to be remebered
-router.post('/remember', UsersController.user_remember);
+//Get the rT for frontend
+router.get('/getrT', UsersController.user_getrT);
 
-//Get if they want to be remebered to set state on the frontend
-router.get('/getremember', UsersController.user_getremember);
+//Remove rT from DB and unAuth
+router.post('/deleterT', UsersController.user_deleterT);
 
 module.exports = router;
