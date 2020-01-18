@@ -21,7 +21,7 @@ mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('mongodb+srv://brad:666darb666@cluster0-faeka.mongodb.net/test', {
+  .connect('', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
