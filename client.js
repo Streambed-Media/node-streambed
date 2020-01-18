@@ -31,7 +31,7 @@ your keyfile, and add a 'redirect_uris' section.  For example:
 //*******************************************READ ME******************************************************/
 /****** This Client.js is uesd to set up google Oauth, code below used package to create url***************/
 /******Then a page is created with the URL which the user is directed to to auth***************************/
-/******It set the object returned with a method, then the refresh token is stored in the DB****************/
+/******Tokens are set, then the refresh token is stored in the DB****************/
 // https://github.com/googleapis/google-api-nodejs-client/blob/c00d1892fe70d7ebf934bcebe3e8a5036c62440c/README.md
 /****************************************READ ME********************************************************* */
 
@@ -115,7 +115,7 @@ class Client {
   }
   // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back
   refresh(rT) {
-    console.log('Line 118 in Client.js', rT);
+    console.log('Line 118 in Client.js rT saved');
     this.oAuth2Client.setCredentials({
       refresh_token: rT
     });

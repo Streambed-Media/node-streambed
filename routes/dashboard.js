@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 const client = require('../client.js');
 const jwt = require('jsonwebtoken');
+const User = require('../task-manager/src/models/user');
 
 //let access_token = '';
 
@@ -29,11 +30,13 @@ router.post('/', (req, res) => {
 
 /*******Logout route */
 router.post('/logout', (req, res) => {
+  //! Thinking of fetching rememberYoutube on frontend, then passing to logout on click, checking if false here, then clearing rT if false
+
   access_token = '';
   res.removeHeader('Authorization');
   res.clearCookie(req.session);
   req.session.destroy((err) => {
-    if (err) console.log(err);
+    if (err) console.log('line 41', err);
     return res.redirect('/');
   });
 });

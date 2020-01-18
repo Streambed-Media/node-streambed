@@ -22,26 +22,32 @@ const RenderContent = (props) => {
       setVideoData(localVidData);
       return;
     }
-    runTheContent((accessToken) => {
-      fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            Authorization: 'Bearer ' + accessToken
-          }
+    fetch('/users/getremember')
+      .then((response) => response.json())
+      .then((message) => {
+        const { rememberYoutube } = message;
+        if (rememberYoutube === true) {
+          runTheContent((accessToken) => {
+            fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
+              {
+                method: 'GET',
+                headers: {
+                  'Content-type': 'application/json',
+                  Authorization: 'Bearer ' + accessToken
+                }
+              }
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data);
+                setVideoData(data.items);
+                sessionStorage.setItem('VideoData', JSON.stringify(data.items));
+              });
+          });
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setVideoData(data.items);
-          sessionStorage.setItem('VideoData', JSON.stringify(data.items));
-        });
-    });
-
-    //Runs the get request function to grab token from headers and calls your current funciton as a callback.
+        //Runs the get request function to grab token from headers and calls your current funciton as a callback.
+      });
   }, []);
 
   /******************************************************************************************************
