@@ -16,19 +16,13 @@ const RenderContent = (props) => {
   const [selectedVideoId, setSelectedVideoId] = useState(null);
 
   useEffect(() => {
-<<<<<<< HEAD
     const localVidData = JSON.parse(sessionStorage.getItem('VideoData'));
     if (localVidData) {
       console.log('Line 25 RnderContent Hitt dis');
       setVideoData(localVidData);
       return;
     }
-=======
-    console.log(props);
-    //Runs the get request function to grab token from headers and calls your current funciton as a callback.
->>>>>>> upstream/master
     runTheContent((accessToken) => {
-  
       fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
         {
