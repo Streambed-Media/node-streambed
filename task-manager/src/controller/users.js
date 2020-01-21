@@ -60,7 +60,7 @@ exports.user_sign_up = (req, res) => {
 
 /******Login GET */
 exports.user_login_get = (req, res) => {
-  // const { userId } = req.session;
+  const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page
   if (!userId) {
