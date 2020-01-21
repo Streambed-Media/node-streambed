@@ -46,8 +46,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//TODO Setting up session to be stored in Mongo, still researching
 app.use(
   session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
     name: SESS_NAME,
     //Dont save back to store
     resave: false,
@@ -55,7 +57,7 @@ app.use(
     saveUninitialized: false,
     secret: SESS_SECRET,
     cookie: {
-      maxAge: +SESS_LIFE,
+      //maxAge: +SESS_LIFE,
       sameSite: true,
       secure: false
     }

@@ -83,16 +83,6 @@ exports.user_login_post = async (req, res) => {
     }
     req.session.userId = user._id;
 
-    if (user.rememberYoutube === true) {
-      client.refresh(user.rT);
-      const aT = await client.getNewAcc();
-      console.log('NEW access token', aT);
-      return res
-        .header('authorization', aT)
-        .status(200)
-        .render('dashboard');
-    }
-
     console.log('login session', req.session);
     res.render('dashboard');
   } catch (e) {
