@@ -41,7 +41,6 @@
   
   .upload-youtube {
     background: #F3FAF5;
-    margin-top: 20px;
     border-radius: 5px;
   }
 
@@ -50,11 +49,13 @@
   }
 
   .youtube-callback-data {
-    padding: 10px;
+    padding: 25px;
     display: flex;
+    justify-content: center;
   }
 
   .youtube-callback-data h4 {
+    color: #4c4c4c;
     margin-top: 0px;
     position: relative;
     left: 15px;
@@ -65,7 +66,22 @@
   }
 
   .youtube-snippet, .youtube-status {
-    width: 50%;
+    width: 45%;
+  }
+
+  .devider-wrapper {
+    width: 10%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .youtube-data-devider {
+    margin: 0;
+    height: 150px;
+    width: 1px;
+    border-right: 1px solid #9e9e9e;
   }
 
   .youtube-error {
@@ -177,7 +193,7 @@
   
   .video-container {
     /* border-bottom: 1px solid #c3c3c3; */
-    padding-bottom: 20px;
+    padding-bottom: 45px;
     padding-left: 15px;
   }
 
@@ -369,8 +385,14 @@
       display: block;
     }
 
-    .youtube-status {
-      margin-top: 50px;
+    .devider-wrapper {
+      transform: rotate(90deg);
+      left: 82px;
+      height: 115px;
+    }
+
+    .youtube-data-devider {
+      height: 220px;
     }
 
     .upload-youtube .form-group {
