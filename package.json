@@ -29,7 +29,7 @@
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "ipfs-http-client": "^40.2.1",
-    "js-oip": "^2.4.1",
+    "js-oip": "git+https://github.com/oipwg/js-oip.git",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.4.1",
     "mongoose": "^5.8.1",
