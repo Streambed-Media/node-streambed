@@ -117,6 +117,8 @@ router.get('/upload', (req, res) => {
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
+  // let read = fs.createReadStream( './public/uploads/thumb.jpg' )
+  // console.log('read ', read)
   const { userId } = req.session;
  
   // If session id exist skips login / signup page and back to the users dashboard

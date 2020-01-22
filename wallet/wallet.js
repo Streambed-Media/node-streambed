@@ -1,48 +1,48 @@
-import HDMW from 'oip-hdmw';
+const HDMW = require('oip-hdmw');
 const Wallet = HDMW.Wallet;
-import 'js-oip'
-import { buildOipDetails, recordProtoBuilder } from 'oip-protobufjs';
+const protobufjs = require('oip-protobufjs');
 //node : 10.15.1
 //npm : 6.13.4
 
 
 class NewWallet {
-    constructor(mnemonic,userName){
-        this.myWallet = new Wallet('', {supported_coins : ['flo'], discover: false});
+    constructor(mnemonic, userName){
         this.mnemonic = mnemonic
         this.userName = userName
-        this.createMnemonic = this.createMnemonic.bind(this)
-        this.createRegistration = this.createRegistration.bind(this)
+        this.getAddress = this.getAddress.bind(this)
+ 
     }
 
     //oip-protobufjs
-    async publishRecord ( data ) {
-        console.log('data ', data, 'mnemonic', this.mnemonic)
+    async publishRecord (data ) {
+        console.log('data ', data)
         const { descriptor, name, payload, myMainAddress } = data
 
-        const details = buildOipDetails({descriptor, name, payload })
+        const details = protobufjs.buildOipDetails({descriptor, name, payload })
         const wif = myMainAddress.getPrivateAddress()
-        const { signedMessage64 } = await recordProtoBuilder({ details, wif, network: 'mainnet' })
+        const { signedMessage64 } = await protobufjs.recordProtoBuilder({ details, wif, network: 'mainnet' })
         
         console.log('signedMessage64 ',signedMessage64)
-        //send back buit don't save
         return signedMessage64
     }
     
-    getCoin () {
-        // let secondWallet = new Wallet(this.mnemonic)
+    getCoin() {
+        let secondWallet = new Wallet(this.mnemonic)
         let bitcoin = secondWallet.getCoin('bitcoin')
     }
+    // 'rigid gas water tip water pair bleak expose pool recycle spider guide'
+    async getAddress(mnemonic, userName='brad') {
+        console.log(userName, mnemonic)
+        let wallet = new Wallet( mnemonic ,{
+            supported_coins : ['flo'], 
+            discover: false
+        });
 
-    async createRegistration (myWallet, userName) {
- 
-
-        let flo = this.myWallet.getCoin('flo')
-         console.log(flo)
+        let flo = wallet.getCoin('flo')
         let account = flo.getAccount(1)
         let myMainAddress = flo.getMainAddress()
 
-        // let publicAddress = myMainAddress.getPublicAddress()
+        let publicAddress = myMainAddress.getPublicAddress()
 
         //FloPub
         let publicKey = account.getExtendedPublicKey()
@@ -51,7 +51,7 @@ class NewWallet {
         //https://api.oip.io/oip/o5/record/get/latest  - record
         //https://api.oip.io/oip/o5/template/get/latest?limit=100  -descriptor
 
-        const registration = {
+        const template = {
             myMainAddress,
             descriptor: 'Ck4KB3AucHJvdG8SEm9pcFByb3RvLnRlbXBsYXRlcyInCgFQEgwKBG5hbWUYASABKAkSFAoMZmxvQmlwNDRYUHViGAIgASgJYgZwcm90bzM=',
             name: 'tmpl_433C2783',
@@ -61,17 +61,17 @@ class NewWallet {
             }
         }
 
-        return registration
+        return template
     }
 
-    async createMnemonic() {
-  
-        let mnemonic = await this.myWallet.getMnemonic()
-       
+
+    async createWallet() {
+        let myWallet = new Wallet('', {supported_coins : ['flo'], discover: false});
+        let mnemonic = await myWallet.getMnemonic()
         console.log("My Mnemonic: " + mnemonic);
         return mnemonic;
     }
 }
 
 
-export default new NewWallet();
+module.exports = new NewWallet()

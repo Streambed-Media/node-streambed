@@ -19,18 +19,12 @@ class YoutubeUpload extends React.Component {
             headers: {
               'Content-Type': 'application/json'
             }
-          })
-          .then((res) => res.json())
-          .then((data) => {
-              console.log(data)
-            this.setState(() => {
-                return {
-                    results: data
-                }
-            })
-          }).catch((err) => {
-              console.log(err)
-          });
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            this.setState({results: data})
+        })
+        .catch((err) => console.log(err));
     }
 
     checboxChecked = () => {
@@ -73,7 +67,7 @@ class YoutubeUpload extends React.Component {
                         Object.keys(this.state.results).map((key, i) => {
                             const youtube_data = this.state.results
                             console.log(key, i)
-                            let j = i
+                            
                             if ( key === 'err' ) {
                                 return (
                                     <div key={i} className="youtube-error">
@@ -85,8 +79,8 @@ class YoutubeUpload extends React.Component {
                                 let status = youtube_data.status;
                                 return (
                                     <React.Fragment key={i}>
-                                        {key === 'snippet' &&
-                                            <div className="youtube-snippet">
+                                        {key === 'snippet' && [
+                                            <div key={i+1} className="youtube-snippet">
                                                 <div className="data-header">
                                                 <h3>Video</h3>
                                                 <i className="fas fa-video"></i>
@@ -94,8 +88,11 @@ class YoutubeUpload extends React.Component {
                                                 <h4 className="publishedAt">Published At: <span>{ snippet.publishedAt }</span></h4>
                                                 <h4 className="channel-title">Channel Title: <span>{ snippet.channelTitle }</span></h4>
                                                 <h4 className="channelId">Channel Id: <span>{ snippet.channelId }</span></h4>
+                                            </div>,
+                                            <div key={i+2} className="devider-wrapper">
+                                                <span className="youtube-data-devider"></span>
                                             </div>
-                                        }
+                                        ]}
                                         {key === 'status' &&
                                             <div className="youtube-status">
                                                 <div className="data-header">
