@@ -141,7 +141,7 @@ exports.user_getrT = async (req, res) => {
       'rT'
     );
     const { rT } = remember;
-    console.log('LINE 148 getremember', rT);
+    console.log('LINE 144 getrt', rT);
     res.status(201).json({
       rT
     });

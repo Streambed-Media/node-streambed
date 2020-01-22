@@ -14,36 +14,13 @@ class Hamburger extends React.Component {
     super(props);
 
     this.state = {
-      isSidebarOpen: false,
-      remember: false
+      isSidebarOpen: false
     };
   }
-  // componentDidMount() {
-  //   fetch('/users/getremember')
-  //     .then((response) => response.json())
-  //     .then((message) => {
-  //       const { rememberYoutube } = message;
-
-  //       this.setState({ remember: rememberYoutube });
-  //     });
-  // }
 
   handleMenuButtonClick = () => {
     this.setState({ isSidebarOpen: !this.state.isSidebarOpen });
   };
-
-  // rememberYoutube = () => {
-  //   this.setState({ remember: !this.state.remember });
-  //   fetch('/users/remember', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       rememberYoutube: !this.state.remember
-  //     })
-  //   });
-  // };
 
   render() {
     const { isSidebarOpen } = this.state;
@@ -69,18 +46,6 @@ class Hamburger extends React.Component {
                 />
               </a>
             </li>
-            {/*             
-            <div className='ui checkbox'>
-              <input
-                type='checkbox'
-                checked={this.state.remember}
-                onChange={this.rememberYoutube}
-              />
-              <label>
-                <span className='social--media'>Remember Me</span>
-              </label>
-            </div> */}
-            {/* End Remember me for youtube auth */}
             <li className='menu-list'>
               <a className='menu-link'>
                 <ResetPassword handleClose={this.handleMenuButtonClick} />
