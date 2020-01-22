@@ -18,7 +18,8 @@ let todaysDate = year + '-' + month + '-' + day;
 class RenderSingleVidAnalytics extends React.Component {
   state = {
     singleVideoAnalytics: {},
-    videoData: null
+    videoData: null,
+    noData: null
   };
 
   componentDidMount() {
@@ -48,6 +49,22 @@ class RenderSingleVidAnalytics extends React.Component {
         .then(response => response.json())
         .then(
           response => {
+            if (!response.rows[0]) {
+              return this.setState({
+                singleVideoAnalytics: {
+                  day: null,
+                  insightTrafficSourceType: null,
+                  views: null,
+                  comments: null,
+                  likes: null,
+                  dislikes: null,
+                  estimatedMinutesWatched: null
+                },
+                videoData: response.rows,
+                noData: 'No data yet, come back later'
+              });
+            }
+
             let totalViews = response.rows
               .map(row => row[1])
               .reduce((a, b) => a + b);
@@ -78,7 +95,8 @@ class RenderSingleVidAnalytics extends React.Component {
                 dislikes: totalDislikes,
                 estimatedMinutesWatched: totalestimatedMinutesWatched + ' min'
               },
-              videoData: response.rows
+              videoData: response.rows,
+              noData: null
             });
           },
 
@@ -183,12 +201,29 @@ class RenderSingleVidAnalytics extends React.Component {
     return (
       <div className='basic-analytics-container'>
         <h2>Originals</h2>
+        {this.state.noData ? (
+          <div
+            style={{
+              textAlign: 'center',
+              color: 'red',
+              fontFamily: 'san-serif'
+            }}>
+            {this.state.noData}
+          </div>
+        ) : null}
         <div className='basic-analytics'>
           {/* <Graph videoData={this.props.videoData} /> */}
           {this.state.videoData ? (
             <div id='chart_div'></div>
           ) : (
-            <div>Click on a video to render some cool data</div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              Click on a video to render some cool data
+            </div>
           )}
           {this.renderSingleVidAnalytics()}
           <Scoring />
