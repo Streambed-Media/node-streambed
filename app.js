@@ -44,6 +44,7 @@ app.use(
     saveUninitialized: false,
     secret: SESS_SECRET,
     cookie: {
+      expires: false,
       sameSite: true,
       secure: false
     }
