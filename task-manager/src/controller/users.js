@@ -75,11 +75,15 @@ exports.user_login_get = (req, res) => {
 /**Login POST */
 exports.user_login_post = async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
     let user = await User.findOne({ email });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.redirect('/?error=' + e);
+    }
+    if (req.body.remember) {
+      req.session.cookie.maxAge = 10000000000; //If they want to be remembered, its set maxAge to a couple months
     }
     req.session.userId = user._id;
 
