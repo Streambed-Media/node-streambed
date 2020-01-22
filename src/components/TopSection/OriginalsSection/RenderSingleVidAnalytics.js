@@ -161,18 +161,19 @@ class RenderSingleVidAnalytics extends React.Component {
     this.state.videoData.map(record => data.addRows([[record[0], record[1]]]));
 
     const options = {
-      title: 'Views/Days',
+      title: 'Views per day',
       backgroundColor: 'transparent',
       chartArea: { left: 0, top: 0, width: '100%', height: '100%' },
       animation: {
         duration: 1000,
-        easing: 'in',
+        easing: 'out',
         startup: true
-      }
+      },
+      bars: 'vertical'
     };
 
     // Instantiate and draw our chart, passing in some options.
-    const chart = new google.visualization.BarChart(
+    const chart = new google.visualization.ColumnChart(
       document.getElementById('chart_div')
     );
     chart.draw(data, options);
