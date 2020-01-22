@@ -62,6 +62,9 @@ $grey-box-background: #f8f8f8;
       justify-content: space-around;
       background-color: $grey-box-background;
       border-radius: 10px;
+      #chart_div {
+        grid-area: chart;
+      }
     }
   }
 
@@ -224,6 +227,28 @@ $grey-box-background: #f8f8f8;
       'der der';
     .basic-analytics-container {
       margin: 0 1em 1em 1em;
+      .basic-analytics {
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+          'chart chart'
+          'traffic traffic'
+          'scoring scoring';
+        height: 45em;
+        .traffic {
+          grid-area: traffic;
+          margin: 2em 0 0 0;
+        }
+        .scoring {
+          grid-area: scoring;
+          margin: 2em 0 0 0;
+        }
+        #chart_div {
+          grid-area: chart;
+          margin: 1em 0 0 0;
+        }
+      }
     }
 
     .filters-container {

@@ -83,6 +83,10 @@
   border-radius: 10px;
 }
 
+.renderContent-wrapper .basic-analytics-container .basic-analytics #chart_div {
+  grid-area: chart;
+}
+
 .renderContent-wrapper .filters-container {
   -ms-grid-row: 1;
   -ms-grid-row-span: 2;
@@ -284,6 +288,37 @@
   }
   .renderContent-wrapper .basic-analytics-container {
     margin: 0 1em 1em 1em;
+  }
+  .renderContent-wrapper .basic-analytics-container .basic-analytics {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-rows: (1fr)[3];
+        grid-template-rows: repeat(3, 1fr);
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: 'chart chart' 'traffic traffic' 'scoring scoring';
+    height: 45em;
+  }
+  .renderContent-wrapper .basic-analytics-container .basic-analytics .traffic {
+    -ms-grid-row: 2;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: traffic;
+    margin: 2em 0 0 0;
+  }
+  .renderContent-wrapper .basic-analytics-container .basic-analytics .scoring {
+    -ms-grid-row: 3;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: scoring;
+    margin: 2em 0 0 0;
+  }
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_div {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 2;
+    grid-area: chart;
+    margin: 1em 0 0 0;
   }
   .renderContent-wrapper .filters-container {
     margin: 0 1em;
