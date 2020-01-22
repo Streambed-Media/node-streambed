@@ -83,7 +83,7 @@ exports.user_login_post = async (req, res) => {
       return res.redirect('/?error=' + e);
     }
     if (req.body.remember) {
-      req.session.cookie.maxAge = 10000000000; //If they want to be remembered, its set maxAge to a couple months
+      req.session.cookie.maxAge = 20000000000; //If they want to be remembered, its set maxAge to a ~8 months
     }
     req.session.userId = user._id;
 

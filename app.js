@@ -15,7 +15,6 @@ var app = express();
 
 const SESS_NAME = 'sid';
 const SESS_SECRET = 'mysecret';
-//const SESS_LIFE = 100000 * 24 * 60 * 60;
 
 //This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
@@ -32,21 +31,21 @@ mongoose
   );
 
 //TODO Setting up session to be persisted in Mongo, still researching
+//* For reference: https://github.com/alex996/presentations/blob/master/express-session.md
 app.use(
   session({
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
-      ttl: 30 * 60, //Time To Live is set to 1hr
+      ttl: 30 * 60, //Time To Live is set to 30min if remember me isnt checked
       touchAfter: 24 * 3600 //Stops session from refreshing with API calls to server
     }),
-    name: SESS_NAME, //Dont save back to store
-    resave: false, //Don't save any new sessions without any data in it
-    saveUninitialized: false,
+    name: SESS_NAME,
+    resave: false, //Dont save back to store
+    saveUninitialized: false, //Don't save any new sessions without any data in it
     secret: SESS_SECRET,
     cookie: {
-      expires: false,
       sameSite: true,
-      secure: false
+      secure: false //! prod needs to be changed for production
     }
   })
 );
