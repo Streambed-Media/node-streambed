@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../../styles/UserFormStyles/createUserForm.css';
+import wallet from '../../helpers/Wallet';
+import { enc, AES } from 'crypto-js';
+
 
 const CreateUserForm = () => {
   /**************************STATE SECTION************************/
@@ -16,9 +19,43 @@ const CreateUserForm = () => {
   const [email, setEmail] = useState('');
   const [reEmail, setReEmail] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [walletRecord, setWalletRecord] = useState({mnemonic: '', encryption: '', signed64: ''})
+
   /*****************************STATE SECTION******************************/
+  const { createMnemonic, createRegistration, publishRecord } = wallet;
+  const encrypt = (nmonic, password) => {
+    let encryption = AES.encrypt(nmonic, password).toString()
+    return encryption
+  }
+
+  const decrypt = () => {
+    let decrypt = AES.decrypt().toString(enc.Utf8)
+    return decrypt
+  }
+  
+  const walletData = () => {
+    const walletdata = {}
+    createMnemonic()
+      .then((mnemonic) => {
+        // AES signed and save to state
+        const hash = encrypt(mnemonic, password);
+        walletdata.mnemonic = hash
+        setWalletRecord({mnemonic: mnemonic, encryption: hash})
+        
+        return createRegistration(mnemonic, username)
+
+      }).then((data)=> publishRecord( data ))
+      .then((signed64)=> {
+        walletdata.signed64 = signed64;
+        sendUser( walletdata )
+      })
+    .catch(err => console.log('WalletData '+ err));
+  }
+
 
   /*******************************Function to compare password, usename, email fields */
+
+
   const validateForm = (e) => {
     if (email !== reEmail) {
       setEmailErrorMessage('Emails do not match!');
@@ -28,10 +65,12 @@ const CreateUserForm = () => {
       setPassErrorMessage('Passwords do not match!');
     } else {
       setPassErrorMessage('');
-      sendUser();
-    }
+      walletData();
+    }   
   };
-  const sendUser = (e) => {
+
+  const sendUser = (walletData) => {
+
     fetch('http://localhost:5000/users/signup', {
       method: 'POST',
       headers: {
@@ -40,7 +79,9 @@ const CreateUserForm = () => {
       body: JSON.stringify({
         displayName: username,
         email: email,
-        password: password
+        password: password,
+        mnemonic: walletData.mnemonic,
+        signed64: walletData.signed64
       })
     })
       .then((response) => response.json())
@@ -51,19 +92,22 @@ const CreateUserForm = () => {
           setUsernameErrorMessage('');
           setPassErrorMessage(message.message);
         }
-
         console.log(message);
       });
   };
 
+
   const onFormSubmit = (e) => {
     e.preventDefault();
-    validateForm();
+
+    validateForm(e);
+  
   };
   /*************The placeholders are fontawesome unicode, allows them to show in the placeholder field *****************/
   /*************Password fields get set to state to compare before submit*/
   return (
     <div>
+
       <form className='form-container' onSubmit={onFormSubmit} value='submit'>
         <input
           className='text--input'
@@ -77,7 +121,7 @@ const CreateUserForm = () => {
         />
         <div>{usernameErrorMessage}</div>
         <input
-          className='text--input'
+        className='text--input'
           type='email'
           name='email'
           required
@@ -87,7 +131,7 @@ const CreateUserForm = () => {
           }}
         />
         <input
-          className='text--input'
+        className='text--input'
           type='email'
           name='email'
           required

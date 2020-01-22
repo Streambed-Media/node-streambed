@@ -1,21 +1,13 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
-const { createWallet, getCoin, getAddress } = require('../../../wallet/wallet');
 
-// createWallet()
-// .then((data) => {
-//   return getAddress(data)
-// })
-// .then((data) =>{
-//   console.log('address ',data)
-// })
-// .catch(err => console.log(err))
-// console.log(getCoin())
 
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
-  const { displayName, email, password } = req.body;
+  console.log('req body', req.body)
+ 
+  const { displayName, email, password, mnemonic } = req.body;
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
   })
@@ -34,7 +26,8 @@ exports.user_sign_up = (req, res) => {
             const user = new User({
               displayName: displayName,
               email: email,
-              password: hash
+              password: hash,
+              mnemonic
             });
             req.session.userId = user._id;
             user
