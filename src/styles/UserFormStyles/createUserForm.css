@@ -9,10 +9,7 @@ div .form-container {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-}
-
-div .form-container :first-child {
-  margin-top: 2em;
+  margin: 1em 0 0 0;
 }
 
 div .form-container ::-webkit-input-placeholder {
@@ -31,7 +28,7 @@ div .form-container ::placeholder {
   color: rgba(134, 134, 134, 0.644);
 }
 
-div .form-container input {
+div .form-container .text--input {
   background: rgba(250, 250, 250, 0.644);
   height: 35px;
   width: 250px;
@@ -46,6 +43,26 @@ div .form-container input {
   font-weight: 700;
   font-size: 1.2rem;
   color: #4d4d4d;
+}
+
+div .form-container .remember--me--login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 1em 0 1em 0.5em;
+}
+
+div .form-container .remember--me--login input {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+div .form-container .remember--me--login label {
+  color: #4d4d4d;
+  font-family: 'Lato', sans-serif, FontAwesome;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 0 0 0.5em;
 }
 
 div .form-container .link-wrapper .item .continue--button {

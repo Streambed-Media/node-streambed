@@ -66,6 +66,7 @@ const CreateUserForm = () => {
     <div>
       <form className='form-container' onSubmit={onFormSubmit} value='submit'>
         <input
+          className='text--input'
           type='text'
           name='displayName'
           required
@@ -76,6 +77,7 @@ const CreateUserForm = () => {
         />
         <div>{usernameErrorMessage}</div>
         <input
+          className='text--input'
           type='email'
           name='email'
           required
@@ -85,6 +87,7 @@ const CreateUserForm = () => {
           }}
         />
         <input
+          className='text--input'
           type='email'
           name='email'
           required
@@ -96,6 +99,7 @@ const CreateUserForm = () => {
         {/**********************************Error message prints out for emails not matching */}
         <div>{emailErrorMessage}</div>
         <input
+          className='text--input'
           type='password'
           name='password'
           required
@@ -105,6 +109,7 @@ const CreateUserForm = () => {
           }}
         />
         <input
+          className='text--input'
           type='password'
           name='password'
           required

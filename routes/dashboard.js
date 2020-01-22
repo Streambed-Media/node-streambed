@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 const client = require('../client.js');
-const jwt = require('jsonwebtoken');
-const User = require('../task-manager/src/models/user');
-
-//let access_token = '';
 
 const scopes = [
   'https://www.googleapis.com/auth/youtube.upload',
@@ -30,7 +25,6 @@ router.post('/', (req, res) => {
 
 /*******Logout route */
 router.post('/logout', async (req, res) => {
-  access_token = '';
   res.removeHeader('Authorization');
   res.clearCookie(req.session);
   req.session.destroy((err) => {

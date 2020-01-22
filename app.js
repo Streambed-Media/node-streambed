@@ -15,14 +15,14 @@ var app = express();
 
 const SESS_NAME = 'sid';
 const SESS_SECRET = 'mysecret';
-const SESS_LIFE = 1000 * 60 * 60 * 2;
+//const SESS_LIFE = 100000 * 24 * 60 * 60;
 
 //This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('', {
+  .connect('mongodb://localhost/test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -30,6 +30,26 @@ mongoose
   .catch((error) =>
     console.log('Mongoose Connection is not working, the Error: ', error)
   );
+
+//TODO Setting up session to be persisted in Mongo, still researching
+app.use(
+  session({
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 30 * 60, //Time To Live is set to 1hr
+      touchAfter: 24 * 3600 //Stops session from refreshing with API calls to server
+    }),
+    name: SESS_NAME, //Dont save back to store
+    resave: false, //Don't save any new sessions without any data in it
+    saveUninitialized: false,
+    secret: SESS_SECRET,
+    cookie: {
+      expires: false,
+      sameSite: true,
+      secure: false
+    }
+  })
+);
 
 //const { NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET } = process.env;
 
@@ -45,22 +65,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(
-  session({
-    name: SESS_NAME,
-    //Dont save back to store
-    resave: false,
-    //Don't save any new sessions without any data in it
-    saveUninitialized: false,
-    secret: SESS_SECRET,
-    cookie: {
-      maxAge: +SESS_LIFE,
-      sameSite: true,
-      secure: false
-    }
-  })
-);
 
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);

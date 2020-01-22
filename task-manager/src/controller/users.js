@@ -60,7 +60,7 @@ exports.user_sign_up = (req, res) => {
 
 /******Login GET */
 exports.user_login_get = (req, res) => {
-  // const { userId } = req.session;
+  const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page
   if (!userId) {
@@ -75,23 +75,17 @@ exports.user_login_get = (req, res) => {
 /**Login POST */
 exports.user_login_post = async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
     let user = await User.findOne({ email });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.redirect('/?error=' + e);
     }
-    req.session.userId = user._id;
-
-    if (user.rememberYoutube === true) {
-      client.refresh(user.rT);
-      const aT = await client.getNewAcc();
-      console.log('NEW access token', aT);
-      return res
-        .header('authorization', aT)
-        .status(200)
-        .render('dashboard');
+    if (req.body.remember) {
+      req.session.cookie.maxAge = 10000000000; //If they want to be remembered, its set maxAge to a couple months
     }
+    req.session.userId = user._id;
 
     console.log('login session', req.session);
     res.render('dashboard');
