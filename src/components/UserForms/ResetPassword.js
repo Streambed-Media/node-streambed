@@ -9,7 +9,7 @@ const ResetPassword = (props) => {
   //**********************************************************************/
   //********This will fetch the encrypted mnemonic from the Db */
   //********It will then decrypt and re-encrypt with the new pw */
-  //********Then it sends the newly encrypted mnemonic back to the server to be saved */
+  //********Then it sends the newly encrypted mnemonic and pw back to the server to be saved */
   //********Server never knows mnemonic */
   //**********************************************************************/
   const handleFetch = (pwArr) => {
@@ -67,7 +67,7 @@ const ResetPassword = (props) => {
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
-              if (data.msg === 'All Good!') handleFetch(result.value);
+              if (data.msg === 'All Good!') handleFetch(result.value); //If the passwords match, it will fire handleFetch
               Swal.fire({
                 title: data.msg
               });
