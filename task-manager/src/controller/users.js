@@ -183,3 +183,27 @@ exports.user_getmnemonic = async (req, res) => {
   }
 };
 /****Get mnemonic from db End */
+
+/**Fetch password to compare before reset */
+exports.user_pw_compare = async (req, res) => {
+  try {
+    console.log(req.body);
+    const { password } = req.body;
+    console.log('IM HERE DAD', password);
+    let user = await User.findOne(
+      {
+        _id: req.session.userId
+      },
+      ['password']
+    );
+    console.log(user);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(409).json({ msg: 'Incorrect Password' });
+    }
+    res.status(200).json({ msg: 'All Good!' });
+  } catch (e) {
+    console.log(e);
+  }
+};
+/**Fetch password to compare before reset End*/

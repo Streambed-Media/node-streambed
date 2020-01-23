@@ -46,19 +46,32 @@ const ResetPassword = (props) => {
     })
       .queue(['Enter Old Password', 'Enter New Password', 'Re-enter Password'])
       .then((result) => {
-        if (!result.value[1]) {
+        if (!result.value[1] || !result.value[0] || !result.value[2]) {
           Swal.fire({
-            title: 'Password cannot be blank'
+            title: 'Fields cannot be blank'
           });
         } else if (result.value[1] !== result.value[2]) {
           Swal.fire({
             title: 'Please enter matching passwords'
           });
         } else {
-          handleFetch(result.value);
-          Swal.fire({
-            title: 'All done!'
-          });
+          fetch('/users/comparepw', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              password: result.value[0]
+            })
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data.msg === 'All Good!') handleFetch(result.value);
+              Swal.fire({
+                title: data.msg
+              });
+            });
         }
       });
   };
