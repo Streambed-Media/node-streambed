@@ -20,6 +20,9 @@ router.get('/rt', UsersController.user_rt);
 //Get the rT for frontend
 router.get('/getrT', UsersController.user_getrT);
 
+//Get the mnemonic for frontend
+router.get('/getmnemonic', UsersController.user_getmnemonic);
+
 //Remove rT from DB and unAuth
 router.post('/deleterT', UsersController.user_deleterT);
 
