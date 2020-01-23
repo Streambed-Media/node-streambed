@@ -19,22 +19,56 @@ class RenderSingleVidAnalytics extends React.Component {
   state = {
     singleVideoAnalytics: {},
     videoData: null,
-    noData: null
+    noData: null,
+    allData: null
   };
+
+  /* allData Key
+0: {name: "views", columnType: "METRIC", dataType: "INTEGER"}
+1: {name: "comments", columnType: "METRIC", dataType: "INTEGER"}
+2: {name: "likes", columnType: "METRIC", dataType: "INTEGER"}
+3: {name: "dislikes", columnType: "METRIC", dataType: "INTEGER"}
+4: {name: "estimatedMinutesWatched", columnType: "METRIC", dataType: "INTEGER"}
+5: {name: "averageViewDuration", columnType: "METRIC", dataType: "INTEGER"}
+ */
 
   componentDidMount() {
     google.charts.load('current', { packages: ['corechart'] });
   }
   componentDidUpdate(prevProps) {
+    if (!this.state.allData) {
+      this.getTotalVidAnaylytics();
+    }
     if (this.props.selectedVideoId !== prevProps.selectedVideoId) {
       this.getSingleVidAnalytics();
       this.getSearchTerms();
     }
   }
 
+  getTotalVidAnaylytics() {
+    runTheContent(accessToken => {
+      fetch(
+        `https://youtubeanalytics.googleapis.com/v2/reports?endDate=${todaysDate}&ids=channel%3D%3DMINE&metrics=views%2Ccomments%2Clikes%2Cdislikes%2CestimatedMinutesWatched%2CaverageViewDuration&startDate=2005-02-14&key=${web.apiKey}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: 'Bearer ' + accessToken
+          }
+        }
+      )
+        .then(response => response.json())
+        .then(response => {
+          this.setState({
+            allData: response.rows[0]
+          });
+        });
+    });
+  }
+
   /**Functions to get views and watch time for specific video, wrapped in Brads helper function to get accessToken**/
   getSingleVidAnalytics() {
-    runTheContent((accessToken) => {
+    runTheContent(accessToken => {
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day&endDate=${todaysDate}&filters=video%3D%3D${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2Ccomments%2Clikes%2Cdislikes%2CestimatedMinutesWatched%2CaverageViewDuration&startDate=2005-02-14&key=${web.apiKey}`,
 
@@ -46,9 +80,8 @@ class RenderSingleVidAnalytics extends React.Component {
           }
         }
       )
-        .then((response) => response.json())
+        .then(response => response.json())
         .then(
-
           response => {
             if (!response.rows[0]) {
               return this.setState({
@@ -61,30 +94,29 @@ class RenderSingleVidAnalytics extends React.Component {
                   dislikes: null,
                   estimatedMinutesWatched: null
                 },
-                videoData: response.rows,
+                videoData: null,
                 noData: 'No data yet, come back later'
               });
             }
 
-
             let totalViews = response.rows
-              .map((row) => row[1])
+              .map(row => row[1])
               .reduce((a, b) => a + b);
 
             let totalestimatedMinutesWatched = response.rows
-              .map((row) => row[5])
+              .map(row => row[5])
               .reduce((a, b) => a + b);
 
             let totalComments = response.rows
-              .map((row) => row[2])
+              .map(row => row[2])
               .reduce((a, b) => a + b);
 
             let totalLikes = response.rows
-              .map((row) => row[3])
+              .map(row => row[3])
               .reduce((a, b) => a + b);
 
             let totalDislikes = response.rows
-              .map((row) => row[4])
+              .map(row => row[4])
               .reduce((a, b) => a + b);
 
             this.setState({
@@ -107,14 +139,16 @@ class RenderSingleVidAnalytics extends React.Component {
           }
         )
         .then(() => {
-          google.charts.setOnLoadCallback(this.drawChart);
+          if (this.state.videoData) {
+            google.charts.setOnLoadCallback(this.drawChart);
+          }
         });
     });
   }
 
   /**function to get best keyword for your specific videos**/
   getSearchTerms() {
-    runTheContent((accessToken) => {
+    runTheContent(accessToken => {
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceDetail&endDate=${todaysDate}&filters=video%3D%3D${this.props.selectedVideoId}%3BinsightTrafficSourceType%3D%3DYT_SEARCH&ids=channel%3D%3DMINE&maxResults=10&metrics=views&sort=-views&startDate=2005-07-01&key=${web.apiKey}`,
         {
@@ -125,9 +159,9 @@ class RenderSingleVidAnalytics extends React.Component {
           }
         }
       )
-        .then((response) => response.json())
+        .then(response => response.json())
         .then(
-          (response) => {
+          response => {
             if (!response.rows[0]) {
               this.setState({
                 keyWord: 'N/A'
@@ -178,20 +212,25 @@ class RenderSingleVidAnalytics extends React.Component {
     data.addColumn('string', 'Date');
     data.addColumn('number', 'Views');
 
-    this.state.videoData.map((record) =>
-      data.addRows([[record[0], record[1]]])
-    );
+    if (this.state.videoData)
+      this.state.videoData.map(record =>
+        data.addRows([[record[0], record[1]]])
+      );
+    else return null;
 
     const options = {
       title: 'Views per day',
       backgroundColor: 'transparent',
-      chartArea: { left: 0, top: 0, width: '100%', height: '100%' },
+      width: 'auto',
+      legend: {
+        position: 'right',
+        textStyle: { fontSize: 10 }
+      },
       animation: {
         duration: 1000,
         easing: 'out',
         startup: true
-      },
-      bars: 'vertical'
+      }
     };
 
     // Instantiate and draw our chart, passing in some options.
@@ -202,6 +241,7 @@ class RenderSingleVidAnalytics extends React.Component {
   };
 
   render() {
+    let { allData } = this.state;
     return (
       <div className='basic-analytics-container'>
         <h2>Originals</h2>
@@ -215,20 +255,23 @@ class RenderSingleVidAnalytics extends React.Component {
             {this.state.noData}
           </div>
         ) : null}
+
         <div className='basic-analytics'>
-          {/* <Graph videoData={this.props.videoData} /> */}
-          {this.state.videoData ? (
+          {this.state.videoData != null ? (
             <div id='chart_div'></div>
           ) : (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-              Click on a video to render some cool data
-            </div>
+            <>
+              <div>
+                <h2>Total</h2>
+                <p>Views: {allData ? allData[0] : null} </p>
+                <p>Comment: {allData ? allData[1] : null} </p>
+                <p>Likes: {allData ? allData[2] : null} </p>
+                <p>Dislikes: {allData ? allData[3] : null} </p>
+                <p>Estimated min watched: {allData ? allData[4] : null} </p>
+              </div>
+            </>
           )}
+
           {this.renderSingleVidAnalytics()}
           <Scoring />
         </div>
