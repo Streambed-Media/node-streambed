@@ -187,7 +187,6 @@ exports.user_getmnemonic = async (req, res) => {
 /**Fetch password to compare before reset */
 exports.user_pw_compare = async (req, res) => {
   try {
-    console.log(req.body);
     const { password } = req.body;
     console.log('IM HERE DAD', password);
     let user = await User.findOne(
