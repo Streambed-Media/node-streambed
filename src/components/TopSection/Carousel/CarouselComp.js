@@ -54,8 +54,12 @@ const CarouselComp = (props) => {
                 target='_blank'
                 key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
               >
-                <i className='youtube icon' />
+                <i className='youtube icon y--color' />
               </a>
+              <i
+                className='far fa-chart-bar chart--color'
+                onClick={() => props.getSingleVideoId(i)}
+              ></i>
             </div>
           );
         })}

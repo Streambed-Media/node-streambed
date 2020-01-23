@@ -142,20 +142,27 @@ $grey-box-background: #f8f8f8;
       text-align: center;
     }
 
-    i {
-      font-size: 1.3rem;
+    .y--color {
+      font-size: 1.4rem;
       color: red;
+    }
+    .chart--color {
+      font-size: 1.4rem;
+      color: #2f63e3;
+      cursor: pointer;
     }
 
     .thumbnail:hover {
       opacity: 0.8;
     }
 
-    .youtube {
+    .youtube,
+    .chart--color {
       transition: all 0.2s ease-in-out;
     }
 
-    .youtube:hover {
+    .youtube:hover,
+    .chart--color:hover {
       transform: scale(1.25);
     }
   }
