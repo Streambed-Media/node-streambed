@@ -51,7 +51,10 @@ div {
       flex-direction: column;
       align-items: flex-end;
       padding: 10px;
-      //This is for reset button
+
+      #pub--lish {
+        background-color: #2f63e3;
+      }
       .reset--pw {
         background-color: #939598;
         width: 10em;

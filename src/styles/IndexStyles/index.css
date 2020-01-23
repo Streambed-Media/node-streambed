@@ -73,6 +73,10 @@ div .streambed--logo--main {
   padding: 10px;
 }
 
+.container .header--container .toggle-publish-analytics #pub--lish {
+  background-color: #2f63e3;
+}
+
 .container .header--container .toggle-publish-analytics .reset--pw {
   background-color: #939598;
   width: 10em;
