@@ -75,6 +75,7 @@ div .streambed--logo--main {
 
 .container .header--container .toggle-publish-analytics .reset--pw {
   background-color: #939598;
+  width: 10em;
   border: none;
   border-radius: 0.25rem;
   margin: 0.2em 0.8em 0 0;

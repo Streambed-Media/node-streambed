@@ -21,11 +21,7 @@ const GoogleAuth = (props) => {
             action='/dashboard/logout'
             onSubmit={() => sessionStorage.clear()}
           >
-            <input
-              className='ui red google button'
-              type='submit'
-              value='Logout'
-            />
+            <input className='reset--pw' type='submit' value='Logout' />
           </form>
         </div>
       );
