@@ -2,11 +2,10 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
 
-
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
-  console.log('req body', req.body)
- 
+  console.log('req body', req.body);
+
   const { displayName, email, password, mnemonic } = req.body;
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
@@ -90,12 +89,15 @@ exports.user_login_post = async (req, res) => {
 /**Login POST End*/
 
 /****Reset password */
+/****Also set newly encrypted mnemoic with new pw as secret key */
 exports.user_resetpw = (req, res) => {
   const pass = req.body.password;
+  const mnemonic = req.body.encryption;
+  console.log('Line 96 reset pw controller', mnemonic);
   bcrypt.hash(pass, 8, (err, hash) => {
     User.findOneAndUpdate(
       { _id: req.session.userId },
-      { $set: { password: hash } }
+      { $set: { password: hash, mnemonic: mnemonic } }
     ).then(() => console.log(hash));
   });
 };
@@ -161,3 +163,46 @@ exports.user_deleterT = async (req, res) => {
 };
 
 /****End Delete rT from DB */
+
+/******Get mnemonic from db*/
+exports.user_getmnemonic = async (req, res) => {
+  try {
+    const remember = await User.findOne(
+      {
+        _id: req.session.userId
+      },
+      'mnemonic'
+    );
+    const { mnemonic } = remember;
+    console.log('Line 177 getmnemonic controller', mnemonic);
+    res.status(201).json({
+      mnemonic
+    });
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
+/****Get mnemonic from db End */
+
+/**Fetch password to compare before reset */
+exports.user_pw_compare = async (req, res) => {
+  try {
+    const { password } = req.body;
+    console.log('IM HERE DAD', password);
+    let user = await User.findOne(
+      {
+        _id: req.session.userId
+      },
+      ['password']
+    );
+    console.log(user);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(409).json({ msg: 'Incorrect Password' });
+    }
+    res.status(200).json({ msg: 'All Good!' });
+  } catch (e) {
+    console.log(e);
+  }
+};
+/**Fetch password to compare before reset End*/
