@@ -6,8 +6,8 @@
   display: grid;
   -ms-grid-columns: (1fr)[10];
       grid-template-columns: repeat(10, 1fr);
-  -ms-grid-rows: (1fr)[3];
-      grid-template-rows: repeat(3, 1fr);
+  -ms-grid-rows: (1fr)[4];
+      grid-template-rows: repeat(4, 1fr);
   grid-column-gap: 4em;
       grid-template-areas: 'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters' 'basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics basic-analytics filters filters filters filters' 'der der der der der der der der der der';
   height: 100vh;
@@ -249,20 +249,35 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  height: 100%;
   background-color: #f8f8f8;
   border-radius: 10px;
-  margin: 0 2em 8em 0;
+  margin: 0 2em 3em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .item {
   margin: 0 0 1em 0;
+}
+
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one,
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one .content,
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two .content {
+  line-height: 1.5rem;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container h1 {
@@ -291,6 +306,9 @@
 @media screen and (max-width: 1380px) {
   .renderContent-wrapper .der--influ-container .influencer-container {
     margin-bottom: 0;
+  }
+  .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one {
+    margin: 0 0 0 1em;
   }
   .renderContent-wrapper .der--influ-container .derivative--container img {
     width: 80%;
@@ -380,10 +398,10 @@
     margin: 0;
   }
   .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one {
-    margin-top: 4em;
+    margin-top: 1em;
   }
   .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two {
-    margin-top: 4em;
+    margin-top: 1em;
   }
   .renderContent-wrapper .der--influ-container .derivative--container {
     margin: 1em 0;
