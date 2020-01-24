@@ -6,7 +6,7 @@ $grey-box-background: #f8f8f8;
 .renderContent-wrapper {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   grid-column-gap: 4em;
   grid-template-areas:
     'butt carousel-box carousel-box carousel-box carousel-box carousel-box filters filters filters filters'
@@ -184,14 +184,23 @@ $grey-box-background: #f8f8f8;
 
       .influencers {
         display: flex;
-        flex-direction: column;
+        justify-content: space-around;
         align-items: center;
+        height: 100%;
         background-color: $grey-box-background;
         border-radius: 10px;
-        margin: 0 2em 8em 0;
+        margin: 0 2em 3em 0;
 
         .item {
           margin: 0 0 1em 0;
+        }
+        .list--one,
+        .list--two {
+          display: flex;
+          flex-direction: column;
+          .content {
+            line-height: 1.5rem;
+          }
         }
       }
       h1 {
@@ -223,6 +232,11 @@ $grey-box-background: #f8f8f8;
     .der--influ-container {
       .influencer-container {
         margin-bottom: 0;
+        .influencers {
+          .list--one {
+            margin: 0 0 0 1em;
+          }
+        }
       }
       .derivative--container {
         img {
@@ -301,10 +315,10 @@ $grey-box-background: #f8f8f8;
         .influencers {
           margin: 0;
           .list--one {
-            margin-top: 4em;
+            margin-top: 1em;
           }
           .list--two {
-            margin-top: 4em;
+            margin-top: 1em;
           }
         }
       }
