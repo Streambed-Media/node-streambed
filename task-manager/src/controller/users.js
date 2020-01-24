@@ -193,14 +193,14 @@ exports.user_pw_compare = async (req, res) => {
       {
         _id: req.session.userId
       },
-      ['password']
+      ['password', 'mnemonic']
     );
     console.log(user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(409).json({ msg: 'Incorrect Password' });
     }
-    res.status(200).json({ msg: 'All Good!' });
+    res.status(200).json({ msg: 'All Good!', mnemonic: user.mnemonic });
   } catch (e) {
     console.log(e);
   }
