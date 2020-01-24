@@ -5,7 +5,7 @@ const OriginalDerivative = () => {
     <div>
       <h1>Original / Derivative</h1>
       <div className='ui toggle checkbox'>
-        <input type='checkbox' name='public' />
+        <input type='checkbox' name='public' disabled />
         <label></label>
       </div>
     </div>

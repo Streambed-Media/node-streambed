@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../styles/Hamburger/Hamburger.css';
 import ResetPassword from './ResetPassword';
+import BackupWallet from './BackupWallet';
 import GoogleAuth_Master from '../GoogleAuth_master';
 import PubAnalytics from './PubAnalytics';
 
@@ -44,6 +45,11 @@ class Hamburger extends React.Component {
                   checkboxHandler={this.props.checkboxHandler}
                   handleClose={this.handleMenuButtonClick}
                 />
+              </a>
+            </li>
+            <li className='menu-list'>
+              <a className='menu-link'>
+                <BackupWallet handleClose={this.handleMenuButtonClick} />
               </a>
             </li>
             <li className='menu-list'>

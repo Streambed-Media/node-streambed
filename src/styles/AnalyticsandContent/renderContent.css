@@ -236,27 +236,33 @@
   -ms-grid-column: 7;
   -ms-grid-column-span: 4;
   grid-area: topi;
-  margin: 2em 0 6em 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   background-color: #f8f8f8;
   border-radius: 10px;
-  height: 29em;
-  margin: 0 2em 2em 0;
+  margin: 0 2em 8em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .item {
-  margin: 0 0 4em 0;
+  margin: 0 0 1em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container h1 {
@@ -270,8 +276,14 @@
   grid-area: der;
 }
 
+.renderContent-wrapper .der--influ-container .derivative--container h1 {
+  margin: 1.5em 0 0 1.5em;
+}
+
 .renderContent-wrapper .der--influ-container .derivative--container img {
-  width: 100%;
+  width: 60%;
+  height: 70%;
+  margin: 0 0 0 13em;
 }
 
 /************************************Media Queries**********************************************/
@@ -279,6 +291,11 @@
 @media screen and (max-width: 1380px) {
   .renderContent-wrapper .der--influ-container .influencer-container {
     margin-bottom: 0;
+  }
+  .renderContent-wrapper .der--influ-container .derivative--container img {
+    width: 80%;
+    height: 70%;
+    margin: 0 0 0 7em;
   }
 }
 
@@ -370,6 +387,11 @@
   }
   .renderContent-wrapper .der--influ-container .derivative--container {
     margin: 1em 0;
+  }
+  .renderContent-wrapper .der--influ-container .derivative--container img {
+    width: 80%;
+    height: 70%;
+    margin: 0 0 0 2em;
   }
 }
 /*# sourceMappingURL=renderContent.css.map */
