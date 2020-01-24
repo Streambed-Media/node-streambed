@@ -356,7 +356,9 @@
     grid-area: scoring;
     margin: 2em 0 0 0;
   }
-  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_div {
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_div,
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_All,
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_Single {
     -ms-grid-row: 1;
     -ms-grid-column: 1;
     -ms-grid-column-span: 2;

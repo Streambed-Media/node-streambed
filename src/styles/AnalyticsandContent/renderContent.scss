@@ -281,7 +281,9 @@ $grey-box-background: #f8f8f8;
           grid-area: scoring;
           margin: 2em 0 0 0;
         }
-        #chart_div {
+        #chart_div,
+        #chart_All,
+        #chart_Single {
           grid-area: chart;
           margin: 1em 0 0 0;
         }
