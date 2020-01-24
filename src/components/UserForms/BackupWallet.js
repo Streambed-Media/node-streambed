@@ -15,17 +15,21 @@ const BackupWallet = (props) => {
     props.handleClose();
     MySwal.mixin({
       input: 'password',
-      confirmButtonText: 'Next &rarr;',
-      showCancelButton: true,
-      progressSteps: ['1']
+      confirmButtonText: 'Submit',
+      showCancelButton: true
     })
       .queue(['Enter Password'])
       .then((result) => {
-        if (!result.value) {
+        if (result.dismiss) {
+          return;
+        }
+        if (!result.value[0]) {
           Swal.fire({
             title: 'Fields cannot be blank'
           });
+          console.log(result);
         } else {
+          console.log(result);
           fetch('/users/comparepw', {
             method: 'POST',
             headers: {
