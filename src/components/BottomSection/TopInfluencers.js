@@ -6,6 +6,12 @@ import React, { useState, useEffect } from 'react';
 const TopInfluencers = () => {
   /**User State */
   const [users, setUsers] = useState([]);
+  const [sM, setSM] = useState([
+    'fab fa-instagram fa-lg',
+    'fab fa-youtube fa-lg',
+    'fab fa-facebook-square fa-lg',
+    'fab fa-twitter-square fa-lg'
+  ]);
 
   /**Fetching fake users to simulate dynamic user data */
   useEffect(() => {
@@ -22,8 +28,8 @@ const TopInfluencers = () => {
       <h1>Top Influencers / Sharers</h1>
       <div className='influencers'>
         {users
-          ? users.map((c) => (
-              <div className='ui list'>
+          ? users.map((c, i) => (
+              <div key={c.login.uuid} className='ui list'>
                 <div className='item'>
                   <img
                     className='ui avatar image'
@@ -36,10 +42,11 @@ const TopInfluencers = () => {
                     </a>
                     <div className='description'>
                       Last seen watching{' '}
-                      <a href='/'>
+                      <a href='#'>
                         <b>Arrested Development</b>
-                      </a>{' '}
-                      just now.
+                      </a>
+                      <br />
+                      on: <i className={sM[i]}></i>
                     </div>
                   </div>
                 </div>
