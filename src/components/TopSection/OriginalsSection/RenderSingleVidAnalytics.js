@@ -209,8 +209,7 @@ class RenderSingleVidAnalytics extends React.Component {
       backgroundColor: 'transparent',
       width: 'auto',
       legend: {
-        position: 'right',
-        textStyle: { fontSize: 10 }
+        position: 'none'
       }
     };
 
@@ -234,12 +233,11 @@ class RenderSingleVidAnalytics extends React.Component {
     );
 
     const options = {
-      title: 'Views per day',
+      title: `Views per day for ${this.props.selectedVideoTitle}`,
       backgroundColor: 'transparent',
       width: 'auto',
       legend: {
-        position: 'right',
-        textStyle: { fontSize: 10 }
+        position: 'none'
       }
     };
 

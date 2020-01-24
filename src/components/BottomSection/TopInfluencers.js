@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 /*************************************Top influencers sections, non-functional currently */
 
-const TopInfluencers = () => {
+const TopInfluencers = (props) => {
   /**User State */
   const [users, setUsers] = useState([]);
   const [users2, setUsers2] = useState([]);
@@ -33,6 +33,17 @@ const TopInfluencers = () => {
         console.log(data.results);
       });
   }, []);
+
+  if (!props.videoData) {
+    return (
+      <div className='influencer-container'>
+        <h1>Top Influencers / Sharers</h1>
+        <div className='influencers'>
+          <div>Please sign in to Youtube</div>;
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='influencer-container'>

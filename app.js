@@ -30,7 +30,7 @@ mongoose
     console.log('Mongoose Connection is not working, the Error: ', error)
   );
 
-//TODO Setting up session to be persisted in Mongo, still researching
+//Session to be persisted in Mongo
 //* For reference: https://github.com/alex996/presentations/blob/master/express-session.md
 app.use(
   session({
@@ -45,7 +45,7 @@ app.use(
     secret: SESS_SECRET,
     cookie: {
       sameSite: true,
-      secure: false //! prod needs to be changed for production
+      secure: false //! probably needs to be changed for production
     }
   })
 );
