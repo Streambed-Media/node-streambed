@@ -1,6 +1,5 @@
 import React from 'react';
 import Scoring from './Scoring';
-// import Graph from './Graph';
 import { web } from '../../../../oauthTwo.keys.json';
 import runTheContent from '../../../helpers/GetToken';
 /*************************************Get todays date */
@@ -20,7 +19,8 @@ class RenderSingleVidAnalytics extends React.Component {
     singleVideoAnalytics: {},
     videoData: null,
     noData: null,
-    allData: null
+    allData: null,
+    onDefault: true
   };
 
   /* allData Key
@@ -36,6 +36,13 @@ class RenderSingleVidAnalytics extends React.Component {
     google.charts.load('current', { packages: ['corechart'] });
   }
   componentDidUpdate(prevProps) {
+    if (google.charts && this.state.onDefault) {
+      google.charts.setOnLoadCallback(this.drawChartTotal);
+    }
+    if (google.charts && !this.state.onDefault) {
+      google.charts.setOnLoadCallback(this.drawChartSingle);
+    }
+
     if (!this.state.allData) {
       this.getTotalVidAnaylytics();
     }
@@ -63,6 +70,9 @@ class RenderSingleVidAnalytics extends React.Component {
             allData: response.rows[0]
           });
         });
+      // .then(() => {
+      //   google.charts.setOnLoadCallback(this.drawChartTotal);
+      // });
     });
   }
 
@@ -130,19 +140,15 @@ class RenderSingleVidAnalytics extends React.Component {
                 estimatedMinutesWatched: totalestimatedMinutesWatched + ' min'
               },
               videoData: response.rows,
-              noData: null
+              noData: null,
+              onDefault: false
             });
           },
 
           function(err) {
             console.error('Execute error', err);
           }
-        )
-        .then(() => {
-          if (this.state.videoData) {
-            google.charts.setOnLoadCallback(this.drawChart);
-          }
-        });
+        );
     });
   }
 
@@ -179,6 +185,83 @@ class RenderSingleVidAnalytics extends React.Component {
     });
   }
 
+  drawChartTotal = () => {
+    // Create the data table.
+    if (!this.state.allData) {
+      return;
+    }
+
+    const data = new google.visualization.DataTable();
+
+    data.addColumn('string', 'String');
+    data.addColumn('number', 'Total');
+
+    data.addRows([
+      ['Views', this.state.allData[0]],
+      ['Comment', this.state.allData[1]],
+      ['Likes', this.state.allData[2]],
+      ['Dislikes', this.state.allData[3]],
+      ['Est min', this.state.allData[4]]
+    ]);
+
+    const options = {
+      title: 'Account analytics',
+      backgroundColor: 'transparent',
+      width: 'auto',
+      legend: {
+        position: 'right',
+        textStyle: { fontSize: 10 }
+      }
+    };
+
+    // Instantiate and draw our chart, passing in some options.
+    const chart = new google.visualization.ColumnChart(
+      document.getElementById('chart_All')
+    );
+    chart.draw(data, options);
+  };
+
+  drawChartSingle = () => {
+    // Create the data table.
+
+    const data = new google.visualization.DataTable();
+
+    data.addColumn('string', 'Date');
+    data.addColumn('number', 'Views');
+
+    this.state.videoData.map(record => data.addRows([[record[0], record[1]]]));
+
+    const options = {
+      title: 'Views per day',
+      backgroundColor: 'transparent',
+      width: 'auto',
+      legend: {
+        position: 'right',
+        textStyle: { fontSize: 10 }
+      }
+    };
+
+    // Instantiate and draw our chart, passing in some options.
+    const chart = new google.visualization.ColumnChart(
+      document.getElementById('chart_Single')
+    );
+    chart.draw(data, options);
+  };
+
+  renderAllData() {
+    let { allData } = this.state;
+    return (
+      <div>
+        <h2>Total</h2>
+        <p>Views: {allData ? allData[0] : null} </p>
+        <p>Comments: {allData ? allData[1] : null} </p>
+        <p>Likes: {allData ? allData[2] : null} </p>
+        <p>Dislikes: {allData ? allData[3] : null} </p>
+        <p>Estimated min watched: {allData ? allData[4] : null} </p>
+      </div>
+    );
+  }
+
   renderSingleVidAnalytics() {
     let {
       views,
@@ -190,14 +273,16 @@ class RenderSingleVidAnalytics extends React.Component {
 
     if (this.state.singleVideoAnalytics) {
       return (
-        <div className='traffic'>
-          <h2>Traffic</h2>
-          <p>Views: {views} </p>
-          <p>Comment: {comments}</p>
-          <p>Likes: {likes}</p>
-          <p>Dislikes: {dislikes} </p>
-          <p>Estimated min watched: {estimatedMinutesWatched}</p>
-          <p>Key search term: {this.state.keyWord}</p>
+        <div>
+          <div className='traffic'>
+            <h2>Traffic</h2>
+            <p>Views: {views} </p>
+            <p>Comments: {comments}</p>
+            <p>Likes: {likes}</p>
+            <p>Dislikes: {dislikes} </p>
+            <p>Estimated min watched: {estimatedMinutesWatched}</p>
+            <p>Key search term: {this.state.keyWord}</p>
+          </div>
         </div>
       );
     } else {
@@ -205,74 +290,44 @@ class RenderSingleVidAnalytics extends React.Component {
     }
   }
 
-  drawChart = () => {
-    // Create the data table.
-    const data = new google.visualization.DataTable();
-
-    data.addColumn('string', 'Date');
-    data.addColumn('number', 'Views');
-
-    if (this.state.videoData)
-      this.state.videoData.map(record =>
-        data.addRows([[record[0], record[1]]])
-      );
-    else return null;
-
-    const options = {
-      title: 'Views per day',
-      backgroundColor: 'transparent',
-      width: 'auto',
-      legend: {
-        position: 'right',
-        textStyle: { fontSize: 10 }
-      },
-      animation: {
-        duration: 1000,
-        easing: 'out',
-        startup: true
-      }
-    };
-
-    // Instantiate and draw our chart, passing in some options.
-    const chart = new google.visualization.ColumnChart(
-      document.getElementById('chart_div')
-    );
-    chart.draw(data, options);
-  };
-
   render() {
-    let { allData } = this.state;
+    let { noData, allData, onDefault, videoData } = this.state;
+
     return (
       <div className='basic-analytics-container'>
         <h2>Originals</h2>
-        {this.state.noData ? (
+        {noData ? (
           <div
             style={{
               textAlign: 'center',
               color: 'red',
               fontFamily: 'san-serif'
             }}>
-            {this.state.noData}
+            {noData}
           </div>
         ) : null}
-
-        <div className='basic-analytics'>
-          {this.state.videoData != null ? (
-            <div id='chart_div'></div>
+        {/*  */}
+        <div className='basic-analytics' style={{ position: 'relative' }}>
+          {!onDefault && (
+            <div
+              style={{
+                position: 'absolute',
+                zIndex: 100
+              }}>
+              <i
+                onClick={() =>
+                  this.setState({ onDefault: !this.setState.onDefault })
+                }
+                className='fas fa-caret-square-left'></i>
+            </div>
+          )}
+          {onDefault ? (
+            <div id='chart_All'></div>
           ) : (
-            <>
-              <div>
-                <h2>Total</h2>
-                <p>Views: {allData ? allData[0] : null} </p>
-                <p>Comment: {allData ? allData[1] : null} </p>
-                <p>Likes: {allData ? allData[2] : null} </p>
-                <p>Dislikes: {allData ? allData[3] : null} </p>
-                <p>Estimated min watched: {allData ? allData[4] : null} </p>
-              </div>
-            </>
+            <div id='chart_Single'></div>
           )}
 
-          {this.renderSingleVidAnalytics()}
+          {onDefault ? this.renderAllData() : this.renderSingleVidAnalytics()}
           <Scoring />
         </div>
       </div>
