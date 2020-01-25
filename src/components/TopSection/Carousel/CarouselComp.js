@@ -48,20 +48,30 @@ const CarouselComp = (props) => {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            setPubData(data);
-            sessionStorage.setItem('pubJSON', JSON.stringify(data));
+            let templateData = data.results.map((c) => {
+              if (c.record.details.tmpl_834772F4) {
+                return c.record;
+              }
+            });
+            setPubData(templateData);
+            sessionStorage.setItem('pubJSON', JSON.stringify(templateData));
           });
       });
   }, []);
   /***Function on click of OIP button to show modal with JSON record data */
-  const getJSONRecord = () => {
+  const getJSONRecord = (ytId) => {
+    let videoRec = pubData.map((c) => {
+      if (c.details.tmpl_834772F4.youTubeId === ytId) {
+        return c;
+      }
+    });
     MySwal.mixin({
       html: (
         <ReactJson
           displayDataTypes={false}
           indentWidth={1}
           enableClipboard={false}
-          src={pubData}
+          src={videoRec}
         />
       )
     }).fire();
@@ -110,12 +120,15 @@ const CarouselComp = (props) => {
                   className='far fa-chart-bar chart--color'
                   onClick={() => props.getSingleVideoId(i)}
                 ></i>
-                <img
-                  src={oipPic}
-                  onClick={() => getJSONRecord()}
-                  style={{ width: '30px' }}
-                  className='chart--color'
-                />
+                {pubData[0].details.tmpl_834772F4.youTubeId ===
+                  content.id.videoId && (
+                  <img
+                    src={oipPic}
+                    onClick={() => getJSONRecord(content.id.videoId)}
+                    style={{ width: '30px' }}
+                    className='chart--color'
+                  />
+                )}
               </div>
             </div>
           );
