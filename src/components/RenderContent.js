@@ -36,7 +36,6 @@ const RenderContent = (props) => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setVideoData(data.items);
           sessionStorage.setItem('VideoData', JSON.stringify(data.items));
         });

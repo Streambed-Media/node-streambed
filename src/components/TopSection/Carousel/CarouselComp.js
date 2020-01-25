@@ -42,7 +42,9 @@ const CarouselComp = (props) => {
       .then((data) => {
         const { pub } = data;
         console.log(pub);
-        fetch(`https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}`)
+        fetch(
+          `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
+        )
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
