@@ -4,6 +4,7 @@ import 'react-multi-carousel/lib/styles.css';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import ReactJson from 'react-json-view';
+import oipPic from '../../../../public/images/oippic.png';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
@@ -88,23 +89,32 @@ const CarouselComp = (props) => {
                 onClick={() => props.getSingleVideoId(i)}
                 style={{ cursor: 'pointer' }}
               ></img>
-              <br />
-              <a
-                href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                rel='noopener noreferrer'
-                target='_blank'
-                key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
               >
-                <i className='youtube icon y--color' />
-              </a>
-              <i
-                className='far fa-chart-bar chart--color'
-                onClick={() => props.getSingleVideoId(i)}
-              ></i>
-              <i
-                className='fab fa-bitcoin chart--color'
-                onClick={() => getJSONRecord()}
-              ></i>
+                <a
+                  href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                  rel='noopener noreferrer'
+                  target='_blank'
+                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                >
+                  <i className='youtube icon y--color' />
+                </a>
+                <i
+                  className='far fa-chart-bar chart--color'
+                  onClick={() => props.getSingleVideoId(i)}
+                ></i>
+                <img
+                  src={oipPic}
+                  onClick={() => getJSONRecord()}
+                  style={{ width: '30px' }}
+                  className='chart--color'
+                />
+              </div>
             </div>
           );
         })}
