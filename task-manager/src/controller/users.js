@@ -206,3 +206,21 @@ exports.user_pw_compare = async (req, res) => {
   }
 };
 /**Fetch password to compare before reset End*/
+
+/**Fetch pub */
+exports.user_pub = async (req, res) => {
+  try {
+    console.log('IM HERE DAD', req.session.userId);
+    let user = await User.findOne(
+      {
+        _id: req.session.userId
+      },
+      'pub'
+    );
+
+    res.status(201).json({ pub: user.pub });
+  } catch (e) {
+    console.log(e);
+  }
+};
+/**Fetch pub */

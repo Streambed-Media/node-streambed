@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 //User schema, all fields are required currently
-//TODO Not sure how to store refresh token for google yet, still thinking of solutions
+
 const userSchema = new mongoose.Schema({
   displayName: { type: String, required: true, unique: true },
   email: {
@@ -15,10 +15,11 @@ const userSchema = new mongoose.Schema({
   },
   password: { type: String, required: true },
   mnemonic: {
-    type: String, 
+    type: String,
     required: true
   },
-  rT: { type: String, default: '' }
+  rT: { type: String, default: '' },
+  pub: { type: String, default: '' }
 });
 
 const User = mongoose.model('User', userSchema);

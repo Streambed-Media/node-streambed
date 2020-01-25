@@ -319,7 +319,9 @@ class RenderSingleVidAnalytics extends React.Component {
             >
               <i
                 onClick={() =>
-                  this.setState({ onDefault: !this.setState.onDefault })
+                  this.setState({
+                    onDefault: !this.setState.onDefault
+                  })
                 }
                 className='fas fa-caret-square-left fa-lg'
               ></i>

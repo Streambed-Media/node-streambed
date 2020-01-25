@@ -1,6 +1,8 @@
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
@@ -22,6 +24,22 @@ const responsive = {
 };
 
 const CarouselComp = (props) => {
+  /*****Funtion for getting publishID from db, then showing record in JSON viewer */
+  const getJSONRecord = () => {
+    fetch('/users/pub')
+      .then((response) => response.json())
+      .then((data) => {
+        const { pub } = data;
+        console.log(pub);
+        fetch(`https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            Swal.fire(data);
+          });
+      });
+  };
+
   //***********************************************Maps through videos, prints them to carousel */
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
@@ -59,6 +77,10 @@ const CarouselComp = (props) => {
               <i
                 className='far fa-chart-bar chart--color'
                 onClick={() => props.getSingleVideoId(i)}
+              ></i>
+              <i
+                className='fab fa-bitcoin chart--color'
+                onClick={() => getJSONRecord()}
               ></i>
             </div>
           );
