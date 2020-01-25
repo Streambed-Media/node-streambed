@@ -31,6 +31,7 @@ const CarouselComp = (props) => {
 
   const MySwal = withReactContent(Swal);
   /*****Funtion for getting publishID from db, then fetch record and saves to session and state */
+  //* Only returns records if the include tmpl_834772F4 */
   useEffect(() => {
     const pD = JSON.parse(sessionStorage.getItem('pubJSON'));
     if (pD) {
@@ -120,15 +121,24 @@ const CarouselComp = (props) => {
                   className='far fa-chart-bar chart--color'
                   onClick={() => props.getSingleVideoId(i)}
                 ></i>
-                {pubData[0].details.tmpl_834772F4.youTubeId ===
-                  content.id.videoId && (
-                  <img
-                    src={oipPic}
-                    onClick={() => getJSONRecord(content.id.videoId)}
-                    style={{ width: '30px' }}
-                    className='chart--color'
-                  />
-                )}
+                {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
+                {/**It gets all videoIds in the record and compares to decide if button should display **/}
+                {/**
+                 * //! Code if very specific to template record format and ids, if template is different it will probably not work
+                 */}
+                {pubData &&
+                  pubData
+                    .map((c) => {
+                      return c.details.tmpl_834772F4.youTubeId;
+                    })
+                    .includes(content.id.videoId) && (
+                    <img
+                      src={oipPic}
+                      onClick={() => getJSONRecord(content.id.videoId)}
+                      style={{ width: '30px' }}
+                      className='chart--color'
+                    />
+                  )}
               </div>
             </div>
           );
