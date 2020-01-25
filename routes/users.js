@@ -29,4 +29,7 @@ router.post('/comparepw', UsersController.user_pw_compare);
 //Remove rT from DB and unAuth
 router.post('/deleterT', UsersController.user_deleterT);
 
+//Get publisher Id from DB
+router.get('/pub', UsersController.user_pub);
+
 module.exports = router;
