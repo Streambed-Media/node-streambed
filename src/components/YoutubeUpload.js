@@ -1,5 +1,79 @@
 import React, { PropTypes } from 'react';
+import { Modules } from 'js-oip';
+import wallet from '../helpers/Wallet';
+import { enc, AES } from 'crypto-js';
 
+const youtube = {
+	kind: "youtubevideo", 
+	etag: "p4VTdlkQv3HQeTEaXgvLePAydmU/M6CbZTC9wbcQsb3LckLFw2gu1z0",
+ 	id: "6MABNa_ZgOc", 
+	snippet: {
+		publishedAt: "2020-01-03T21:31:49.000Z",
+		channelId: "UChFpwHejHDGUKxjKYC98uWw", 
+		title: "cartoon", 
+		description: "yawning",
+		thumbnails: {
+			deault: {
+				url: "https://i.ytimg.com/vi/6MABNa_ZgOc/default.jpg",
+				width: 120,
+				height: 90
+			},
+			channelTitle: "Brad Vanderbush"
+		},
+	},		
+	status: {
+		uploadStatus: "uploaded",
+		privacyStatus: "public",
+		license: "youtube",
+		embeddable: true,
+		publicStatsViewable: true
+	}
+}
+let basic = {
+    descriptor: 'ClwKB3AucHJvdG8SEm9pcFByb3RvLnRlbXBsYXRlcyI1CgFQEg0KBXRpdGxlGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEgwKBHllYXIYAyABKBFiBnByb3RvMw==',
+    name: 'tmpl_66089C48',
+    payload: {
+      title: '',
+      description: '',
+      year: 2020
+    }
+  }
+  
+  let iterativeAssociation = {
+    descriptor: 'CqoCCgdwLnByb3RvEhJvaXBQcm90by50ZW1wbGF0ZXMiggIKAVASEgoKY29udGVudFVybBgBIAEoCRIUCgxpZE9uUGxhdGZvcm0YAiABKAkSKAoPY29udGVudFBsYXRmb3JtGAMgASgOMg9Db250ZW50UGxhdGZvcm0iqAEKD0NvbnRlbnRQbGF0Zm9ybRIdChlDb250ZW50UGxhdGZvcm1fVU5ERUZJTkVEEAASGwoXQ29udGVudFBsYXRmb3JtX1lPVVRVQkUQARIeChpDb250ZW50UGxhdGZvcm1fU09VTkRDTE9VRBACEhwKGENvbnRlbnRQbGF0Zm9ybV9GQUNFQk9PSxADEhsKF0NvbnRlbnRQbGF0Zm9ybV9UV0lUVEVSEARiBnByb3RvMw==',
+    name: 'tmpl_C27930AA',
+    payload: {
+      contentUrl: '',
+      idOnPlatform: '',
+      contentPlatform: 1 // ContentPlatform_YOUTUBE
+    }
+  }
+  
+  let basicVideoTmpl = {
+    descriptor: 'CuABCgdwLnByb3RvEhJvaXBQcm90by50ZW1wbGF0ZXMiuAEKAVASEwoLcHVibGlzaERhdGUYASABKAQSGAoQYWRkcmVzc0RpcmVjdG9yeRgDIAEoCRIQCghmaWxlbmFtZRgEIAEoCRITCgtkaXNwbGF5TmFtZRgFIAEoCRIZChF0aHVtYm5haWxGaWxlbmFtZRgGIAEoCSJCCgdOZXR3b3JrEg0KCVVOREVGSU5FRBAAEhAKDE5ldHdvcmtfSVBGUxABEhYKEk5ldHdvcmtfQklUVE9SUkVOVBACYgZwcm90bzM=',
+    name: 'tmpl_5D503849',
+    payload: {
+      publishDate: Date.now(),
+      addressDirectory: 'QmXpsLSLAVeReeKJumUujpXCNyAhmYC42ixqmmHx9W6YwN',
+      filename: 'video.mp4',
+      displayName: '',
+      thumbnailFilename: 'thumb.png',
+      network: 1, // Network_IPFS
+    }
+  }
+let sendFloPost = async (floData) => {
+    const response = await fetch('http://localhost:5000/sendflo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            signed64: floData
+        })
+    })
+    const json = await response.json()
+    return json
+}
 
 class YoutubeUpload extends React.Component {
     state = {
@@ -8,11 +82,53 @@ class YoutubeUpload extends React.Component {
         checkBoxErr: false,
     }
 
+    upDatePayloads = () => {
+        const youTubeData = this.state.results
+        console.log( basic.payload.title, youTubeData.snippet.title)
+        basic.payload.title = youTubeData.snippet.title
+        basic.payload.description = youTubeData.snippet.description
+        iterativeAssociation.payload.contentUrl = 'https://www.youtube.com/watch?v='+youTubeData.id;
+        iterativeAssociation.payload.idOnPlatform = youTubeData.id
+        basicVideoTmpl.payload.displayName = youTubeData.snippet.title+'.mp4'
+        let registration = [basic, iterativeAssociation, basicVideoTmpl];
+        return registration
+    }
+
+    sendFloPost = async (floData) => {
+        const response = await fetch('http://localhost:5000/sendflo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                signed64: floData
+            })
+        })
+        const json = await response.json();
+        return json
+    }
     
+    walletData = () => {
+        const { createRegistration, publishRecord} = wallet
+        let registration = this.upDatePayloads()
+        
+        createRegistration( registration )
+            .then((data) => {
+                console.log(data)
+                return publishRecord( data )
+            })
+            .then((signed64)  => {
+                console.log(signed64)
+                sendFloPost( signed64 ) 
+                // sendToBlockChain(signed64, walletdata)
+            })
+        .catch(err => console.log('WalletData ' + err));
+    }
 
     getYouTubeData = () => {
+        
         const checkbox = this.state['checkbox']
-
+        return this.setState({results: youtube},() => this.walletData()) // CHANGE THIS BACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         fetch('http://localhost:5000/upload-youtube', {
             method: 'POST',
             body: JSON.stringify(checkbox),
@@ -22,7 +138,8 @@ class YoutubeUpload extends React.Component {
         })
         .then((res) => res.json())
         .then((data) => {
-            this.setState({results: data})
+           
+            this.setState({results: data},() => this.walletData())
         })
         .catch((err) => console.log(err));
     }
@@ -51,7 +168,7 @@ class YoutubeUpload extends React.Component {
         } 
 
         // Updates checkbox value and call the getYouTubeData as a callback
-        this.setState({checkbox: val}, this.getYouTubeData)
+        this.setState({checkbox: val}, this.getYouTubeData) 
     }
 
 

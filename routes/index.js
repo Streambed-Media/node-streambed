@@ -45,31 +45,31 @@ const thumbler = (time, callback) => {
 };
 
 //Runs async addFile function to get hash for ipfs
-const getIpfsHash = () => {
-  ipfs
+const getIpfsHash = async () => {
+  let link = await ipfs
     .addFile(videoInfo.videoFileName, videoInfo.videoFilePath)
     .then((data) => {
       console.log('ipfs data: ', data);
       console.log('https://ipfs.io/ipfs/' + data);
+      return data
     })
     .catch(console.err);
+    return link
 };
 
 const youtubeupload = async (req, res) => {
   try {
-      const uploaded = await youtubeUpload
-        .runUpload(videoInfo)
-        .then((data) => {
-        //  console.log( 'data ', data)
-          return data
-        })
-        .catch((err) => console.log(err));
-        console.log('UPLOAD ', uploaded)
-        return uploaded
-      } catch(e) {
-        console.log(e.message)
-        return 'Syntax Error'
-      }
+    const uploaded = await youtubeUpload
+      .runUpload(videoInfo)
+      .then((data) => {
+        return data
+      })
+      .catch((err) => console.log(err));
+      return uploaded
+    } catch(e) {
+      console.log(e)
+      return 'Syntax Error'
+    }
 }
 
 router.post('/uploaded', upload.single('myFiles'), (req, res) => {
@@ -122,11 +122,11 @@ router.get('/', function(req, res, next) {
   const { userId } = req.session;
  
   // If session id exist skips login / signup page and back to the users dashboard
-  if (userId) {
-    res.redirect('/users/login');
-  } else {
+  // if (userId) {
+  //   res.redirect('/users/login');
+  // } else {
     res.render('index', { title: 'Streambed' });
-  }
+  // }
 });
 
 /* GET analytics page. */
@@ -148,13 +148,23 @@ router.post('/upload-youtube', async (req, res) => {
 
     // (async () => {
     // })()
-    // getIpfsHash();
+    
     youtubeupload().then((data) => {
-      res.send(data)
+      getIpfsHash().then((link) => {
+        data.ipfs = link
+        res.send(data)
+        console.log(link)
+      })
+      
       console.log('index.js youtube callback: ', data)
     }).catch((err) => err.message);
     // console.log('file name: ', videoInfo.videoFilePath);
    
+  } else {
+    youtubeupload().then((data) => {
+      res.send(data)
+      console.log('index.js youtube callback: ', data)
+    }).catch((err) => err.message);
   }
 });
 
