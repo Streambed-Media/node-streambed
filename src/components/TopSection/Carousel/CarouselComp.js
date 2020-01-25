@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Swal from 'sweetalert2';
@@ -25,9 +25,17 @@ const responsive = {
 };
 
 const CarouselComp = (props) => {
+  /***State */
+  const [pubData, setPubData] = useState('');
+
   const MySwal = withReactContent(Swal);
-  /*****Funtion for getting publishID from db, then showing record in JSON viewer */
-  const getJSONRecord = () => {
+  /*****Funtion for getting publishID from db, then fetch record and saves to session and state */
+  useEffect(() => {
+    const pD = JSON.parse(sessionStorage.getItem('pubJSON'));
+    if (pD) {
+      setPubData(pD);
+      return;
+    }
     fetch('/users/pub')
       .then((response) => response.json())
       .then((data) => {
@@ -37,20 +45,24 @@ const CarouselComp = (props) => {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            MySwal.mixin({
-              width: 1000,
-              html: (
-                <ReactJson
-                  displayDataTypes={false}
-                  indentWidth={1}
-                  src={data.results[0]}
-                />
-              )
-            }).fire();
+            setPubData(data);
+            sessionStorage.setItem('pubJSON', JSON.stringify(data));
           });
       });
+  }, []);
+  /***Function on click of OIP button to show modal with JSON record data */
+  const getJSONRecord = () => {
+    MySwal.mixin({
+      html: (
+        <ReactJson
+          displayDataTypes={false}
+          indentWidth={1}
+          enableClipboard={false}
+          src={pubData}
+        />
+      )
+    }).fire();
   };
-
   //***********************************************Maps through videos, prints them to carousel */
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {

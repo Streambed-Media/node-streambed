@@ -3,6 +3,15 @@
 $grey-box-background: #f8f8f8;
 /*******************************/
 
+/**********************************************************************/
+/**********************Sweet Alert**************************/
+.swal2-content {
+  text-align: left !important;
+}
+.swal2-modal {
+  width: auto !important;
+}
+/**********************************************************************/
 .renderContent-wrapper {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
