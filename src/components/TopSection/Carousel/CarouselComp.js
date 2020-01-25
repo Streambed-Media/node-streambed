@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import ReactJson from 'react-json-view';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
@@ -24,6 +25,7 @@ const responsive = {
 };
 
 const CarouselComp = (props) => {
+  const MySwal = withReactContent(Swal);
   /*****Funtion for getting publishID from db, then showing record in JSON viewer */
   const getJSONRecord = () => {
     fetch('/users/pub')
@@ -35,7 +37,16 @@ const CarouselComp = (props) => {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            Swal.fire(data);
+            MySwal.mixin({
+              width: 1000,
+              html: (
+                <ReactJson
+                  displayDataTypes={false}
+                  indentWidth={1}
+                  src={data.results[0]}
+                />
+              )
+            }).fire();
           });
       });
   };
