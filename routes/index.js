@@ -47,14 +47,14 @@ const thumbler = (time, callback) => {
 //Runs async addFile function to get hash for ipfs
 const getIpfsHash = async () => {
   let link = await ipfs
-    .addFile(videoInfo.videoFileName, videoInfo.videoFilePath)
+    .addFile( videoInfo )
     .then((data) => {
       console.log('ipfs data: ', data);
-      console.log('https://ipfs.io/ipfs/' + data);
+      console.log('https://ipfs.io/ipfs/'+data);
       return data
     })
     .catch(console.err);
-    return link
+  return link
 };
 
 const youtubeupload = async (req, res) => {
@@ -79,7 +79,7 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   const file = req.file;
   videoInfo.title = body[0];
   videoInfo.desc = body[1];
-  videoInfo.videoFilePath = './' + file.path;
+  videoInfo.videoFilePath = './'+ file.path;
   videoInfo.videoFileName = file.filename;
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
@@ -146,14 +146,11 @@ router.post('/upload-youtube', async (req, res) => {
   console.log('ipfs',keys)
   if ( keys.length === 2 ) {
 
-    // (async () => {
-    // })()
-    
     youtubeupload().then((data) => {
       getIpfsHash().then((link) => {
+        console.log(link)
         data.ipfs = link
         res.send(data)
-        console.log(link)
       })
       
       console.log('index.js youtube callback: ', data)

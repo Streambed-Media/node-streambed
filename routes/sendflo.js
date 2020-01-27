@@ -5,6 +5,7 @@ const sendFloData = require('../task-manager/src/middleware/sendFlo.js').sendFlo
 
 router.post('/', (req, res) => {
     let signed64 = req.body.signed64
+    console.log('signed64', signed64)
     console.log(signed64)
     sendFloData( signed64 )
         .then(( txid )=>{
@@ -14,7 +15,6 @@ router.post('/', (req, res) => {
             });
         })
     .catch((err)=> console.log('Catch error' , err))
-    console.log(req.body)
 });
 
 module.exports = router;

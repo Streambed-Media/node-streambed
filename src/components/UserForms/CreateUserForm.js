@@ -17,12 +17,29 @@ const basic = {
 }
 
 
-const sendMulti = async ( mpx ) => {
-    let myMainAddress = wallet.myMainAddress;
-    sessionStorage.setItem('userAddress', JSON.stringify(myMainAddress) )
+const sendMulti = async (mpx) => {
+
+    let myMainAddress = wallet.myMainAddress
+    let test = wallet.test
+    console.log(test)
+    let json = JSON.stringify(test.__proto__, function (key, value) {
+        if (typeof value === 'object') {
+   
+            return value.toString();
+        } else {
+            return value;
+        }
+    });
+
+    console.log(json);
+    console.log(JSON.parse(json))
+
+    localStorage.setItem('userAddress', JSON.stringify(myMainAddress)) //Change myMainAddress to json
+    return
     let floDataArr = [];
-    
+
     const sendFloPost = async (floData) => {
+        console.log(floData)
         const response = await fetch('http://localhost:5000/sendflo', {
             method: 'POST',
             headers: {
@@ -36,11 +53,11 @@ const sendMulti = async ( mpx ) => {
         return json
     }
     // Signed64 is less than 1040
-    if (!Array.isArray( mpx )) {
+    if (!Array.isArray(mpx)) {
 
-        let txid = await sendFloPost( mpx ) 
+        let txid = await sendFloPost(mpx)
         console.log(txid)
-        floDataArr.push( txid )
+        floDataArr.push(txid)
 
     } else {
 
@@ -49,12 +66,13 @@ const sendMulti = async ( mpx ) => {
         mpx[0].setSignature(sig)
 
         let floData1 = mpx[0].toString()
-        let referenceTxid = await sendFloPost(floData1) 
+
+        let referenceTxid = await sendFloPost(floData1)
         console.log("sent reference", referenceTxid)
 
         //First post request has come back ok, start the loop post request
-        if ( referenceTxid ) {
-            
+        if (referenceTxid) {
+
             for (let i = 1; i < mpx.length; i++) {
 
                 mpx[i].setReference(referenceTxid.txid)
@@ -91,6 +109,7 @@ const CreateUserForm = () => {
 
     /*****************************STATE SECTION******************************/
     const { createMnemonic, createRegistration, publishRecord } = wallet;
+
     const encrypt = (nmonic, password) => {
         let encryption = AES.encrypt(nmonic, password).toString()
         return encryption
@@ -109,18 +128,18 @@ const CreateUserForm = () => {
             if (!Array.isArray(mpx)) {
                 return console.log('uh oh', mpx);
             }
-            getTxid( mpx )
-        }else {
-            getTxid( signed64 )
+            getTxid(mpx)
+        } else {
+            getTxid(signed64)
         }
-        function getTxid( mpx ) {
+        function getTxid(mpx) {
             sendMulti(mpx)
                 .then((txidArray) => {
                     console.log(txidArray, walletdata)
                     walletdata.signed64 = txidArray;
-                    
+
                     sendUser(walletdata)
-            }).catch((err) => 'Multipart Error: '+err)
+                }).catch((err) => 'Multipart Error: ' + err)
         }
     }
 
@@ -134,15 +153,15 @@ const CreateUserForm = () => {
                 setWalletRecord({ mnemonic: mnemonic, encryption: hash })
                 basic.payload.name = username
                 let registration = [basic]
-                return createRegistration( registration )
+                return createRegistration(registration)
 
             })
-            .then((data) => publishRecord( data ))
-            .then((signed64 ) => {
+            .then((data) => publishRecord([data]))
+            .then((signed64) => {
                 console.log(signed64.length)
                 sendToBlockChain(signed64, walletdata)
             })
-        .catch(err => console.log('WalletData ' + err));
+            .catch(err => console.log('WalletData ' + err));
     }
 
 

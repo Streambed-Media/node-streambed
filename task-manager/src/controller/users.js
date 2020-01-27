@@ -62,11 +62,11 @@ exports.user_login_get = (req, res) => {
   const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page
-  if (!userId) {
-    res.redirect('/');
-  } else {
+  // if (!userId) {
+    // res.redirect('/');
+  // } else {
     res.render('dashboard', { title: 'Streambed' });
-  }
+  // }
 };
 /****Login Get End */
 

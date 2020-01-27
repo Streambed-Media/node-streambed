@@ -61,19 +61,7 @@ let basic = {
       network: 1, // Network_IPFS
     }
   }
-let sendFloPost = async (floData) => {
-    const response = await fetch('http://localhost:5000/sendflo', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            signed64: floData
-        })
-    })
-    const json = await response.json()
-    return json
-}
+
 
 class YoutubeUpload extends React.Component {
     state = {
@@ -94,7 +82,8 @@ class YoutubeUpload extends React.Component {
         return registration
     }
 
-    sendFloPost = async (floData) => {
+    sendFloPost = async ( floData ) => {
+        console.log(floData)
         const response = await fetch('http://localhost:5000/sendflo', {
             method: 'POST',
             headers: {
@@ -119,7 +108,7 @@ class YoutubeUpload extends React.Component {
             })
             .then((signed64)  => {
                 console.log(signed64)
-                sendFloPost( signed64 ) 
+                this.sendFloPost( signed64 ).then((res)=> console.log(res))
                 // sendToBlockChain(signed64, walletdata)
             })
         .catch(err => console.log('WalletData ' + err));
