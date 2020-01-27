@@ -124,7 +124,7 @@ const CarouselComp = (props) => {
                 {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
                 {/**It gets all videoIds in the record and compares to decide if button should display **/}
                 {/**
-                 * //! Code if very specific to template record format and ids, if template is different it will probably not work
+                 * //! Code is very specific to template record format and ids, if template is different it will probably not work
                  */}
                 {pubData &&
                   pubData
@@ -135,8 +135,8 @@ const CarouselComp = (props) => {
                     <img
                       src={oipPic}
                       onClick={() => getJSONRecord(content.id.videoId)}
-                      style={{ width: '30px' }}
-                      className='chart--color'
+                      style={{ width: '33px' }}
+                      className='chart--color' //This is just to add hover effect
                     />
                   )}
               </div>
