@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import ReactJson from 'react-json-view';
+import oipPic from '../../../../public/images/oippic.png';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
@@ -22,6 +26,57 @@ const responsive = {
 };
 
 const CarouselComp = (props) => {
+  /***State */
+  const [pubData, setPubData] = useState('');
+
+  const MySwal = withReactContent(Swal);
+  /*****Funtion for getting publishID from db, then fetch record and saves to session and state */
+  //* Only returns records if the include tmpl_834772F4 */
+  useEffect(() => {
+    const pD = JSON.parse(sessionStorage.getItem('pubJSON'));
+    if (pD) {
+      setPubData(pD);
+      return;
+    }
+    fetch('/users/pub')
+      .then((response) => response.json())
+      .then((data) => {
+        const { pub } = data;
+        console.log(pub);
+        fetch(
+          `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            let templateData = data.results.map((c) => {
+              if (c.record.details.tmpl_834772F4) {
+                return c.record;
+              }
+            });
+            setPubData(templateData);
+            sessionStorage.setItem('pubJSON', JSON.stringify(templateData));
+          });
+      });
+  }, []);
+  /***Function on click of OIP button to show modal with JSON record data */
+  const getJSONRecord = (ytId) => {
+    let videoRec = pubData.map((c) => {
+      if (c.details.tmpl_834772F4.youTubeId === ytId) {
+        return c;
+      }
+    });
+    MySwal.mixin({
+      html: (
+        <ReactJson
+          displayDataTypes={false}
+          indentWidth={1}
+          enableClipboard={false}
+          src={videoRec}
+        />
+      )
+    }).fire();
+  };
   //***********************************************Maps through videos, prints them to carousel */
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
@@ -47,19 +102,44 @@ const CarouselComp = (props) => {
                 onClick={() => props.getSingleVideoId(i)}
                 style={{ cursor: 'pointer' }}
               ></img>
-              <br />
-              <a
-                href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                rel='noopener noreferrer'
-                target='_blank'
-                key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
               >
-                <i className='youtube icon y--color' />
-              </a>
-              <i
-                className='far fa-chart-bar chart--color'
-                onClick={() => props.getSingleVideoId(i)}
-              ></i>
+                <a
+                  href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                  rel='noopener noreferrer'
+                  target='_blank'
+                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                >
+                  <i className='youtube icon y--color' />
+                </a>
+                <i
+                  className='far fa-chart-bar chart--color'
+                  onClick={() => props.getSingleVideoId(i)}
+                ></i>
+                {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
+                {/**It gets all videoIds in the record and compares to decide if button should display **/}
+                {/**
+                 * //! Code if very specific to template record format and ids, if template is different it will probably not work
+                 */}
+                {pubData &&
+                  pubData
+                    .map((c) => {
+                      return c.details.tmpl_834772F4.youTubeId;
+                    })
+                    .includes(content.id.videoId) && (
+                    <img
+                      src={oipPic}
+                      onClick={() => getJSONRecord(content.id.videoId)}
+                      style={{ width: '30px' }}
+                      className='chart--color'
+                    />
+                  )}
+              </div>
             </div>
           );
         })}

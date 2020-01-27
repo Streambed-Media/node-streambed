@@ -53,7 +53,7 @@ class RenderSingleVidAnalytics extends React.Component {
   }
 
   getTotalVidAnaylytics() {
-    runTheContent(accessToken => {
+    runTheContent((accessToken) => {
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?endDate=${todaysDate}&ids=channel%3D%3DMINE&metrics=views%2Ccomments%2Clikes%2Cdislikes%2CestimatedMinutesWatched%2CaverageViewDuration&startDate=2005-02-14&key=${web.apiKey}`,
         {
@@ -64,8 +64,8 @@ class RenderSingleVidAnalytics extends React.Component {
           }
         }
       )
-        .then(response => response.json())
-        .then(response => {
+        .then((response) => response.json())
+        .then((response) => {
           this.setState({
             allData: response.rows[0]
           });
@@ -78,7 +78,7 @@ class RenderSingleVidAnalytics extends React.Component {
 
   /**Functions to get views and watch time for specific video, wrapped in Brads helper function to get accessToken**/
   getSingleVidAnalytics() {
-    runTheContent(accessToken => {
+    runTheContent((accessToken) => {
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=day&endDate=${todaysDate}&filters=video%3D%3D${this.props.selectedVideoId}&ids=channel%3D%3DMINE&metrics=views%2Ccomments%2Clikes%2Cdislikes%2CestimatedMinutesWatched%2CaverageViewDuration&startDate=2005-02-14&key=${web.apiKey}`,
 
@@ -90,9 +90,9 @@ class RenderSingleVidAnalytics extends React.Component {
           }
         }
       )
-        .then(response => response.json())
+        .then((response) => response.json())
         .then(
-          response => {
+          (response) => {
             if (!response.rows[0]) {
               return this.setState({
                 singleVideoAnalytics: {
@@ -110,23 +110,23 @@ class RenderSingleVidAnalytics extends React.Component {
             }
 
             let totalViews = response.rows
-              .map(row => row[1])
+              .map((row) => row[1])
               .reduce((a, b) => a + b);
 
             let totalestimatedMinutesWatched = response.rows
-              .map(row => row[5])
+              .map((row) => row[5])
               .reduce((a, b) => a + b);
 
             let totalComments = response.rows
-              .map(row => row[2])
+              .map((row) => row[2])
               .reduce((a, b) => a + b);
 
             let totalLikes = response.rows
-              .map(row => row[3])
+              .map((row) => row[3])
               .reduce((a, b) => a + b);
 
             let totalDislikes = response.rows
-              .map(row => row[4])
+              .map((row) => row[4])
               .reduce((a, b) => a + b);
 
             this.setState({
@@ -154,7 +154,7 @@ class RenderSingleVidAnalytics extends React.Component {
 
   /**function to get best keyword for your specific videos**/
   getSearchTerms() {
-    runTheContent(accessToken => {
+    runTheContent((accessToken) => {
       fetch(
         `https://youtubeanalytics.googleapis.com/v2/reports?dimensions=insightTrafficSourceDetail&endDate=${todaysDate}&filters=video%3D%3D${this.props.selectedVideoId}%3BinsightTrafficSourceType%3D%3DYT_SEARCH&ids=channel%3D%3DMINE&maxResults=10&metrics=views&sort=-views&startDate=2005-07-01&key=${web.apiKey}`,
         {
@@ -165,9 +165,9 @@ class RenderSingleVidAnalytics extends React.Component {
           }
         }
       )
-        .then(response => response.json())
+        .then((response) => response.json())
         .then(
-          response => {
+          (response) => {
             if (!response.rows[0]) {
               this.setState({
                 keyWord: 'N/A'
@@ -209,8 +209,7 @@ class RenderSingleVidAnalytics extends React.Component {
       backgroundColor: 'transparent',
       width: 'auto',
       legend: {
-        position: 'right',
-        textStyle: { fontSize: 10 }
+        position: 'none'
       }
     };
 
@@ -229,15 +228,16 @@ class RenderSingleVidAnalytics extends React.Component {
     data.addColumn('string', 'Date');
     data.addColumn('number', 'Views');
 
-    this.state.videoData.map(record => data.addRows([[record[0], record[1]]]));
+    this.state.videoData.map((record) =>
+      data.addRows([[record[0], record[1]]])
+    );
 
     const options = {
-      title: 'Views per day',
+      title: `Views per day for ${this.props.selectedVideoTitle}`,
       backgroundColor: 'transparent',
       width: 'auto',
       legend: {
-        position: 'right',
-        textStyle: { fontSize: 10 }
+        position: 'none'
       }
     };
 
@@ -302,7 +302,8 @@ class RenderSingleVidAnalytics extends React.Component {
               textAlign: 'center',
               color: 'red',
               fontFamily: 'san-serif'
-            }}>
+            }}
+          >
             {noData}
           </div>
         ) : null}
@@ -312,13 +313,18 @@ class RenderSingleVidAnalytics extends React.Component {
             <div
               style={{
                 position: 'absolute',
-                zIndex: 100
-              }}>
+                zIndex: 100,
+                cursor: 'pointer'
+              }}
+            >
               <i
                 onClick={() =>
-                  this.setState({ onDefault: !this.setState.onDefault })
+                  this.setState({
+                    onDefault: !this.setState.onDefault
+                  })
                 }
-                className='fas fa-caret-square-left'></i>
+                className='fas fa-caret-square-left fa-lg'
+              ></i>
             </div>
           )}
           {onDefault ? (

@@ -14,6 +14,7 @@ import runTheContent from '../helpers/GetToken';
 const RenderContent = (props) => {
   const [videoData, setVideoData] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
+  const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
 
   useEffect(() => {
     const localVidData = JSON.parse(sessionStorage.getItem('VideoData'));
@@ -35,7 +36,6 @@ const RenderContent = (props) => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setVideoData(data.items);
           sessionStorage.setItem('VideoData', JSON.stringify(data.items));
         });
@@ -50,6 +50,7 @@ const RenderContent = (props) => {
   *****************************************************************************************************/
   const getSingleVideoId = (index) => {
     setSelectedVideoId(videoData[index].id.videoId);
+    setSelectedVideoTitle(videoData[index].snippet.title);
   };
 
   /**************************************************************************************************************/
@@ -65,10 +66,11 @@ const RenderContent = (props) => {
       <RenderSingleVidAnalytics
         selectedVideoId={selectedVideoId}
         videoData={videoData}
+        selectedVideoTitle={selectedVideoTitle}
       />
       <div className='der--influ-container'>
         <Derivative videoData={videoData} />
-        <TopInfluencers />
+        <TopInfluencers videoData={videoData} />
       </div>
     </div>
   );

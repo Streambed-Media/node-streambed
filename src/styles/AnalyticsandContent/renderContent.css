@@ -1,6 +1,17 @@
 /********************************************This wraps all the main content on the page***********************/
 /********** Variables **********/
 /*******************************/
+/**********************************************************************/
+/**********************Sweet Alert**************************/
+.swal2-content {
+  text-align: left !important;
+}
+
+.swal2-modal {
+  width: auto !important;
+}
+
+/**********************************************************************/
 .renderContent-wrapper {
   display: -ms-grid;
   display: grid;
@@ -190,12 +201,12 @@
 }
 
 .renderContent-wrapper .carousel-box .y--color {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: red;
 }
 
 .renderContent-wrapper .carousel-box .chart--color {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #2f63e3;
   cursor: pointer;
 }
@@ -356,7 +367,9 @@
     grid-area: scoring;
     margin: 2em 0 0 0;
   }
-  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_div {
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_div,
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_All,
+  .renderContent-wrapper .basic-analytics-container .basic-analytics #chart_Single {
     -ms-grid-row: 1;
     -ms-grid-column: 1;
     -ms-grid-column-span: 2;

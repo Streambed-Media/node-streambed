@@ -46,6 +46,9 @@ const ResetPassword = (props) => {
     })
       .queue(['Enter Old Password', 'Enter New Password', 'Re-enter Password'])
       .then((result) => {
+        if (result.dismiss) {
+          return;
+        }
         if (!result.value[1] || !result.value[0] || !result.value[2]) {
           Swal.fire({
             title: 'Fields cannot be blank'
