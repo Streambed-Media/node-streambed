@@ -232,11 +232,10 @@ const SVG = `<svg id="ae05a807-d398-41ce-84f8-9694a3c80c18" xmlns="http://www.w3
 <text class="cls-24" transform="translate(68.84 347.92)">Powered By</text>
 </svg>`;
 
-//! Just a picture of the design right now, not functional
 const Derivative = (props) => {
   const MySwal = withReactContent(Swal);
 
-  //Alert fire for JSON
+  //Alert fire for JSON, JSON is hard coded below, just for demonstration
   const fireJson = () => {
     MySwal.mixin({
       html: (
