@@ -21,7 +21,7 @@ mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('mongodb://localhost/test', {
+  .connect('', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
