@@ -1,9 +1,10 @@
-
 import React from 'react';
-//import DerivativePlaceholder from '../../../public/images/DerivativeGraph-mockup.png';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import ReactJson from 'react-json-view';
 import InlineSVG from 'svg-inline-react';
 
-const SVG = `<svg id="ae05a807-d398-41ce-84f8-9694a3c80c18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 908.28 666.12">
+const SVG = `<svg id="ae05a807-d398-41ce-84f8-9694a3c80c18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 908.28 666.12" >
 <defs>
   <style>
     .cls-1, .cls-18, .cls-20, .cls-21, .cls-24 {
@@ -231,9 +232,76 @@ const SVG = `<svg id="ae05a807-d398-41ce-84f8-9694a3c80c18" xmlns="http://www.w3
 <text class="cls-24" transform="translate(68.84 347.92)">Powered By</text>
 </svg>`;
 
-
 //! Just a picture of the design right now, not functional
-const Derivative = props => {
+const Derivative = (props) => {
+  const MySwal = withReactContent(Swal);
+
+  //Alert fire for JSON
+  const fireJson = () => {
+    MySwal.mixin({
+      html: (
+        <ReactJson
+          displayDataTypes={false}
+          indentWidth={1}
+          enableClipboard={false}
+          src={{
+            next: '%5B1579923154000%5D',
+            count: 1,
+            total: 1,
+            results: [
+              {
+                meta: {
+                  signed_by: 'FEQXuxEgfGoEnZbPCHPfHQDMUqXq6tpw4X',
+                  publisher_name: 'Devon James',
+                  block_hash:
+                    '6be8b50b94f39747d6c2248716aaa69e5d2396ddf962a973db460974a36a9ee3',
+                  txid:
+                    'c56b8b1dc13a371677f7acf41c29b107c077b2f22e1081dc4c08e52ee48e3a1a',
+                  block: 3897057,
+                  time: 1579923154,
+                  type: 'oip5'
+                },
+                record: {
+                  details: {
+                    tmpl_4ACCED8C: {
+                      instagramFeedId: 'B7ueGcehxa4',
+                      url: 'https://www.instagram.com/p/B7ueGcehxa4/'
+                    },
+                    tmpl_5D503849: {
+                      thumbnailFilename: 'thumbnail.png',
+                      addressDirectory:
+                        'QmPWtdZdwvU4EtYbmtMJdHNqw4dmkE9sRtKbfHJUYjtd8d',
+                      filename: 'video.mov'
+                    },
+                    tmpl_66089C48: {
+                      year: 2019,
+                      description:
+                        'When the inventor of the World Wide Web suggests you need to change your name, you change your name',
+                      title: 'WKOIDYW Ep1 Clip 1'
+                    },
+                    tmpl_A8863D0A: {
+                      facebookPostId: '481886242447474',
+                      url: 'https://www.facebook.com/watch/?v=481886242447474'
+                    },
+                    tmpl_834772F4: {
+                      youTubeId: 'H9j9NAtn0eQ',
+                      url: 'https://www.youtube.com/watch?v=H9j9NAtn0eQ'
+                    },
+                    tmpl_F32EF71C: {
+                      url:
+                        'https://twitter.com/OpenIndexProto/status/1220910685996998657',
+                      tweetId: '1220910685996998657'
+                    }
+                  }
+                }
+              }
+            ]
+          }}
+        />
+      )
+    }).fire();
+  };
+
   if (props.videoData === false) {
     return (
       <div className='derivative--container'>
@@ -244,8 +312,9 @@ const Derivative = props => {
   return (
     <div className='derivative--container'>
       <h1>Derivative</h1>
-
-      <InlineSVG src={SVG} onClick={(e) => console.log(e.target)} />
+      <div className='svg--der'>
+        <InlineSVG src={SVG} onClick={() => fireJson()} />
+      </div>
     </div>
   );
 };
