@@ -150,6 +150,7 @@ router.post('/upload-youtube', async (req, res) => {
       getIpfsHash().then((link) => {
         console.log(link)
         data.ipfs = link
+        console.log(data)
         res.send(data)
       })
       

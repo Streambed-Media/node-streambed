@@ -1,34 +1,7 @@
 import React, { PropTypes } from 'react';
-import { Modules } from 'js-oip';
 import wallet from '../helpers/Wallet';
-import { enc, AES } from 'crypto-js';
 
-const youtube = {
-	kind: "youtubevideo", 
-	etag: "p4VTdlkQv3HQeTEaXgvLePAydmU/M6CbZTC9wbcQsb3LckLFw2gu1z0",
- 	id: "6MABNa_ZgOc", 
-	snippet: {
-		publishedAt: "2020-01-03T21:31:49.000Z",
-		channelId: "UChFpwHejHDGUKxjKYC98uWw", 
-		title: "cartoon", 
-		description: "yawning",
-		thumbnails: {
-			deault: {
-				url: "https://i.ytimg.com/vi/6MABNa_ZgOc/default.jpg",
-				width: 120,
-				height: 90
-			},
-			channelTitle: "Brad Vanderbush"
-		},
-	},		
-	status: {
-		uploadStatus: "uploaded",
-		privacyStatus: "public",
-		license: "youtube",
-		embeddable: true,
-		publicStatsViewable: true
-	}
-}
+
 let basic = {
     descriptor: 'ClwKB3AucHJvdG8SEm9pcFByb3RvLnRlbXBsYXRlcyI1CgFQEg0KBXRpdGxlGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEgwKBHllYXIYAyABKBFiBnByb3RvMw==',
     name: 'tmpl_66089C48',
@@ -39,12 +12,12 @@ let basic = {
     }
   }
   
-  let iterativeAssociation = {
-    descriptor: 'CqoCCgdwLnByb3RvEhJvaXBQcm90by50ZW1wbGF0ZXMiggIKAVASEgoKY29udGVudFVybBgBIAEoCRIUCgxpZE9uUGxhdGZvcm0YAiABKAkSKAoPY29udGVudFBsYXRmb3JtGAMgASgOMg9Db250ZW50UGxhdGZvcm0iqAEKD0NvbnRlbnRQbGF0Zm9ybRIdChlDb250ZW50UGxhdGZvcm1fVU5ERUZJTkVEEAASGwoXQ29udGVudFBsYXRmb3JtX1lPVVRVQkUQARIeChpDb250ZW50UGxhdGZvcm1fU09VTkRDTE9VRBACEhwKGENvbnRlbnRQbGF0Zm9ybV9GQUNFQk9PSxADEhsKF0NvbnRlbnRQbGF0Zm9ybV9UV0lUVEVSEARiBnByb3RvMw==',
-    name: 'tmpl_C27930AA',
+  let iterativeYTAssociation = {
+    descriptor: 'CkoKB3AucHJvdG8SEm9pcFByb3RvLnRlbXBsYXRlcyIjCgFQEgsKA3VybBgBIAEoCRIRCgl5b3VUdWJlSWQYAiABKAliBnByb3RvMw==',
+    name: 'tmpl_834772F4',
     payload: {
-      contentUrl: '',
-      idOnPlatform: '',
+        url: 'youtubevideolink',
+        youTubeId: '',
       contentPlatform: 1 // ContentPlatform_YOUTUBE
     }
   }
@@ -54,7 +27,7 @@ let basic = {
     name: 'tmpl_5D503849',
     payload: {
       publishDate: Date.now(),
-      addressDirectory: 'QmXpsLSLAVeReeKJumUujpXCNyAhmYC42ixqmmHx9W6YwN',
+      addressDirectory: 'ipfsHASH',
       filename: 'video.mp4',
       displayName: '',
       thumbnailFilename: 'thumb.png',
@@ -72,13 +45,14 @@ class YoutubeUpload extends React.Component {
 
     upDatePayloads = () => {
         const youTubeData = this.state.results
-        console.log( basic.payload.title, youTubeData.snippet.title)
         basic.payload.title = youTubeData.snippet.title
         basic.payload.description = youTubeData.snippet.description
-        iterativeAssociation.payload.contentUrl = 'https://www.youtube.com/watch?v='+youTubeData.id;
-        iterativeAssociation.payload.idOnPlatform = youTubeData.id
+        iterativeYTAssociation.payload.url = 'https://www.youtube.com/watch?v='+youTubeData.id;
+        iterativeYTAssociation.payload.youTubeId = youTubeData.id
         basicVideoTmpl.payload.displayName = youTubeData.snippet.title+'.mp4'
-        let registration = [basic, iterativeAssociation, basicVideoTmpl];
+        basicVideoTmpl.payload.addressDirectory = youTubeData.ipfs
+
+        let registration = [basic, iterativeYTAssociation, basicVideoTmpl];
         return registration
     }
 
@@ -109,7 +83,7 @@ class YoutubeUpload extends React.Component {
             .then((signed64)  => {
                 console.log(signed64)
                 this.sendFloPost( signed64 ).then((res)=> console.log(res))
-                // sendToBlockChain(signed64, walletdata)
+    
             })
         .catch(err => console.log('WalletData ' + err));
     }
@@ -117,7 +91,7 @@ class YoutubeUpload extends React.Component {
     getYouTubeData = () => {
         
         const checkbox = this.state['checkbox']
-        return this.setState({results: youtube},() => this.walletData()) // CHANGE THIS BACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // return this.setState({results: youtube},() => this.walletData()) // CHANGE THIS BACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         fetch('http://localhost:5000/upload-youtube', {
             method: 'POST',
             body: JSON.stringify(checkbox),

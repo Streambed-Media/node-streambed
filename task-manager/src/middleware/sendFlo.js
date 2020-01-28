@@ -1,7 +1,7 @@
 const Rpc = require('bitcoin-rpc-async');
 
 const sendFlo = async ( floData ) => {
-    
+    console.log(floData)
     const rpcUser = 'user';
     const rpcPass = 'pass';
     const rpcHost = 'localhost';

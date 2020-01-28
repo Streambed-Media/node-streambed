@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
-const sendFloData = require('../middleware/sendFlo').sendFlo;
 
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
@@ -33,16 +32,12 @@ exports.user_sign_up = (req, res) => {
             user
               .save()
               .then((result) => {
-                //Sends Flo
-                // sendFloData( signed64 )
-                //   .then(( txid )=>{
+   
                     res.status(201).json({
                       message: 'User Created',
                       createdUser: user,
                       txid: txid
                     });
-                //   })
-                // .catch((err)=> console.log('Catch error' , err))
               })
               .catch((err) => {
                 res.status(500).json({

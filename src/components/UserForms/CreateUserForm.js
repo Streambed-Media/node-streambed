@@ -3,8 +3,7 @@ import '../../styles/UserFormStyles/createUserForm.css';
 import { Modules } from 'js-oip';
 import wallet from '../../helpers/Wallet';
 import { enc, AES } from 'crypto-js';
-// import sendFlo from '../../../task-manager/src/middleware/sendFlo.js'
-// import sendMulti from '../../helpers/sendMulti.js'
+
 
 const basic = {
     myMainAddress: '',
@@ -19,23 +18,9 @@ const basic = {
 
 const sendMulti = async (mpx) => {
 
-    let myMainAddress = wallet.myMainAddress
-    let test = wallet.test
-    console.log(test)
-    let json = JSON.stringify(test.__proto__, function (key, value) {
-        if (typeof value === 'object') {
-   
-            return value.toString();
-        } else {
-            return value;
-        }
-    });
-
-    console.log(json);
-    console.log(JSON.parse(json))
-
-    localStorage.setItem('userAddress', JSON.stringify(myMainAddress)) //Change myMainAddress to json
-    return
+    let myMainAddress = wallet.myMainAddress;
+    localStorage.setItem('userAddress', JSON.stringify( myMainAddress )) 
+ 
     let floDataArr = [];
 
     const sendFloPost = async (floData) => {
@@ -133,13 +118,13 @@ const CreateUserForm = () => {
             getTxid(signed64)
         }
         function getTxid(mpx) {
-            sendMulti(mpx)
+            sendMulti( mpx )
                 .then((txidArray) => {
                     console.log(txidArray, walletdata)
                     walletdata.signed64 = txidArray;
 
                     sendUser(walletdata)
-                }).catch((err) => 'Multipart Error: ' + err)
+            }).catch((err) => 'Multipart Error: ' + err)
         }
     }
 
@@ -156,7 +141,7 @@ const CreateUserForm = () => {
                 return createRegistration(registration)
 
             })
-            .then((data) => publishRecord([data]))
+            .then((data) => publishRecord(data))
             .then((signed64) => {
                 console.log(signed64.length)
                 sendToBlockChain(signed64, walletdata)
