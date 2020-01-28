@@ -219,6 +219,10 @@ $grey-box-background: #f8f8f8;
     /******************Derivative*******/
     .derivative--container {
       grid-area: der;
+      .svg--der {
+        width: 35vw;
+        margin: 0 0 0 13em;
+      }
       h1 {
         margin: 1.5em 0 0 1.5em;
       }
@@ -335,7 +339,10 @@ $grey-box-background: #f8f8f8;
       }
 
       .derivative--container {
-        margin: 1em 0;
+        .svg--der {
+          width: 85vw;
+          margin: 0px 0px 1em 2em;
+        }
         img {
           width: 80%;
           height: 70%;

@@ -73,7 +73,7 @@ const CarouselComp = (props) => {
         <div>
           <h2 style={{ textAlign: 'center' }}>
             <a href={floTran} target='_blank' rel='noopener noreferrer'>
-              <i class='fas fa-link'></i>
+              <i className='fas fa-link'></i>
               Flosight Link
             </a>
           </h2>

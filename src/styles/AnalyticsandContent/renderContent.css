@@ -302,6 +302,11 @@
   grid-area: der;
 }
 
+.renderContent-wrapper .der--influ-container .derivative--container .svg--der {
+  width: 35vw;
+  margin: 0 0 0 13em;
+}
+
 .renderContent-wrapper .der--influ-container .derivative--container h1 {
   margin: 1.5em 0 0 1.5em;
 }
@@ -416,8 +421,9 @@
   .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two {
     margin-top: 1em;
   }
-  .renderContent-wrapper .der--influ-container .derivative--container {
-    margin: 1em 0;
+  .renderContent-wrapper .der--influ-container .derivative--container .svg--der {
+    width: 85vw;
+    margin: 0px 0px 1em 2em;
   }
   .renderContent-wrapper .der--influ-container .derivative--container img {
     width: 80%;
