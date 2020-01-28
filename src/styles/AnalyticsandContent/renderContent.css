@@ -272,7 +272,7 @@
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .item {
-  margin: 0 0 1em 0;
+  margin: 0 0 3em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one,
@@ -284,6 +284,11 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one .list,
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two .list {
+  margin: 2.5em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one .content,

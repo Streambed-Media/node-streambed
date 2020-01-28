@@ -73,6 +73,7 @@ const CreateUserForm = () => {
   //**Display Name States */
   const [username, setUsername] = useState('');
   const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
+  const [pubKey, setPubKey] = useState('');
 
   //**Password States */
   const [password, setPassword] = useState('');
@@ -138,7 +139,11 @@ const CreateUserForm = () => {
         let registration = [basic];
         return createRegistration(registration);
       })
-      .then((data) => publishRecord(data))
+      .then((data) => {
+        console.log('YEEEEE', data.pubkeyTommy);
+        walletdata.pub = data.pubkeyTommy;
+        return publishRecord(data);
+      })
       .then((signed64) => {
         console.log(signed64.length);
         sendToBlockChain(signed64, walletdata);
@@ -172,7 +177,7 @@ const CreateUserForm = () => {
         displayName: username,
         email: email,
         password: password,
-        pub: wallet.myMainAddress.getPublicAddress().toString(),
+        pub: walletdata.pub,
         mnemonic: walletdata.mnemonic,
         signed64: walletdata.signed64,
         txid: walletdata.txid
