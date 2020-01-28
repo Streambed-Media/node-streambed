@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
-const oipjs = require('js-oip');
+const sendFloRouter = require('./routes/sendflo');
 var app = express();
 
 const SESS_NAME = 'sid';
@@ -21,7 +21,7 @@ mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('mongodb://localhost/test', {
+  .connect('', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -68,6 +68,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/users', usersRouter);
+app.use('/sendFlo', sendFloRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
