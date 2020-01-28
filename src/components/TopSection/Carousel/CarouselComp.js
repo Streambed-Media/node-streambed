@@ -61,12 +61,13 @@ const CarouselComp = (props) => {
   }, []);
   /***Function on click of OIP button to show modal with JSON record data */
   const getJSONRecord = (ytId) => {
-    let videoRec = pubData.map((c) => {
+    console.log(pubData);
+    let videoRec = pubData.filter((c) => {
       if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
       }
     });
-    console.log(videoRec[0].meta.txid);
+    console.log(videoRec);
     let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
