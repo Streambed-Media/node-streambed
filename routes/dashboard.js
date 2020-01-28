@@ -7,12 +7,6 @@ const scopes = [
   'https://www.googleapis.com/auth/youtube'
 ];
 
-/*Route for /dashboard get request to grab tokens from RenderContent component */
-// router.get('/', function(req, res) {
-//   res.header('authorization', access_token);
-//   res.send({ data: 'some random data if needed to be sent' });
-// });
-
 /* After OAuth routes to /dashboard to update token into header */
 router.post('/', (req, res) => {
   client.authenticate(scopes, req.session.userId).then((data) => {

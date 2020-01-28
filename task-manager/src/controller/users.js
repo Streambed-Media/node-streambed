@@ -4,9 +4,9 @@ const client = require('../../../client');
 
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
-  console.log('req body', req.body);
-
-  const { displayName, email, password, mnemonic } = req.body;
+  console.log('req body', req.body)
+ 
+  const { displayName, email, password, mnemonic, txid  } = req.body;
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
   })
@@ -32,10 +32,12 @@ exports.user_sign_up = (req, res) => {
             user
               .save()
               .then((result) => {
-                res.status(201).json({
-                  message: 'User Created',
-                  createdUser: user
-                });
+   
+                    res.status(201).json({
+                      message: 'User Created',
+                      createdUser: user,
+                      txid: txid
+                    });
               })
               .catch((err) => {
                 res.status(500).json({
@@ -55,12 +57,11 @@ exports.user_login_get = (req, res) => {
   const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page
-  if (!userId) {
-    res.redirect('/');
-  } else {
+  // if (!userId) {
+    // res.redirect('/');
+  // } else {
     res.render('dashboard', { title: 'Streambed' });
-    // }
-  }
+  // }
 };
 /****Login Get End */
 
