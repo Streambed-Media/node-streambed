@@ -302,7 +302,8 @@ class RenderSingleVidAnalytics extends React.Component {
               style={{
                 position: 'absolute',
                 zIndex: 100,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                left: '50px'
               }}
             >
               <i
