@@ -51,7 +51,7 @@ const CarouselComp = (props) => {
             console.log(data);
             let templateData = data.results.map((c) => {
               if (c.record.details.tmpl_834772F4) {
-                return c.record;
+                return c;
               }
             });
             setPubData(templateData);
@@ -62,18 +62,28 @@ const CarouselComp = (props) => {
   /***Function on click of OIP button to show modal with JSON record data */
   const getJSONRecord = (ytId) => {
     let videoRec = pubData.map((c) => {
-      if (c.details.tmpl_834772F4.youTubeId === ytId) {
+      if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
       }
     });
+    console.log(videoRec[0].meta.txid);
+    let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
-        <ReactJson
-          displayDataTypes={false}
-          indentWidth={1}
-          enableClipboard={false}
-          src={videoRec}
-        />
+        <div>
+          <h2 style={{ textAlign: 'center' }}>
+            <a href={floTran} target='_blank' rel='noopener noreferrer'>
+              <i class='fas fa-link'></i>
+              Flosight Link
+            </a>
+          </h2>
+          <ReactJson
+            displayDataTypes={false}
+            indentWidth={1}
+            enableClipboard={false}
+            src={videoRec}
+          />
+        </div>
       )
     }).fire();
   };
@@ -129,7 +139,7 @@ const CarouselComp = (props) => {
                 {pubData &&
                   pubData
                     .map((c) => {
-                      return c.details.tmpl_834772F4.youTubeId;
+                      return c.record.details.tmpl_834772F4.youTubeId;
                     })
                     .includes(content.id.videoId) && (
                     <img
