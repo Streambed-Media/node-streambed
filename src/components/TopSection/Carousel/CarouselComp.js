@@ -51,7 +51,7 @@ const CarouselComp = (props) => {
             console.log(data);
             let templateData = data.results.map((c) => {
               if (c.record.details.tmpl_834772F4) {
-                return c.record;
+                return c;
               }
             });
             setPubData(templateData);
@@ -62,18 +62,28 @@ const CarouselComp = (props) => {
   /***Function on click of OIP button to show modal with JSON record data */
   const getJSONRecord = (ytId) => {
     let videoRec = pubData.map((c) => {
-      if (c.details.tmpl_834772F4.youTubeId === ytId) {
+      if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
       }
     });
+    console.log(videoRec[0].meta.txid);
+    let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
-        <ReactJson
-          displayDataTypes={false}
-          indentWidth={1}
-          enableClipboard={false}
-          src={videoRec}
-        />
+        <div>
+          <h2 style={{ textAlign: 'center' }}>
+            <a href={floTran} target='_blank' rel='noopener noreferrer'>
+              <i class='fas fa-link'></i>
+              Flosight Link
+            </a>
+          </h2>
+          <ReactJson
+            displayDataTypes={false}
+            indentWidth={1}
+            enableClipboard={false}
+            src={videoRec}
+          />
+        </div>
       )
     }).fire();
   };
@@ -124,19 +134,19 @@ const CarouselComp = (props) => {
                 {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
                 {/**It gets all videoIds in the record and compares to decide if button should display **/}
                 {/**
-                 * //! Code if very specific to template record format and ids, if template is different it will probably not work
+                 * //! Code is very specific to template record format and ids, if template is different it will probably not work
                  */}
                 {pubData &&
                   pubData
                     .map((c) => {
-                      return c.details.tmpl_834772F4.youTubeId;
+                      return c.record.details.tmpl_834772F4.youTubeId;
                     })
                     .includes(content.id.videoId) && (
                     <img
                       src={oipPic}
                       onClick={() => getJSONRecord(content.id.videoId)}
-                      style={{ width: '30px' }}
-                      className='chart--color'
+                      style={{ width: '33px' }}
+                      className='chart--color' //This is just to add hover effect
                     />
                   )}
               </div>

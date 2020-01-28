@@ -1,4 +1,6 @@
-import React, {useEffect} from 'react';
+
+import React from 'react';
+//import DerivativePlaceholder from '../../../public/images/DerivativeGraph-mockup.png';
 import InlineSVG from 'svg-inline-react';
 
 const SVG = `<svg id="ae05a807-d398-41ce-84f8-9694a3c80c18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 908.28 666.12">
@@ -229,6 +231,7 @@ const SVG = `<svg id="ae05a807-d398-41ce-84f8-9694a3c80c18" xmlns="http://www.w3
 <text class="cls-24" transform="translate(68.84 347.92)">Powered By</text>
 </svg>`;
 
+
 //! Just a picture of the design right now, not functional
 const Derivative = props => {
   if (props.videoData === false) {
@@ -241,6 +244,7 @@ const Derivative = props => {
   return (
     <div className='derivative--container'>
       <h1>Derivative</h1>
+
       <InlineSVG src={SVG} onClick={(e) => console.log(e.target)} />
     </div>
   );
