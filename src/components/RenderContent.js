@@ -23,6 +23,13 @@ const RenderContent = (props) => {
       setVideoData(localVidData);
       return;
     }
+    getVideoList();
+
+    //Runs the get request function to grab token from headers and calls your current funciton as a callback
+  }, []);
+
+  /***********Function to fetch Video List */
+  const getVideoList = () => {
     runTheContent((accessToken) => {
       fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
@@ -40,9 +47,8 @@ const RenderContent = (props) => {
           sessionStorage.setItem('VideoData', JSON.stringify(data.items));
         });
     });
-
-    //Runs the get request function to grab token from headers and calls your current funciton as a callback
-  }, []);
+  };
+  /***********Function to fetch Video List */
 
   /******************************************************************************************************
   On click function to pull video id from video 
@@ -61,7 +67,11 @@ const RenderContent = (props) => {
   return (
     <div className='renderContent-wrapper'>
       <ButterflyScore />
-      <CarouselComp getSingleVideoId={getSingleVideoId} videoData={videoData} />
+      <CarouselComp
+        getSingleVideoId={getSingleVideoId}
+        videoData={videoData}
+        getVideoList={getVideoList}
+      />
       <Filters />
       <RenderSingleVidAnalytics
         selectedVideoId={selectedVideoId}
