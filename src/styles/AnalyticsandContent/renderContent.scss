@@ -293,6 +293,13 @@ $grey-box-background: #f8f8f8;
       'basic-analytics basic-analytics'
       'filters filters'
       'der der';
+    /******Fixed to cernter carousel on phone*****/
+    .carousel-box {
+      .video-carousel {
+        margin: 0 0 0 5em;
+      }
+    }
+    /*************/
     .basic-analytics-container {
       margin: 0 1em 1em 1em;
       .basic-analytics {

@@ -218,7 +218,6 @@ exports.user_pub = async (req, res) => {
       },
       'pub'
     );
-
     res.status(201).json({ pub: user.pub });
   } catch (e) {
     console.log(e);
