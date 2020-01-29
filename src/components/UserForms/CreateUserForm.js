@@ -57,7 +57,6 @@ const sendMulti = async (mpx) => {
         if (referenceTxid) {
 
             for (let i = 1; i < mpx.length; i++) {
-
                 mpx[i].setReference(referenceTxid.txid)
                 mpx[i].setAddress(myMainAddress.getPublicAddress())
                 let sig = myMainAddress.signMessage(mpx[i].getSignatureData())
@@ -135,10 +134,15 @@ const CreateUserForm = () => {
                 setWalletRecord({ mnemonic: mnemonic, encryption: hash })
                 basic.payload.name = username
                 let registration = [basic]
+                
                 return createRegistration(registration)
 
             })
-            .then((data) => publishRecord(data))
+            .then((data) => {
+                console.log('YEEEEE', data.pubkeyTommy);
+                walletdata.pub = data.pubkeyTommy;
+                return publishRecord(data)
+            })
             .then((signed64) => {
                 sendToBlockChain(signed64, walletdata)
             })
@@ -174,7 +178,8 @@ const CreateUserForm = () => {
                 password: password,
                 mnemonic: walletdata.mnemonic,
                 signed64: walletdata.signed64,
-                txid: walletdata.txid
+                txid: walletdata.txid,
+                pub: walletdata.pub
             })
         })
         .then((response) => response.json())
@@ -259,12 +264,12 @@ const CreateUserForm = () => {
                         <a className='item' href='/users/login'>
                             <div className='main-screen--button continue--button'>
                                 Continue to dashboard
-              </div>
+                            </div>
                         </a>
                     ) : (
                             <button type='submit' className='main-screen--button'>
                                 Submit
-            </button>
+                            </button>
                         )}
                 </div>
             </form>

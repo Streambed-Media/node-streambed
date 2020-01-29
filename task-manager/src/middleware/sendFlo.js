@@ -1,3 +1,4 @@
+require('dotenv').config()
 const Rpc = require('bitcoin-rpc-async');
 
 const sendFlo = async ( floData ) => {
@@ -30,6 +31,4 @@ const sendFlo = async ( floData ) => {
 }
 
 module.exports = { sendFlo }
-
-
 

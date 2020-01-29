@@ -296,38 +296,40 @@ class RenderSingleVidAnalytics extends React.Component {
     return (
       <div className='basic-analytics-container'>
         <h2>Originals</h2>
-        {noData ? (
-          <div
-            style={{
-              textAlign: 'center',
-              color: 'red',
-              fontFamily: 'san-serif'
-            }}
-          >
-            {noData}
-          </div>
-        ) : null}
-        {/*  */}
         <div className='basic-analytics' style={{ position: 'relative' }}>
           {!onDefault && (
             <div
               style={{
                 position: 'absolute',
                 zIndex: 100,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                left: '50px'
               }}
             >
               <i
-                onClick={() =>
+                onClick={() => {
                   this.setState({
                     onDefault: !this.setState.onDefault
-                  })
-                }
+                  });
+                  this.setState({ noData: null });
+                  this.setState({ singleVideoAnalytics: null });
+                }}
                 className='fas fa-caret-square-left fa-lg'
               ></i>
             </div>
           )}
-          {onDefault ? (
+
+          {noData ? (
+            <div
+              style={{
+                textAlign: 'center',
+                color: 'red',
+                fontFamily: 'Lato,Helvetica Neue,Arial,Helvetica,sans-serif'
+              }}
+            >
+              {noData}
+            </div>
+          ) : onDefault ? (
             <div id='chart_All'></div>
           ) : (
             <div id='chart_Single'></div>

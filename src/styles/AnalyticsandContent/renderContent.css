@@ -183,6 +183,24 @@
   margin: 0 0 0 2em;
 }
 
+.renderContent-wrapper .carousel-box .ref--box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.renderContent-wrapper .carousel-box .ref--box i {
+  margin: 0.2em 0 0 0.5em;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.renderContent-wrapper .carousel-box .ref--box i:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
 .renderContent-wrapper .carousel-box .video-carousel {
   height: 10rem;
 }
@@ -272,7 +290,7 @@
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .item {
-  margin: 0 0 1em 0;
+  margin: 0 0 3em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one,
@@ -284,6 +302,11 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one .list,
+.renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two .list {
+  margin: 2.5em 0;
 }
 
 .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--one .content,
@@ -300,6 +323,15 @@
   -ms-grid-column: 1;
   -ms-grid-column-span: 6;
   grid-area: der;
+}
+
+.renderContent-wrapper .der--influ-container .derivative--container .svg--der {
+  width: 35vw;
+  margin: 0 0 0 13em;
+}
+
+.renderContent-wrapper .der--influ-container .derivative--container .svg--der:hover {
+  cursor: pointer;
 }
 
 .renderContent-wrapper .der--influ-container .derivative--container h1 {
@@ -416,8 +448,9 @@
   .renderContent-wrapper .der--influ-container .influencer-container .influencers .list--two {
     margin-top: 1em;
   }
-  .renderContent-wrapper .der--influ-container .derivative--container {
-    margin: 1em 0;
+  .renderContent-wrapper .der--influ-container .derivative--container .svg--der {
+    width: 85vw;
+    margin: 0px 0px 1em 2em;
   }
   .renderContent-wrapper .der--influ-container .derivative--container img {
     width: 80%;

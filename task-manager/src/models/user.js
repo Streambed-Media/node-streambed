@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 //User schema, all fields are required currently
 
 const userSchema = new mongoose.Schema({

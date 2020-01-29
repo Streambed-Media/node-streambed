@@ -25,7 +25,7 @@ const responsive = {
   }
 };
 
-const CarouselComp = (props) => {
+const CarouselComp = props => {
   /***State */
   const [pubData, setPubData] = useState('');
 
@@ -39,19 +39,19 @@ const CarouselComp = (props) => {
       return;
     }
     fetch('/users/pub')
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         const { pub } = data;
         console.log(pub);
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
-          .then((response) => response.json())
-          .then((data) => {
+          .then(response => response.json())
+          .then(data => {
             console.log(data);
-            let templateData = data.results.map((c) => {
+            let templateData = data.results.map(c => {
               if (c.record.details.tmpl_834772F4) {
-                return c.record;
+                return c;
               }
             });
             setPubData(templateData);
@@ -60,23 +60,63 @@ const CarouselComp = (props) => {
       });
   }, []);
   /***Function on click of OIP button to show modal with JSON record data */
-  const getJSONRecord = (ytId) => {
-    let videoRec = pubData.map((c) => {
-      if (c.details.tmpl_834772F4.youTubeId === ytId) {
+  const getJSONRecord = ytId => {
+    console.log(pubData);
+    let videoRec = pubData.filter(c => {
+      if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
       }
     });
+    let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
-        <ReactJson
-          displayDataTypes={false}
-          indentWidth={1}
-          enableClipboard={false}
-          src={videoRec}
-        />
+        <div>
+          <h2 style={{ textAlign: 'center' }}>
+            <a href={floTran} target='_blank' rel='noopener noreferrer'>
+              <i className='fas fa-link'></i>
+              Flo Blockchain Explorer Link
+            </a>
+          </h2>
+          <ReactJson
+            displayDataTypes={false}
+            indentWidth={1}
+            enableClipboard={false}
+            src={videoRec}
+          />
+        </div>
       )
     }).fire();
   };
+
+  /********This will refresh the videos, used for getting new video in list after upload */
+  const refreshVideoList = () => {
+    sessionStorage.clear();
+    setPubData('Loading');
+    //Fetch videos
+    props.getVideoList();
+
+    //Fetch OIP record
+    fetch('/users/pub')
+      .then(response => response.json())
+      .then(data => {
+        const { pub } = data;
+        fetch(
+          `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
+        )
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            let templateData = data.results.map(c => {
+              if (c.record.details.tmpl_834772F4) {
+                return c;
+              }
+            });
+            setPubData(templateData);
+            sessionStorage.setItem('pubJSON', JSON.stringify(templateData));
+          });
+      });
+  };
+
   //***********************************************Maps through videos, prints them to carousel */
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
@@ -89,8 +129,7 @@ const CarouselComp = (props) => {
         showDots={false}
         sliderClass=''
         swipeable
-        responsive={responsive}
-      >
+        responsive={responsive}>
         {props.videoData.map((content, i) => {
           return (
             <div key={content.id}>
@@ -100,43 +139,39 @@ const CarouselComp = (props) => {
                 alt={content.id}
                 key={content.id.videoId}
                 onClick={() => props.getSingleVideoId(i)}
-                style={{ cursor: 'pointer' }}
-              ></img>
+                style={{ cursor: 'pointer' }}></img>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center'
-                }}
-              >
+                }}>
                 <a
                   href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
                   rel='noopener noreferrer'
                   target='_blank'
-                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                >
+                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}>
                   <i className='youtube icon y--color' />
                 </a>
                 <i
                   className='far fa-chart-bar chart--color'
-                  onClick={() => props.getSingleVideoId(i)}
-                ></i>
+                  onClick={() => props.getSingleVideoId(i)}></i>
                 {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
                 {/**It gets all videoIds in the record and compares to decide if button should display **/}
                 {/**
-                 * //! Code if very specific to template record format and ids, if template is different it will probably not work
+                 * //! Code is very specific to template record format and ids, if template is different it will probably not work
                  */}
                 {pubData &&
                   pubData
-                    .map((c) => {
-                      return c.details.tmpl_834772F4.youTubeId;
+                    .map(c => {
+                      return c.record.details.tmpl_834772F4.youTubeId;
                     })
                     .includes(content.id.videoId) && (
                     <img
                       src={oipPic}
                       onClick={() => getJSONRecord(content.id.videoId)}
-                      style={{ width: '30px' }}
-                      className='chart--color'
+                      style={{ width: '33px' }}
+                      className='chart--color' //This is just to add hover effect
                     />
                   )}
               </div>
@@ -150,10 +185,22 @@ const CarouselComp = (props) => {
   /**************************************If videos arent loaded it will show loader from Semantic UI */
   return (
     <div className='carousel-box'>
-      <h2>Content</h2>
-
+      <div className='ref--box'>
+        <h2>Content</h2>
+        <i
+          className='fas fa-sync-alt fa-lg'
+          onClick={() => {
+            refreshVideoList();
+          }}></i>
+      </div>
       <div className='video-carousel'>
-        {props.videoData ? (
+        {pubData === 'Loading' ? (
+          <div>
+            <img
+              style={{ width: '150px' }}
+              src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'></img>
+          </div>
+        ) : props.videoData ? (
           carousel()
         ) : (
           <div>Sign into Youtube to see videos</div>
