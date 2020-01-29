@@ -42,13 +42,11 @@ const CarouselComp = (props) => {
       .then((response) => response.json())
       .then((data) => {
         const { pub } = data;
-        console.log(pub);
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             let templateData = data.results.map((c) => {
               if (c.record.details.tmpl_834772F4) {
                 return c;
@@ -61,7 +59,6 @@ const CarouselComp = (props) => {
   }, []);
   /***Function on click of OIP button to show modal with JSON record data */
   const getJSONRecord = (ytId) => {
-    console.log(pubData);
     let videoRec = pubData.filter((c) => {
       if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
@@ -105,7 +102,6 @@ const CarouselComp = (props) => {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             let templateData = data.results.map((c) => {
               if (c.record.details.tmpl_834772F4) {
                 return c;
@@ -139,7 +135,7 @@ const CarouselComp = (props) => {
                   className='ui middle aligned image thumbnail'
                   src={content.snippet.thumbnails.default.url}
                   alt={content.id}
-                  key={content.id.videoId}
+                  key={content.snippet.resourceId.videoId}
                   onClick={() => props.getSingleVideoId(i)}
                   style={{ cursor: 'pointer' }}
                 ></img>
@@ -151,10 +147,10 @@ const CarouselComp = (props) => {
                   }}
                 >
                   <a
-                    href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                    href={`https://www.youtube.com/watch?v=${content.snippet.resourceId.videoId}`}
                     rel='noopener noreferrer'
                     target='_blank'
-                    key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                    key={`https://www.youtube.com/watch?v=${content.snippet.resourceId.videoId}`}
                   >
                     <i className='youtube icon y--color' />
                   </a>
@@ -172,10 +168,12 @@ const CarouselComp = (props) => {
                       .map((c) => {
                         return c.record.details.tmpl_834772F4.youTubeId;
                       })
-                      .includes(content.id.videoId) && (
+                      .includes(content.snippet.resourceId.videoId) && (
                       <img
                         src={oipPic}
-                        onClick={() => getJSONRecord(content.id.videoId)}
+                        onClick={() =>
+                          getJSONRecord(content.snippet.resourceId.videoId)
+                        }
                         style={{ width: '33px' }}
                         className='chart--color' //This is just to add hover effect
                       />

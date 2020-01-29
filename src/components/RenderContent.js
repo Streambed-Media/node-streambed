@@ -31,7 +31,7 @@ const RenderContent = (props) => {
   const getVideoList = () => {
     runTheContent((accessToken) => {
       fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&maxResults=50&type=video&key={${web.apiKey}}`,
+        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true&maxResults=50&type=video&key={${web.apiKey}}`,
         {
           method: 'GET',
           headers: {
@@ -42,8 +42,22 @@ const RenderContent = (props) => {
       )
         .then((response) => response.json())
         .then((data) => {
-          setVideoData(data.items);
-          sessionStorage.setItem('VideoData', JSON.stringify(data.items));
+          const info = data.items[0].contentDetails.relatedPlaylists.uploads;
+          fetch(
+            `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${info}&key={${web.apiKey}}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + accessToken
+              }
+            }
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              setVideoData(data.items);
+              sessionStorage.setItem('VideoData', JSON.stringify(data.items));
+            });
         });
     });
   };
@@ -54,7 +68,7 @@ const RenderContent = (props) => {
    This is used in CarouselComp, it updates state here which is also passed to RenderSingleAnalytics
   *****************************************************************************************************/
   const getSingleVideoId = (index) => {
-    setSelectedVideoId(videoData[index].id.videoId);
+    setSelectedVideoId(videoData[index].snippet.resourceId.videoId);
     setSelectedVideoTitle(videoData[index].snippet.title);
   };
 
