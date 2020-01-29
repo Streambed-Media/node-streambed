@@ -21,14 +21,11 @@ mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect(
-    'mongodb+srv://cool:cool@streambed-nqgo5.mongodb.net/test?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true
-    }
-  )
+  .connect('mongodb://localhost/test', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
   .catch((error) =>
     console.log('Mongoose Connection is not working, the Error: ', error)
   );

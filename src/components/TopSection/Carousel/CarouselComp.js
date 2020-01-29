@@ -88,6 +88,37 @@ const CarouselComp = (props) => {
       )
     }).fire();
   };
+
+  /********This will refresh the videos, used for getting new video in list after upload */
+  const refreshVideoList = () => {
+    sessionStorage.clear();
+    setPubData('Loading');
+    //Fetch videos
+    props.getVideoList();
+
+    //Fetch OIP record
+    fetch('/users/pub')
+      .then((response) => response.json())
+      .then((data) => {
+        const { pub } = data;
+        console.log(pub);
+        fetch(
+          `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            let templateData = data.results.map((c) => {
+              if (c.record.details.tmpl_834772F4) {
+                return c;
+              }
+            });
+            setPubData(templateData);
+            sessionStorage.setItem('pubJSON', JSON.stringify(templateData));
+          });
+      });
+  };
+
   //***********************************************Maps through videos, prints them to carousel */
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
@@ -161,10 +192,24 @@ const CarouselComp = (props) => {
   /**************************************If videos arent loaded it will show loader from Semantic UI */
   return (
     <div className='carousel-box'>
-      <h2>Content</h2>
-
+      <div className='ref--box'>
+        <h2>Content</h2>
+        <i
+          className='fas fa-sync-alt fa-lg'
+          onClick={() => {
+            refreshVideoList();
+          }}
+        ></i>
+      </div>
       <div className='video-carousel'>
-        {props.videoData ? (
+        {pubData === 'Loading' ? (
+          <div>
+            <img
+              style={{ width: '150px' }}
+              src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'
+            ></img>
+          </div>
+        ) : props.videoData ? (
           carousel()
         ) : (
           <div>Sign into Youtube to see videos</div>
