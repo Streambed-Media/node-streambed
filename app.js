@@ -1,3 +1,4 @@
+require('dotenv').config()
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,21 +8,23 @@ const hbs = require('hbs');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
+
 const indexRouter = require('./routes/index');
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
 const sendFloRouter = require('./routes/sendflo');
 var app = express();
 
-const SESS_NAME = 'sid';
-const SESS_SECRET = 'mysecret';
+
+const { NODE_ENV, MONGO_URL, SESS_NAME, SESS_SECRET } = process.env;
+const secure = NODE_ENV === 'production' ? true : false;
 
 //This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
 
 /**Put you DB path here, you can use this default path to host it local at this address */
 mongoose
-  .connect('mongodb://localhost/test', {
+  .connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -45,12 +48,12 @@ app.use(
     secret: SESS_SECRET,
     cookie: {
       sameSite: true,
-      secure: false //! probably needs to be changed for production
+      secure: secure //production or development
     }
   })
 );
 
-//const { NODE_ENV, MONGO_URL, SESS_LIFE, SESS_NAME, SESS_SECRET } = process.env;
+
 
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);

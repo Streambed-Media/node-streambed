@@ -40,8 +40,29 @@
   }
   
   .upload-youtube {
+    position: relative;
     background: #F3FAF5;
     border-radius: 5px;
+  }
+
+  .img-loader {
+    display: flex;
+    align-items: center;
+    width: 217px;
+    position: absolute;
+    top: -37px;
+    right: 0;
+  }
+
+  .img-loader p {
+    padding-right: 14px;
+    margin: 0;
+    font-size: 18px;
+    color: #565656;
+  }
+
+  .img-loader img {
+    width: 100px;
   }
 
   .upload-youtube .data-header {
@@ -236,6 +257,8 @@
   
   .errorField {
     margin-top: 10px;
+    color: red;
+    font-weight: 600;
   }
   
   .progress-container {

@@ -19,7 +19,6 @@ const RenderContent = (props) => {
   useEffect(() => {
     const localVidData = JSON.parse(sessionStorage.getItem('VideoData'));
     if (localVidData) {
-      console.log('Line 25 RnderContent Hitt dis');
       setVideoData(localVidData);
       return;
     }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 /*************************************Top influencers sections, non-functional currently */
 
-const TopInfluencers = (props) => {
+const TopInfluencers = props => {
   /**User State */
   const [users, setUsers] = useState([]);
   const [users2, setUsers2] = useState([]);
@@ -21,16 +21,14 @@ const TopInfluencers = (props) => {
   /**Needed 2 to have seperate columns */
   useEffect(() => {
     fetch('https://randomuser.me/api/?results=2')
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setUsers(data.results);
-        console.log(data.results);
       });
     fetch('https://randomuser.me/api/?results=2')
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setUsers2(data.results);
-        console.log(data.results);
       });
   }, []);
 
@@ -68,8 +66,7 @@ const TopInfluencers = (props) => {
                         <a
                           target='_blank'
                           rel='noopener noreferrer'
-                          href='https://www.youtube.com/watch?v=oQ85hwLnkNE'
-                        >
+                          href='https://www.youtube.com/watch?v=oQ85hwLnkNE'>
                           <b>How to Win "The Platform Wars"</b>
                         </a>
                         <br />
@@ -101,8 +98,7 @@ const TopInfluencers = (props) => {
                         <a
                           target='_blank'
                           rel='noopener noreferrer'
-                          href='https://www.youtube.com/watch?v=i67MHSNhbc4'
-                        >
+                          href='https://www.youtube.com/watch?v=i67MHSNhbc4'>
                           <b>Are there public spaces on the web?</b>
                         </a>
                         <br />

@@ -38,19 +38,28 @@ let basic = {
 
 class YoutubeUpload extends React.Component {
     state = {
+        loader: false,
         results: null,
         checkbox: {},
         checkBoxErr: false,
     }
+    isIPFSerror = (youTubeData) => {
+        return  /^IPFS failed:/gi.test(youTubeData)
+    }
 
     upDatePayloads = () => {
         const youTubeData = this.state.results
+
+        //If IPFS is not running empty payload else add the ipfs hash
+        let ipfs = isIPFSerror(youTubeData.ipfs) ? '' : youTubeData.ipfs
+        console.log(ipfs)
+        
         basic.payload.title = youTubeData.snippet.title
         basic.payload.description = youTubeData.snippet.description
         iterativeYTAssociation.payload.url = 'https://www.youtube.com/watch?v='+youTubeData.id;
         iterativeYTAssociation.payload.youTubeId = youTubeData.id
         basicVideoTmpl.payload.displayName = youTubeData.snippet.title+'.mp4'
-        basicVideoTmpl.payload.addressDirectory = youTubeData.ipfs
+        basicVideoTmpl.payload.addressDirectory = ipfs
 
         let registration = [basic, iterativeYTAssociation, basicVideoTmpl];
         return registration
@@ -71,7 +80,10 @@ class YoutubeUpload extends React.Component {
         return json
     }
     
-    walletData = () => {
+    walletData = (youtubeResults) => {
+        if (youtubeResults.err) return;
+            
+        console.log(youtubeResults)  
         const { createRegistration, publishRecord} = wallet
         let registration = this.upDatePayloads()
         
@@ -89,9 +101,8 @@ class YoutubeUpload extends React.Component {
     }
 
     getYouTubeData = () => {
-        
-        const checkbox = this.state['checkbox']
-        // return this.setState({results: youtube},() => this.walletData()) // CHANGE THIS BACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        const checkbox = this.state['checkbox'];
+
         fetch('http://localhost:5000/upload-youtube', {
             method: 'POST',
             body: JSON.stringify(checkbox),
@@ -101,8 +112,7 @@ class YoutubeUpload extends React.Component {
         })
         .then((res) => res.json())
         .then((data) => {
-           
-            this.setState({results: data},() => this.walletData())
+            this.setState({results: data, loader: false},() => this.walletData(this.state.results))
         })
         .catch((err) => console.log(err));
     }
@@ -128,10 +138,11 @@ class YoutubeUpload extends React.Component {
         // If no checkbox is checked it add component error
         if ( Object.keys(val).length === 0 ) {
            return this.setState({checkBoxErr: 'Must make checkbox selection'})
-        } 
+        }
 
         // Updates checkbox value and call the getYouTubeData as a callback
-        this.setState({checkbox: val}, this.getYouTubeData) 
+        this.setState({checkbox: val, loader: true}, this.getYouTubeData) 
+  
     }
 
 
@@ -139,16 +150,23 @@ class YoutubeUpload extends React.Component {
         return (
             <div>
                 <section className="upload-youtube">
-                    {console.log(this.state.results)}
-                    
+                    {this.state.loader && <ImageLoader />}
                     {this.state.results ? 
                         <div className="youtube-callback-data">
                        {
                         Object.keys(this.state.results).map((key, i) => {
                             const youtube_data = this.state.results
-                            console.log(key, i)
-                            
-                            if ( key === 'err' ) {
+                            let ipfsErr = this.isIPFSerror(youtube_data.ipfs) 
+
+                            // Only if Youtube fails will post error
+                            if ( ipfsErr && i === 0) {
+                                return (
+                                    <div key={i} className="youtube-error">
+                                        <h5 key={key}>{youtube_data.ipfs} </h5>
+                                    </div>
+                                )
+                            }
+                            if ( key === 'err') {
                                 return (
                                     <div key={i} className="youtube-error">
                                         <h5 key={i}>{ youtube_data[key] }</h5>
@@ -211,7 +229,6 @@ class YoutubeUpload extends React.Component {
                                     <img className="upload-icon" src="../images/youtube-icon.png" alt="youtube icon"/>
                                     <label htmlFor="youtube">Youtube</label>
                                 </div>
-
                                 <div className="checkbox-upload">
                                     <input type="checkbox" id="ipfs" name="uploadChecked" value="ipfs"/>
                                     <img className="upload-icon" src="../images/ipfs-icon.png" alt="ipfs icon"/>
@@ -226,6 +243,12 @@ class YoutubeUpload extends React.Component {
         )
     }
 }
+const ImageLoader = () => (
+    <div className="img-loader">
+        <p>UPLOADING </p>
+        <img src="../images/loader-balls.gif" alt="gif loader"/>
+    </div>
+);
 YoutubeUpload.defaultProps = {
     checkBoxDefault: true
 }

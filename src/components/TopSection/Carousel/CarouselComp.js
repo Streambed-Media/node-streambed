@@ -67,7 +67,6 @@ const CarouselComp = (props) => {
         return c;
       }
     });
-    console.log(videoRec);
     let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
@@ -75,7 +74,7 @@ const CarouselComp = (props) => {
           <h2 style={{ textAlign: 'center' }}>
             <a href={floTran} target='_blank' rel='noopener noreferrer'>
               <i className='fas fa-link'></i>
-              Flosight Link
+              Flo Blockchain Explorer Link
             </a>
           </h2>
           <ReactJson
@@ -101,7 +100,6 @@ const CarouselComp = (props) => {
       .then((response) => response.json())
       .then((data) => {
         const { pub } = data;
-        console.log(pub);
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
