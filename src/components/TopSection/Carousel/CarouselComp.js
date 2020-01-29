@@ -25,7 +25,7 @@ const responsive = {
   }
 };
 
-const CarouselComp = (props) => {
+const CarouselComp = props => {
   /***State */
   const [pubData, setPubData] = useState('');
 
@@ -39,17 +39,17 @@ const CarouselComp = (props) => {
       return;
     }
     fetch('/users/pub')
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         const { pub } = data;
         console.log(pub);
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
-          .then((response) => response.json())
-          .then((data) => {
+          .then(response => response.json())
+          .then(data => {
             console.log(data);
-            let templateData = data.results.map((c) => {
+            let templateData = data.results.map(c => {
               if (c.record.details.tmpl_834772F4) {
                 return c;
               }
@@ -60,14 +60,13 @@ const CarouselComp = (props) => {
       });
   }, []);
   /***Function on click of OIP button to show modal with JSON record data */
-  const getJSONRecord = (ytId) => {
+  const getJSONRecord = ytId => {
     console.log(pubData);
-    let videoRec = pubData.filter((c) => {
+    let videoRec = pubData.filter(c => {
       if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
       }
     });
-    console.log(videoRec);
     let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
@@ -75,7 +74,7 @@ const CarouselComp = (props) => {
           <h2 style={{ textAlign: 'center' }}>
             <a href={floTran} target='_blank' rel='noopener noreferrer'>
               <i className='fas fa-link'></i>
-              Flosight Link
+              Flo Blockchain Explorer Link
             </a>
           </h2>
           <ReactJson
@@ -98,17 +97,16 @@ const CarouselComp = (props) => {
 
     //Fetch OIP record
     fetch('/users/pub')
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         const { pub } = data;
-        console.log(pub);
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
-          .then((response) => response.json())
-          .then((data) => {
+          .then(response => response.json())
+          .then(data => {
             console.log(data);
-            let templateData = data.results.map((c) => {
+            let templateData = data.results.map(c => {
               if (c.record.details.tmpl_834772F4) {
                 return c;
               }
@@ -131,8 +129,7 @@ const CarouselComp = (props) => {
         showDots={false}
         sliderClass=''
         swipeable
-        responsive={responsive}
-      >
+        responsive={responsive}>
         {props.videoData.map((content, i) => {
           return (
             <div key={content.id}>
@@ -142,27 +139,23 @@ const CarouselComp = (props) => {
                 alt={content.id}
                 key={content.id.videoId}
                 onClick={() => props.getSingleVideoId(i)}
-                style={{ cursor: 'pointer' }}
-              ></img>
+                style={{ cursor: 'pointer' }}></img>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center'
-                }}
-              >
+                }}>
                 <a
                   href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
                   rel='noopener noreferrer'
                   target='_blank'
-                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                >
+                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}>
                   <i className='youtube icon y--color' />
                 </a>
                 <i
                   className='far fa-chart-bar chart--color'
-                  onClick={() => props.getSingleVideoId(i)}
-                ></i>
+                  onClick={() => props.getSingleVideoId(i)}></i>
                 {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
                 {/**It gets all videoIds in the record and compares to decide if button should display **/}
                 {/**
@@ -170,7 +163,7 @@ const CarouselComp = (props) => {
                  */}
                 {pubData &&
                   pubData
-                    .map((c) => {
+                    .map(c => {
                       return c.record.details.tmpl_834772F4.youTubeId;
                     })
                     .includes(content.id.videoId) && (
@@ -198,16 +191,14 @@ const CarouselComp = (props) => {
           className='fas fa-sync-alt fa-lg'
           onClick={() => {
             refreshVideoList();
-          }}
-        ></i>
+          }}></i>
       </div>
       <div className='video-carousel'>
         {pubData === 'Loading' ? (
           <div>
             <img
               style={{ width: '150px' }}
-              src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'
-            ></img>
+              src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'></img>
           </div>
         ) : props.videoData ? (
           carousel()
