@@ -56,6 +56,7 @@ class NewWallet {
         myMainAddress: this.myMainAddress,
         pubkeyTommy: pubkeyTommy
       };
+      
     } else if (registration.length === 3) {
       // let store = localStorage.getItem('userAddress');
       let myMainAddress = JSON.parse(localStorage.getItem('userAddress'));

@@ -12,11 +12,10 @@ class Results extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.props)
         fetch('http://localhost:5000/uploaded')
         .then((response) => {
                 response.json().then((result)=> {
-                    console.log(result)
+     
                 this.setState(() => {
                     return {
                         isUploaded: true,
@@ -50,8 +49,6 @@ class Results extends React.Component {
                 <img className='result-item' key={this.state.imgName} width="200px" src={"../uploads/"+this.state.imgName} alt="thumbnail" />
                 <VideoElem videoName={"../uploads/"+this.state.videoName}/>
                 {this.props.getUrl === '/upload-youtube' ? <VideoConfirmation /> : <YoutubeUpload />}
-                
-                {console.log(this.state)}
                 </div>
             </div>
         )
