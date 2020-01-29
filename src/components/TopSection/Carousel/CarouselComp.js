@@ -123,69 +123,71 @@ const CarouselComp = (props) => {
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
     return (
-      <Carousel
-        arrows
-        className='carousel-component'
-        focusOnSelect={false}
-        infinite={false}
-        showDots={false}
-        sliderClass=''
-        swipeable
-        responsive={responsive}
-      >
-        {props.videoData.map((content, i) => {
-          return (
-            <div key={content.id}>
-              <img
-                className='ui middle aligned image thumbnail'
-                src={content.snippet.thumbnails.default.url}
-                alt={content.id}
-                key={content.id.videoId}
-                onClick={() => props.getSingleVideoId(i)}
-                style={{ cursor: 'pointer' }}
-              ></img>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <a
-                  href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                  rel='noopener noreferrer'
-                  target='_blank'
-                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                >
-                  <i className='youtube icon y--color' />
-                </a>
-                <i
-                  className='far fa-chart-bar chart--color'
+      <div style={{ width: '100%', maxWidth: '46vw' }}>
+        <Carousel
+          arrows
+          className='carousel-component'
+          focusOnSelect={false}
+          infinite={false}
+          showDots={false}
+          sliderClass=''
+          swipeable
+          responsive={responsive}
+        >
+          {props.videoData.map((content, i) => {
+            return (
+              <div key={content.id}>
+                <img
+                  className='ui middle aligned image thumbnail'
+                  src={content.snippet.thumbnails.default.url}
+                  alt={content.id}
+                  key={content.id.videoId}
                   onClick={() => props.getSingleVideoId(i)}
-                ></i>
-                {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
-                {/**It gets all videoIds in the record and compares to decide if button should display **/}
-                {/**
-                 * //! Code is very specific to template record format and ids, if template is different it will probably not work
-                 */}
-                {pubData &&
-                  pubData
-                    .map((c) => {
-                      return c.record.details.tmpl_834772F4.youTubeId;
-                    })
-                    .includes(content.id.videoId) && (
-                    <img
-                      src={oipPic}
-                      onClick={() => getJSONRecord(content.id.videoId)}
-                      style={{ width: '33px' }}
-                      className='chart--color' //This is just to add hover effect
-                    />
-                  )}
+                  style={{ cursor: 'pointer' }}
+                ></img>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <a
+                    href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                    key={`https://www.youtube.com/watch?v=${content.id.videoId}`}
+                  >
+                    <i className='youtube icon y--color' />
+                  </a>
+                  <i
+                    className='far fa-chart-bar chart--color'
+                    onClick={() => props.getSingleVideoId(i)}
+                  ></i>
+                  {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
+                  {/**It gets all videoIds in the record and compares to decide if button should display **/}
+                  {/**
+                   * //! Code is very specific to template record format and ids, if template is different it will probably not work
+                   */}
+                  {pubData &&
+                    pubData
+                      .map((c) => {
+                        return c.record.details.tmpl_834772F4.youTubeId;
+                      })
+                      .includes(content.id.videoId) && (
+                      <img
+                        src={oipPic}
+                        onClick={() => getJSONRecord(content.id.videoId)}
+                        style={{ width: '33px' }}
+                        className='chart--color' //This is just to add hover effect
+                      />
+                    )}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </Carousel>
+            );
+          })}
+        </Carousel>
+      </div>
     );
   };
 
