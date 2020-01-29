@@ -1,9 +1,10 @@
 const path = require('path');
 const env = process.env.NODE_ENV;
-
+console.log('coming from webpack',env)
 const isProduction = env === 'production';
 
 module.exports = {
+
   entry: './src/App.js',
   mode: env,
   module: {
@@ -38,4 +39,4 @@ module.exports = {
   node: {
     fs: "empty"
   },
-};
+}
