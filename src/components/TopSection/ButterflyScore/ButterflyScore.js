@@ -1,5 +1,5 @@
 import React from 'react';
-// import '../../../styles/AnalyticsandContent/renderContent.css';
+
 
 /******************************Butterfly score that is to be calculated but Streambed algorithm, non-functional currently */
 

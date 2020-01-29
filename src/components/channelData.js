@@ -23,13 +23,6 @@ class GetChannelData extends React.Component {
           'Content-type': 'application/json',
           Authorization: 'Bearer ' + accessToken
         }
-
-        // body: JSON.stringify({
-        //     'snippet':
-        //     {
-        //         'title': 'Node js'
-        //     }
-        // })
       }
     )
       .then((response) => response.json())

@@ -11,7 +11,7 @@ class NewWallet {
   
     //oip-protobufjs
     async publishRecord ( data ) {
-
+        console.log(data)
         try {
             const details = buildOipDetails(data.details)
             const wif = data.myMainAddress
@@ -39,8 +39,6 @@ class NewWallet {
         if (registration.length === 1) {
             //Adds myMainAddress top level to be used later in CreateUserForm
             this.myMainAddress = myMainAddress.getPrivateAddress();
-            console.log(registration)
-
             registration[0].payload.floBip44XPub = publicKey
           
             return {

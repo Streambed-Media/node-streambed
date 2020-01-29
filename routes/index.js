@@ -3,13 +3,10 @@ const app = express();
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 const youtubeUpload = require('../insert/uploads.js');
 const analytics = require('../insert/analytics.js');
-const jwt = require('jsonwebtoken');
 const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
-const ffmpeg = require('fluent-ffmpeg');
 const getPercentage = require('../src/helpers/GetPercentage');
 
 let videoInfo = {};
@@ -74,7 +71,6 @@ const youtubeupload = async (req, res) => {
 
 router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   console.log('req body: ', req.body.body);
-  console.log('req files: ', req.file);
   const body = req.body.body;
   const file = req.file;
   videoInfo.title = body[0];
@@ -117,16 +113,14 @@ router.get('/upload', (req, res) => {
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
-  // let read = fs.createReadStream( './public/uploads/thumb.jpg' )
-  // console.log('read ', read)
   const { userId } = req.session;
  
-  // If session id exist skips login / signup page and back to the users dashboard
-  // if (userId) {
-  //   res.redirect('/users/login');
-  // } else {
+  //If session id exist skips login / signup page and back to the users dashboard
+  if (userId) {
+    res.redirect('/users/login');
+  } else {
     res.render('index', { title: 'Streambed' });
-  // }
+  }
 });
 
 /* GET analytics page. */
@@ -143,25 +137,21 @@ router.get('/analytics', function(req, res, next) {
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', async (req, res) => {
   let keys = Object.keys(req.body)
-  console.log('ipfs',keys)
-  if ( keys.length === 2 ) {
 
+  if ( keys.length === 2 ) {
     youtubeupload().then((data) => {
       getIpfsHash().then((link) => {
-        console.log(link)
         data.ipfs = link
-        console.log(data)
+        console.log('data ', data)
         res.send(data)
       })
       
       console.log('index.js youtube callback: ', data)
     }).catch((err) => err.message);
-    // console.log('file name: ', videoInfo.videoFilePath);
-   
+
   } else {
     youtubeupload().then((data) => {
       res.send(data)
-      console.log('index.js youtube callback: ', data)
     }).catch((err) => err.message);
   }
 });

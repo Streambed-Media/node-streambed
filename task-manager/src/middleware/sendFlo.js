@@ -1,7 +1,7 @@
 const Rpc = require('bitcoin-rpc-async');
 
 const sendFlo = async ( floData ) => {
-    console.log(floData)
+    console.log('flodata', floData)
     const rpcUser = 'user';
     const rpcPass = 'pass';
     const rpcHost = 'localhost';
@@ -12,9 +12,12 @@ const sendFlo = async ( floData ) => {
  
     let paramObj = {'address': streambedWalletAddress, 'amount': 0.01, 'floData': floData}
     let reply = await rpc.run('sendtoaddress', paramObj)
-
+    console.log(reply)
     if (reply.error !== null) {
         return `Uh oh... error: ${reply}`
+    }
+    if (reply.error) {
+        return `Uh oh... error: ${reply.error.message}`
     }
     console.log(`txid: ${reply.result}`)
     console.log(

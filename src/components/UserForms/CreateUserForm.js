@@ -24,7 +24,6 @@ const sendMulti = async (mpx) => {
     let floDataArr = [];
 
     const sendFloPost = async (floData) => {
-        console.log(floData)
         const response = await fetch('http://localhost:5000/sendflo', {
             method: 'POST',
             headers: {
@@ -41,7 +40,6 @@ const sendMulti = async (mpx) => {
     if (!Array.isArray(mpx)) {
 
         let txid = await sendFloPost(mpx)
-        console.log(txid)
         floDataArr.push(txid)
 
     } else {
@@ -71,7 +69,6 @@ const sendMulti = async (mpx) => {
             }
         }
     }
-    console.log(floDataArr);
     return floDataArr
 }
 
@@ -120,7 +117,6 @@ const CreateUserForm = () => {
         function getTxid(mpx) {
             sendMulti( mpx )
                 .then((txidArray) => {
-                    console.log(txidArray, walletdata)
                     walletdata.signed64 = txidArray;
 
                     sendUser(walletdata)
@@ -135,6 +131,7 @@ const CreateUserForm = () => {
                 // AES signed and save to state
                 const hash = encrypt(mnemonic, password);
                 walletdata.mnemonic = hash
+               
                 setWalletRecord({ mnemonic: mnemonic, encryption: hash })
                 basic.payload.name = username
                 let registration = [basic]
@@ -143,7 +140,6 @@ const CreateUserForm = () => {
             })
             .then((data) => publishRecord(data))
             .then((signed64) => {
-                console.log(signed64.length)
                 sendToBlockChain(signed64, walletdata)
             })
             .catch(err => console.log('WalletData ' + err));
@@ -167,7 +163,6 @@ const CreateUserForm = () => {
     };
 
     const sendUser = (walletdata) => {
-        console.log(walletdata)
         fetch('http://localhost:5000/users/signup', {
             method: 'POST',
             headers: {
@@ -182,24 +177,21 @@ const CreateUserForm = () => {
                 txid: walletdata.txid
             })
         })
-            .then((response) => response.json())
-            .then((message) => {
-                if (message.error) {
-                    setUsernameErrorMessage(message.error);
-                } else {
-                    setUsernameErrorMessage('');
-                    setPassErrorMessage(message.message);
-                }
-                console.log(message);
-            });
+        .then((response) => response.json())
+        .then((message) => {
+            if (message.error) {
+                setUsernameErrorMessage(message.error);
+            } else {
+                setUsernameErrorMessage('');
+                setPassErrorMessage(message.message);
+            }
+        });
     };
 
 
     const onFormSubmit = (e) => {
         e.preventDefault();
-
         validateForm(e);
-
     };
     /*************The placeholders are fontawesome unicode, allows them to show in the placeholder field *****************/
     /*************Password fields get set to state to compare before submit*/

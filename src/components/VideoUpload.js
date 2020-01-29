@@ -47,9 +47,8 @@ class VideoUpload extends React.Component {
         xhr.upload.onprogress = function(e) {
             if (e.lengthComputable) {
                 const translate = (e.loaded / e.total) * 200;
-                console.log(translate)
                 const percentage = (e.loaded / e.total) * 100;
-                percent.textContent = percentage +' %'
+                percent.textContent = ~~percentage +' %'
                 progressBar.style.transform = `translate(${translate}px, 0)`
             }
         };
@@ -69,6 +68,7 @@ class VideoUpload extends React.Component {
         xhr.send(formData);
 
         //Clears form fields after submit
+        this.state.errorText = ''
         this.clearFields()
     }
 
@@ -97,13 +97,31 @@ class VideoUpload extends React.Component {
         this.setState({isUploaded: false, percentage: '', fieldCount: 0})
         this.changeSelection()
     }
+
+    isMP4 = () => {
+        let form = document.getElementById('form')
+        let isMp4 = Array.prototype.map.call(form, (el, i)=> {
+            if ( el.type === "file") {
+                return /.mp4/gi.test( el.value )
+            }
+        })
+        return isMp4[2]
+    }
     
     checkForBlankFields = (e) => {
         if( this.state.fieldCount < 3 ) {
+            this.formSubmit('clear')
             e.preventDefault()
-            return this.setState({errorText: 'Please fill out all fields before submiting'})
+            return this.setState({errorText: 'Please fill out all fields before submiting.'})
         }
-        this.viewProgress(e)
+        if ( this.isMP4() ){
+            this.viewProgress(e)
+        } else {
+            this.formSubmit('clear')
+            e.preventDefault()
+            return this.setState({errorText: 'Video must be mp4.'})
+        }
+        
     }
 
     componentDidMount() {
@@ -112,10 +130,8 @@ class VideoUpload extends React.Component {
 
     
     render(){
-        console.log(this.state)
         return (
             <div>
-                <button onClick={this.changeSelect}>SElect</button>
                 <Form 
                     checkForBlankFields={this.checkForBlankFields}
                     handleChange={this.handleChange}
