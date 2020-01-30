@@ -371,6 +371,11 @@
         grid-template-rows: repeat(5, 1fr);
     grid-column-gap: 0;
         grid-template-areas: 'butt butt' 'carousel-box carousel-box' 'basic-analytics basic-analytics' 'filters filters' 'der der';
+    /******Fixed to cernter carousel on phone*****/
+    /*************/
+  }
+  .renderContent-wrapper .carousel-box .video-carousel {
+    margin: 0 0 0 5em;
   }
   .renderContent-wrapper .basic-analytics-container {
     margin: 0 1em 1em 1em;

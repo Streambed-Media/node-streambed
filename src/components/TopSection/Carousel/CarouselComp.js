@@ -25,7 +25,7 @@ const responsive = {
   }
 };
 
-const CarouselComp = props => {
+const CarouselComp = (props) => {
   /***State */
   const [pubData, setPubData] = useState('');
 
@@ -39,17 +39,15 @@ const CarouselComp = props => {
       return;
     }
     fetch('/users/pub')
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         const { pub } = data;
-        console.log(pub);
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            let templateData = data.results.map(c => {
+          .then((response) => response.json())
+          .then((data) => {
+            let templateData = data.results.map((c) => {
               if (c.record.details.tmpl_834772F4) {
                 return c;
               }
@@ -60,9 +58,8 @@ const CarouselComp = props => {
       });
   }, []);
   /***Function on click of OIP button to show modal with JSON record data */
-  const getJSONRecord = ytId => {
-    console.log(pubData);
-    let videoRec = pubData.filter(c => {
+  const getJSONRecord = (ytId) => {
+    let videoRec = pubData.filter((c) => {
       if (c.record.details.tmpl_834772F4.youTubeId === ytId) {
         return c;
       }
@@ -97,16 +94,15 @@ const CarouselComp = props => {
 
     //Fetch OIP record
     fetch('/users/pub')
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         const { pub } = data;
         fetch(
           `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            let templateData = data.results.map(c => {
+          .then((response) => response.json())
+          .then((data) => {
+            let templateData = data.results.map((c) => {
               if (c.record.details.tmpl_834772F4) {
                 return c;
               }
@@ -121,64 +117,73 @@ const CarouselComp = props => {
   //*********************************Also attaches singleVidAnalytics function to each video */
   const carousel = () => {
     return (
-      <Carousel
-        arrows
-        className='carousel-component'
-        focusOnSelect={false}
-        infinite={false}
-        showDots={false}
-        sliderClass=''
-        swipeable
-        responsive={responsive}>
-        {props.videoData.map((content, i) => {
-          return (
-            <div key={content.id}>
-              <img
-                className='ui middle aligned image thumbnail'
-                src={content.snippet.thumbnails.default.url}
-                alt={content.id}
-                key={content.id.videoId}
-                onClick={() => props.getSingleVideoId(i)}
-                style={{ cursor: 'pointer' }}></img>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
-                <a
-                  href={`https://www.youtube.com/watch?v=${content.id.videoId}`}
-                  rel='noopener noreferrer'
-                  target='_blank'
-                  key={`https://www.youtube.com/watch?v=${content.id.videoId}`}>
-                  <i className='youtube icon y--color' />
-                </a>
-                <i
-                  className='far fa-chart-bar chart--color'
-                  onClick={() => props.getSingleVideoId(i)}></i>
-                {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
-                {/**It gets all videoIds in the record and compares to decide if button should display **/}
-                {/**
-                 * //! Code is very specific to template record format and ids, if template is different it will probably not work
-                 */}
-                {pubData &&
-                  pubData
-                    .map(c => {
-                      return c.record.details.tmpl_834772F4.youTubeId;
-                    })
-                    .includes(content.id.videoId) && (
-                    <img
-                      src={oipPic}
-                      onClick={() => getJSONRecord(content.id.videoId)}
-                      style={{ width: '33px' }}
-                      className='chart--color' //This is just to add hover effect
-                    />
-                  )}
+      <div style={{ width: '100%', maxWidth: '46vw' }}>
+        <Carousel
+          arrows
+          className='carousel-component'
+          focusOnSelect={false}
+          infinite={false}
+          showDots={false}
+          sliderClass=''
+          swipeable
+          responsive={responsive}
+        >
+          {props.videoData.map((content, i) => {
+            return (
+              <div key={content.id}>
+                <img
+                  className='ui middle aligned image thumbnail'
+                  src={content.snippet.thumbnails.default.url}
+                  alt={content.id}
+                  key={content.snippet.resourceId.videoId}
+                  onClick={() => props.getSingleVideoId(i)}
+                  style={{ cursor: 'pointer' }}
+                ></img>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <a
+                    href={`https://www.youtube.com/watch?v=${content.snippet.resourceId.videoId}`}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                    key={`https://www.youtube.com/watch?v=${content.snippet.resourceId.videoId}`}
+                  >
+                    <i className='youtube icon y--color' />
+                  </a>
+                  <i
+                    className='far fa-chart-bar chart--color'
+                    onClick={() => props.getSingleVideoId(i)}
+                  ></i>
+                  {/**This will only show OIP button if the videoId is in the returned array mapped from pubData **/}
+                  {/**It gets all videoIds in the record and compares to decide if button should display **/}
+                  {/**
+                   * //! Code is very specific to template record format and ids, if template is different it will probably not work
+                   */}
+                  {pubData &&
+                    pubData
+                      .map((c) => {
+                        return c.record.details.tmpl_834772F4.youTubeId;
+                      })
+                      .includes(content.snippet.resourceId.videoId) && (
+                      <img
+                        src={oipPic}
+                        onClick={() =>
+                          getJSONRecord(content.snippet.resourceId.videoId)
+                        }
+                        style={{ width: '33px' }}
+                        className='chart--color' //This is just to add hover effect
+                      />
+                    )}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </Carousel>
+            );
+          })}
+        </Carousel>
+      </div>
     );
   };
 
@@ -191,14 +196,16 @@ const CarouselComp = props => {
           className='fas fa-sync-alt fa-lg'
           onClick={() => {
             refreshVideoList();
-          }}></i>
+          }}
+        ></i>
       </div>
       <div className='video-carousel'>
         {pubData === 'Loading' ? (
           <div>
             <img
               style={{ width: '150px' }}
-              src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'></img>
+              src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'
+            ></img>
           </div>
         ) : props.videoData ? (
           carousel()
