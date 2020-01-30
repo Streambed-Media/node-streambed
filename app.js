@@ -47,7 +47,7 @@ app.use(
     secret: SESS_SECRET,
     cookie: {
       sameSite: true,
-      secure: false //production or development
+      secure: secure //production or development
     }
   })
 );
