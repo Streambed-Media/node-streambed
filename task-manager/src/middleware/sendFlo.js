@@ -5,7 +5,7 @@ const sendFlo = async (floData) => {
   console.log('flodata', floData);
   const rpcUser = 'user';
   const rpcPass = 'pass';
-  const rpcHost = '192.168.1.101';
+  const rpcHost = process.env.RPCHOST;
   const rpcPort = '7313'; // 7313 for main net - 17313 for test net
   const rpc = new Rpc(`http://${rpcUser}:${rpcPass}@${rpcHost}:${rpcPort}`);
 
