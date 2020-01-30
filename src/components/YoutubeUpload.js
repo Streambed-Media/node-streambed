@@ -51,9 +51,8 @@ class YoutubeUpload extends React.Component {
         const youTubeData = this.state.results
 
         //If IPFS is not running empty payload else add the ipfs hash
-        let ipfs = isIPFSerror(youTubeData.ipfs) ? '' : youTubeData.ipfs
-        console.log(ipfs)
-        
+        let ipfs = this.isIPFSerror(youTubeData.ipfs) ? '' : youTubeData.ipfs
+
         basic.payload.title = youTubeData.snippet.title
         basic.payload.description = youTubeData.snippet.description
         iterativeYTAssociation.payload.url = 'https://www.youtube.com/watch?v='+youTubeData.id;
@@ -82,8 +81,7 @@ class YoutubeUpload extends React.Component {
     
     walletData = (youtubeResults) => {
         if (youtubeResults.err) return;
-            
-        console.log(youtubeResults)  
+
         const { createRegistration, publishRecord} = wallet
         let registration = this.upDatePayloads()
         
@@ -94,7 +92,7 @@ class YoutubeUpload extends React.Component {
             })
             .then((signed64)  => {
                 console.log(signed64)
-                this.sendFloPost( signed64 ).then((res)=> console.log(res))
+                this.sendFloPost( signed64 ).then((res)=> console.log("Sent to flo"))
     
             })
         .catch(err => console.log('WalletData ' + err));

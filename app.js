@@ -17,7 +17,7 @@ var app = express();
 
 const { NODE_ENV, MONGO_URL, SESS_NAME, SESS_SECRET } = process.env;
 const secure = NODE_ENV === 'production' ? true : false;
-
+console.log(SESS_NAME)
 //This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
 
