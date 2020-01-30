@@ -12,7 +12,7 @@ const User = require('./task-manager/src/models/user');
 const keyPath = path.join(__dirname, 'oauthTwo.keys.json');
 
 let keys = {
-  redirect_uris: ['http://localhost:3000/oauth2callback']
+  redirect_uris: ['/oauth2callback']
 };
 
 if (fs.existsSync(keyPath)) {
@@ -107,7 +107,7 @@ class Client {
         })
         .listen(3000, () => {
           // open the browser to the authorize url to start the workflow
-          opn(this.authorizeUrl, { wait: false }).then((cp) => cp.unref());
+          opn(this.authorizeUrl, { wait: false }).then(cp => cp.unref());
         });
 
       destroyer(server);
