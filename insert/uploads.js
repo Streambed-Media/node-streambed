@@ -8,7 +8,6 @@ const client = require('../client');
 // initialize the Youtube API library
 const youtube = google.youtube({
     version: 'v3',
-    maxContentLength: 100000 * 1024 * 1024,
     auth: client.oAuth2Client,
 });
 

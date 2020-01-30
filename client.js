@@ -19,7 +19,7 @@ if (fs.existsSync(keyPath)) {
   const keyFile = require(keyPath);
   keys = keyFile.installed || keyFile.web;
 }
-
+console.log(keys)
 const invalidRedirectUri = `The provided keyfile does not define a valid
 redirect URI. There must be at least one redirect URI defined, and this sample
 assumes it redirects to 'http://localhost:3000/oauth2callback'.  Please edit
@@ -77,16 +77,12 @@ class Client {
                 .searchParams;
 
               res.end(
-                'Authentication successful! Please return to the console.'
+                'Authentication successful! Please return to the application tab.'
               );
               server.destroy();
               const { tokens } = await this.oAuth2Client.getToken(
                 qs.get('code')
               );
-
-              //   this.oAuth2Client.credentials = tokens;
-              //   resolve(this.oAuth2Client);
-              let { refresh_token, access_token, expiry_date } = tokens;
 
               this.oAuth2Client.setCredentials(tokens);
 
