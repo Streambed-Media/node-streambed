@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -14,7 +14,6 @@ const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
 const sendFloRouter = require('./routes/sendflo');
 var app = express();
-
 
 const { NODE_ENV, MONGO_URL, SESS_NAME, SESS_SECRET } = process.env;
 const secure = NODE_ENV === 'production' ? true : false;
@@ -52,8 +51,6 @@ app.use(
     }
   })
 );
-
-
 
 const partialsPath = path.join(__dirname, './partials');
 hbs.registerPartials(partialsPath);
