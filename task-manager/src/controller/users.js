@@ -57,31 +57,29 @@ exports.user_login_get = (req, res) => {
   const { userId } = req.session;
 
   // If session id doesn't exist skips redirects back to login page
-  // if (!userId) {
-  // res.redirect('/');
-  // } else {
-  res.render('dashboard', { title: 'Streambed' });
-  // }
+  if (!userId) {
+    res.redirect('/');
+  } else {
+    res.render('dashboard', { title: 'Streambed' });
+  }
 };
 /****Login Get End */
 
 /**Login POST */
 exports.user_login_post = async (req, res) => {
   try {
-    console.log(req.body);
     const { email, password } = req.body;
     let user = await User.findOne({ email });
+    console.log(user.mnemonic);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.redirect('/?error=' + e);
+      return res.status(200).json({ msg: 'Please enter correct creditials' });
     }
     if (req.body.remember) {
       req.session.cookie.maxAge = 20000000000; //If they want to be remembered, its set maxAge to a ~8 months
     }
     req.session.userId = user._id;
-
-    console.log('login session', req.session);
-    res.render('dashboard');
+    res.status(200).json({ msg: 'this good', mnemonic: user.mnemonic });
   } catch (e) {
     console.log(e);
     res.redirect('/?error=' + e);
