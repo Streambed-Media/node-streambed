@@ -19,7 +19,10 @@ const GoogleAuth = (props) => {
           <form
             method='POST'
             action='/dashboard/logout'
-            onSubmit={() => sessionStorage.clear()}
+            onSubmit={() => {
+              sessionStorage.clear();
+              localStorage.clear();
+            }}
           >
             <input className='reset--pw' type='submit' value='Logout' />
           </form>
