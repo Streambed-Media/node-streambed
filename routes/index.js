@@ -7,11 +7,13 @@ const youtubeUpload = require('../insert/uploads.js');
 const analytics = require('../insert/analytics.js');
 const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
-const getPercentage = require('../src/helpers/GetPercentage');
 
 const client = require('../client.js');
 const url = require('url');
 const User = require('../task-manager/src/models/user');
+
+const { getVideoDurationInSeconds } = require('get-video-duration');
+const fs = require('fs');
 
 let videoInfo = {};
 
@@ -73,10 +75,11 @@ const youtubeupload = async (req, res) => {
   }
 };
 
-router.post('/uploaded', upload.single('myFiles'), (req, res) => {
+router.post('/uploaded', upload.single('myFiles'), async (req, res) => {
   console.log('req body: ', req.body.body);
   const body = req.body.body;
   const file = req.file;
+  console.log(file);
   videoInfo.title = body[0];
   videoInfo.desc = body[1];
   videoInfo.videoFilePath = './' + file.path;
@@ -84,24 +87,28 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
 
-  getPercentage.fileDuration(videoInfo.videoFilePath, 25).then((seconds) => {
-    let time = '';
+  let seconds = await getVideoDurationInSeconds(videoInfo.videoFilePath);
+  seconds *= 0.25;
+  let min = 60;
+  let hr = 60 * min;
 
-    let differenceInMinutes = seconds / 60;
+  let th = Math.floor(seconds / hr);
+  seconds -= th * hr;
+  let tm = Math.floor(seconds / min);
+  seconds -= tm * min;
+  let ts = Math.floor(seconds);
 
-    if (differenceInMinutes < 1) {
-      time = getPercentage.seconds(differenceInMinutes);
-    } else if (differenceInMinutes >= 1 && differenceInMinutes < 60) {
-      time = getPercentage.minutes(differenceInMinutes);
-    } else if (differenceInMinutes >= 60) {
-      time = getPercentage.hours(differenceInMinutes);
-    }
-    console.log(videoInfo.videoFilePath, 'time: ', time);
-    //Grabs thumbnail from video and saves it
-    thumbler(time, () => {
-      res.render('dashboard', {
-        title: 'Streambed'
-      });
+  let sth = th < 10 ? '0' + th : '' + th;
+  let stm = tm < 10 ? '0' + tm : '' + tm;
+  let sts = ts < 10 ? '0' + ts : '' + ts;
+
+  let time = `${sth}:${stm}:${sts}`;
+
+  console.log(videoInfo.videoFilePath, 'time: ', time);
+  //Grabs thumbnail from video and saves it
+  thumbler(time, () => {
+    res.render('dashboard', {
+      title: 'Streambed'
     });
   });
 });
