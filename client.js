@@ -12,7 +12,7 @@ const User = require('./task-manager/src/models/user');
 const keyPath = path.join(__dirname, 'oauthTwo.keys.json');
 
 let keys = {
-  redirect_uris: ['http://localhost:3000/oauth2callback']
+  redirect_uris: ['http://localhost:5000/oauth2callback']
 };
 
 if (fs.existsSync(keyPath)) {
@@ -22,10 +22,10 @@ if (fs.existsSync(keyPath)) {
 
 const invalidRedirectUri = `The provided keyfile does not define a valid
 redirect URI. There must be at least one redirect URI defined, and this sample
-assumes it redirects to 'http://localhost:3000/oauth2callback'.  Please edit
+assumes it redirects to 'http://localhost:5000/oauth2callback'.  Please edit
 your keyfile, and add a 'redirect_uris' section.  For example:
 "redirect_uris": [
-  "http://localhost:3000/oauth2callback"
+  "http://localhost:5000/oauth2callback"
 ]`;
 
 //*******************************************READ ME******************************************************/
@@ -47,9 +47,9 @@ class Client {
     const parts = new url.URL(redirectUri);
     if (
       redirectUri.length === 0 ||
-      parts.port !== '3000' ||
+      parts.port !== '5000' ||
       parts.hostname !== 'localhost' ||
-      parts.pathname !== '/oauth2callback'
+      parts.pathname !== '/dashboard/oauth2callback'
     ) {
       throw new Error(invalidRedirectUri);
     }
@@ -69,48 +69,50 @@ class Client {
         access_type: 'offline',
         scope: scopes.join(' ')
       });
-      const server = http
-        .createServer(async (req, res) => {
-          try {
-            if (req.url.indexOf('/oauth2callback') > -1) {
-              const qs = new url.URL(req.url, 'http://localhost:3000')
-                .searchParams;
+      this.oAuth2Client.authorizeUrl = this.authorizeUrl;
+      this.oAuth2Client.userId = userId;
+      //   const server = http
+      //     .createServer(async (req, res) => {
+      //       try {
+      //         if (req.url.indexOf('/oauth2callback') > -1) {
+      //           const qs = new url.URL(req.url, 'http://localhost:5000')
+      //             .searchParams;
 
-              res.end(
-                'Authentication successful! Please return to the console.'
-              );
-              server.destroy();
-              const { tokens } = await this.oAuth2Client.getToken(
-                qs.get('code')
-              );
+      //           res.end(
+      //             'Authentication successful! Please return to the console.'
+      //           );
+      //           server.destroy();
+      //           const { tokens } = await this.oAuth2Client.getToken(
+      //             qs.get('code')
+      //           );
 
-              //   this.oAuth2Client.credentials = tokens;
-              //   resolve(this.oAuth2Client);
-              let { refresh_token, access_token, expiry_date } = tokens;
+      //           //   this.oAuth2Client.credentials = tokens;
+      //           //   resolve(this.oAuth2Client);
+      //           let { refresh_token, access_token, expiry_date } = tokens;
 
-              this.oAuth2Client.setCredentials(tokens);
+      //           this.oAuth2Client.setCredentials(tokens);
 
-              /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
-              /** UserId is used look up the logged in user and save the rT**/
-              if (tokens.refresh_token) {
-                User.findOneAndUpdate(
-                  { _id: userId },
-                  { $set: { rT: tokens.refresh_token } }
-                ).then(() => console.log('Line 93 Clientjs', rT));
-              }
+      //           /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
+      //           /** UserId is used look up the logged in user and save the rT**/
+      //           if (tokens.refresh_token) {
+      //             User.findOneAndUpdate(
+      //               { _id: userId },
+      //               { $set: { rT: tokens.refresh_token } }
+      //             ).then(() => console.log('Line 93 Clientjs', rT));
+      //           }
 
-              resolve(this.oAuth2Client);
-            }
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .listen(3000, () => {
-          // open the browser to the authorize url to start the workflow
-          opn(this.authorizeUrl, { wait: false }).then((cp) => cp.unref());
-        });
+      resolve(this.oAuth2Client);
+      //         }
+      //       } catch (e) {
+      //         reject(e);
+      //       }
+      //     })
+      //     .listen(5000, () => {
+      //       // open the browser to the authorize url to start the workflow
+      //       opn(this.authorizeUrl, { wait: false }).then((cp) => cp.unref());
+      //     });
 
-      destroyer(server);
+      //   destroyer(server);
     });
   }
   // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back

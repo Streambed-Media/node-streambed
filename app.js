@@ -46,8 +46,8 @@ app.use(
     saveUninitialized: false, //Don't save any new sessions without any data in it
     secret: SESS_SECRET,
     cookie: {
-      sameSite: true,
-      secure: secure //production or development
+      sameSite: false,
+      secure: false //production or development
     }
   })
 );
