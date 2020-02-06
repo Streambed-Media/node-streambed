@@ -201,7 +201,7 @@ router.get('/oauth2callback', async (req, res) => {
   console.log(req.session);
   const qs = new url.URL(req.url, process.env.APP_URL).searchParams;
   const { tokens } = await client.oAuth2Client.getToken(qs.get('code'));
-
+  console.log(qs);
   //   this.oAuth2Client.credentials = tokens;
   //   resolve(this.oAuth2Client);
 
@@ -213,12 +213,14 @@ router.get('/oauth2callback', async (req, res) => {
 
   if (tokens.refresh_token) {
     User.findOneAndUpdate(
-      { _id: req.session.userId },
+      { _id: client.oAuth2Client.userId },
       { $set: { rT: tokens.refresh_token } }
-    ).then(() => {
-      console.log('Line 93 Clientjs');
-      res.redirect('/');
-    });
+    )
+      .then(() => {
+        console.log('Line 93 Clientjs');
+        return res.redirect('/');
+      })
+      .catch((err) => console.log(err));
   }
 });
 

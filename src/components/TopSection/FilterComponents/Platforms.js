@@ -16,12 +16,15 @@ const Platforms = (props) => {
 
   const youtubeAuth = async () => {
     if (hasRT) {
-      console.log('sup dude');
+      let brt = hasRT;
       fetch('/users/deleterT', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          rt: brt
+        })
       }).then(() => {
         setHasRT('');
         sessionStorage.clear();

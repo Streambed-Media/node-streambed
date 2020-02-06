@@ -11,7 +11,7 @@ const path = require('path');
 const User = require('./task-manager/src/models/user');
 
 const keyPath = path.join(__dirname, 'oauthTwo.keys.json');
-console.log('OEJWORJWOERJWOEJROWJEROWJERJWEROWJEROJ', process.env.APP_URL )
+console.log('OEJWORJWOERJWOEJROWJEROWJERJWEROWJEROJ', process.env.APP_URL);
 let keys = {
   redirect_uris: [process.env.APP_URL + '/oauth2callback']
 };
@@ -58,9 +58,7 @@ class Client {
       this.oAuth2Client.authorizeUrl = this.authorizeUrl;
       this.oAuth2Client.userId = userId;
 
-
       resolve(this.oAuth2Client);
-
     });
   }
   // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back
@@ -69,6 +67,10 @@ class Client {
     this.oAuth2Client.setCredentials({
       refresh_token: rT
     });
+  }
+  getOuttaHere() {
+    console.log('Line YETTTTTTT');
+    this.oAuth2Client.revokeCredentials();
   }
 
   async getNewAcc() {
