@@ -1,10 +1,8 @@
 const path = require('path');
 const env = process.env.NODE_ENV;
-console.log('coming from webpack',env)
-const isProduction = env === 'production';
+console.log('coming from webpack', env);
 
 module.exports = {
-
   entry: './src/App.js',
   mode: env,
   module: {
@@ -24,19 +22,19 @@ module.exports = {
       }
     ]
   },
-  devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: env ? 'source-map' : 'cheap-module-eval-source-map',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
   },
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     port: 5000
   },
   node: {
-    fs: "empty"
-  },
-}
+    fs: 'empty'
+  }
+};

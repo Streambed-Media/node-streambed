@@ -21,10 +21,8 @@ class App extends React.Component {
   };
 
   getUrl() {
-    let url = window.location.href;
-    const urlPath = url.replace(/^.+5000\//gi, '');
-    let path = urlPath ? '/' + urlPath : '/';
-    return path;
+    return window.location.pathname;
+    
   }
 
   componentDidMount() {

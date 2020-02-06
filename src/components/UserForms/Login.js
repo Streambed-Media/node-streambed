@@ -12,6 +12,7 @@ const Login = () => {
   //State for login
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   //Login and send back mnemonic, decrpyt it and set to local storage
   //Local storage is used with publishing videos
   const onLogin = async () => {
@@ -27,6 +28,9 @@ const Login = () => {
         })
       });
       const data = await response.json();
+      if (data.msg === 'Please enter correct credentials') {
+        setError(data.msg);
+      }
       const { mnemonic } = data;
       let deCrypt = AES.decrypt(mnemonic, password);
       let plaintext = deCrypt.toString(CryptoJS.enc.Utf8);
@@ -79,6 +83,7 @@ const Login = () => {
           <input type='checkbox' name='remember' value='1' />
           <label>Remember Me</label>
         </div>
+        <div>{error}</div>
         <button className='main-screen--button' type='submit'>
           Submit
         </button>

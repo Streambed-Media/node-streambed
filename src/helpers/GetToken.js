@@ -1,7 +1,7 @@
 //Soon as you authenticate it grabs headers,status, or any data if needed
 // that were sent from get route /dashboard
 export default function(callback) {
-  fetch('http://localhost:5000/users/rt').then((res) =>
+  fetch('/users/rt').then((res) =>
     (res.headers.get('content-type').includes('json') ? res.json() : res.text())
       .then((data) => ({
         headers: [...res.headers].reduce((acc, header) => {

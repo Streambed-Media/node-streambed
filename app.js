@@ -10,14 +10,13 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
-const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
 const sendFloRouter = require('./routes/sendflo');
 var app = express();
 
 const { NODE_ENV, MONGO_URL, SESS_NAME, SESS_SECRET } = process.env;
 const secure = NODE_ENV === 'production' ? true : false;
-console.log(SESS_NAME)
+console.log(SESS_NAME);
 //This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
 
@@ -31,7 +30,7 @@ mongoose
   .catch((error) =>
     console.log('Mongoose Connection is not working, the Error: ', error)
   );
-
+  app.set('trust proxy', 'loopback');
 //Session to be persisted in Mongo
 //* For reference: https://github.com/alex996/presentations/blob/master/express-session.md
 app.use(
@@ -46,7 +45,7 @@ app.use(
     saveUninitialized: false, //Don't save any new sessions without any data in it
     secret: SESS_SECRET,
     cookie: {
-      sameSite: true,
+      sameSite: false,
       secure: secure //production or development
     }
   })
@@ -66,7 +65,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/dashboard', dashboardRouter);
+
 app.use('/users', usersRouter);
 app.use('/sendFlo', sendFloRouter);
 

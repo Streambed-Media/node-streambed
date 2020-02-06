@@ -22,7 +22,7 @@ const sendMulti = async (mpx) => {
   let floDataArr = [];
 
   const sendFloPost = async (floData) => {
-    const response = await fetch('http://localhost:5000/sendflo', {
+    const response = await fetch('/sendflo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -163,7 +163,7 @@ const CreateUserForm = () => {
   };
 
   const sendUser = (walletdata) => {
-    fetch('http://localhost:5000/users/signup', {
+    fetch('/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
