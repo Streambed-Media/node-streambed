@@ -14,7 +14,7 @@ const Platforms = (props) => {
       });
   });
 
-  const youtubeAuth = () => {
+  const youtubeAuth = async () => {
     if (hasRT) {
       console.log('sup dude');
       fetch('/users/deleterT', {
@@ -28,14 +28,14 @@ const Platforms = (props) => {
         location.reload();
       });
     } else {
-      fetch('/dashboard', {
+      const response = await fetch('/dashboard', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(() => {
-        location.reload();
       });
+      const data = await response.json();
+      window.location.assign(data.url);
     }
   };
 
