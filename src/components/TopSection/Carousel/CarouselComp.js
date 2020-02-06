@@ -1,3 +1,4 @@
+require('dotenv').config();
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -43,7 +44,7 @@ const CarouselComp = (props) => {
       .then((data) => {
         const { pub } = data;
         fetch(
-          `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
+          `${process.env.API_OIP_URL}/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
           .then((response) => response.json())
           .then((data) => {
@@ -64,7 +65,7 @@ const CarouselComp = (props) => {
         return c;
       }
     });
-    let floTran = `https://livenet.flocha.in/tx/${videoRec[0].meta.txid}`;
+    let floTran = `${process.env.LIVENET_URL}/tx/${videoRec[0].meta.txid}`;
     MySwal.mixin({
       html: (
         <div>
@@ -98,7 +99,7 @@ const CarouselComp = (props) => {
       .then((data) => {
         const { pub } = data;
         fetch(
-          `https://api.oip.io/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
+          `${process.env.API_OIP_URL}/oip/o5/record/search?q=meta.signed_by:${pub}+AND+_exists_:record.details.tmpl_834772F4`
         )
           .then((response) => response.json())
           .then((data) => {
