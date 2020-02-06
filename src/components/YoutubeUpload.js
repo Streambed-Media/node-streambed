@@ -273,7 +273,7 @@ class YoutubeUpload extends React.Component {
                     />
                     <img
                       className='upload-icon'
-                      src='../images/ipfs-icon.png'
+                      src='../images/Ipfs-icon.png'
                       alt='ipfs icon'
                     />
                     <label htmlFor='ipfs'>IPFS</label>
