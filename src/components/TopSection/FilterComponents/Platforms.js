@@ -28,7 +28,7 @@ const Platforms = (props) => {
         location.reload();
       });
     } else {
-      const response = await fetch('/', {
+      const response = await fetch('/youtube-auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

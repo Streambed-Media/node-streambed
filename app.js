@@ -16,7 +16,7 @@ var app = express();
 
 const { NODE_ENV, MONGO_URL, SESS_NAME, SESS_SECRET } = process.env;
 const secure = NODE_ENV === 'production' ? true : false;
-console.log(SESS_NAME)
+console.log(SESS_NAME);
 //This is used to avoid error with deprecated with findoneandupdate in the reset route
 mongoose.set('useFindAndModify', false);
 
@@ -30,7 +30,7 @@ mongoose
   .catch((error) =>
     console.log('Mongoose Connection is not working, the Error: ', error)
   );
-
+  app.set('trust proxy', 'loopback');
 //Session to be persisted in Mongo
 //* For reference: https://github.com/alex996/presentations/blob/master/express-session.md
 app.use(
@@ -46,7 +46,7 @@ app.use(
     secret: SESS_SECRET,
     cookie: {
       sameSite: false,
-      secure: false //production or development
+      secure: secure //production or development
     }
   })
 );

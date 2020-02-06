@@ -73,7 +73,7 @@ exports.user_login_post = async (req, res) => {
     console.log(user.mnemonic);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(200).json({ msg: 'Please enter correct creditials' });
+      return res.status(200).json({ msg: 'Please enter correct credentials' });
     }
     if (req.body.remember) {
       req.session.cookie.maxAge = 20000000000; //If they want to be remembered, its set maxAge to a ~8 months

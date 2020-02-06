@@ -28,7 +28,7 @@ const Login = () => {
         })
       });
       const data = await response.json();
-      if (data.msg === 'Please enter correct creditials') {
+      if (data.msg === 'Please enter correct credentials') {
         setError(data.msg);
       }
       const { mnemonic } = data;

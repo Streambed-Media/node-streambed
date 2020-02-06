@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -185,7 +186,7 @@ const scopes = [
 ];
 
 /* After OAuth routes to /dashboard to update token into header */
-router.post('/', (req, res) => {
+router.post('/youtube-auth', (req, res) => {
   client.authenticate(scopes, req.session.userId).then((data) => {
     console.log(data.authorizeUrl);
     let token = data.credentials.access_token;
@@ -198,7 +199,7 @@ router.post('/', (req, res) => {
 router.get('/oauth2callback', async (req, res) => {
   console.log(client);
   console.log(req.session);
-  const qs = new url.URL(req.url, 'http://localhost:5000').searchParams;
+  const qs = new url.URL(req.url, process.env.APP_URL).searchParams;
   const { tokens } = await client.oAuth2Client.getToken(qs.get('code'));
 
   //   this.oAuth2Client.credentials = tokens;
