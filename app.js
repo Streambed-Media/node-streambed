@@ -10,7 +10,6 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
-//const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
 const sendFloRouter = require('./routes/sendflo');
 var app = express();
@@ -66,7 +65,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//app.use('/dashboard', dashboardRouter);
+
 app.use('/users', usersRouter);
 app.use('/sendFlo', sendFloRouter);
 
