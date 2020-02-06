@@ -19,7 +19,7 @@ if (fs.existsSync(keyPath)) {
   const keyFile = require(keyPath);
   keys = keyFile.installed || keyFile.web;
 }
-console.log(keys)
+console.log(keys);
 const invalidRedirectUri = `The provided keyfile does not define a valid
 redirect URI. There must be at least one redirect URI defined, and this sample
 assumes it redirects to 'http://localhost:5000/oauth2callback'.  Please edit
@@ -69,46 +69,7 @@ class Client {
         access_type: 'offline',
         scope: scopes.join(' ')
       });
-<<<<<<< HEAD
-      const server = http
-        .createServer(async (req, res) => {
-          try {
-            if (req.url.indexOf('/oauth2callback') > -1) {
-              const qs = new url.URL(req.url, 'http://localhost:3000')
-                .searchParams;
 
-              res.end(
-                'Authentication successful! Please return to the application tab.'
-              );
-              server.destroy();
-              const { tokens } = await this.oAuth2Client.getToken(
-                qs.get('code')
-              );
-
-              this.oAuth2Client.setCredentials(tokens);
-
-              /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
-              /** UserId is used look up the logged in user and save the rT**/
-              if (tokens.refresh_token) {
-                User.findOneAndUpdate(
-                  { _id: userId },
-                  { $set: { rT: tokens.refresh_token } }
-                ).then(() => console.log('Line 93 Clientjs', rT));
-              }
-
-              resolve(this.oAuth2Client);
-            }
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .listen(3000, () => {
-          // open the browser to the authorize url to start the workflow
-          opn(this.authorizeUrl, { wait: false }).then(cp => cp.unref());
-        });
-
-      destroyer(server);
-=======
       this.oAuth2Client.authorizeUrl = this.authorizeUrl;
       this.oAuth2Client.userId = userId;
       //   const server = http
@@ -153,7 +114,6 @@ class Client {
       //     });
 
       //   destroyer(server);
->>>>>>> With Bit's help, fixed google auth, refactoring still
     });
   }
   // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back
