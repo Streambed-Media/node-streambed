@@ -28,7 +28,7 @@ const Platforms = (props) => {
         location.reload();
       });
     } else {
-      const response = await fetch('/dashboard', {
+      const response = await fetch('/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

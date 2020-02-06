@@ -49,7 +49,7 @@ class Client {
       redirectUri.length === 0 ||
       parts.port !== '5000' ||
       parts.hostname !== 'localhost' ||
-      parts.pathname !== '/dashboard/oauth2callback'
+      parts.pathname !== '/oauth2callback'
     ) {
       throw new Error(invalidRedirectUri);
     }

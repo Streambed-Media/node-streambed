@@ -18,7 +18,7 @@ const GoogleAuth = (props) => {
         <div>
           <form
             method='POST'
-            action='/dashboard/logout'
+            action='/logout'
             onSubmit={() => {
               sessionStorage.clear();
               localStorage.clear();
