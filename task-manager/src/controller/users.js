@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
+const fetch = require('node-fetch');
 
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
@@ -148,6 +149,9 @@ exports.user_getrT = async (req, res) => {
 /****Delete rT from DB */
 exports.user_deleterT = async (req, res) => {
   try {
+    const { rt } = req.body;
+    console.log(rt);
+    client.getOuttaHere();
     const remember = await User.findOneAndUpdate(
       { _id: req.session.userId },
       { $set: { rT: '' } }

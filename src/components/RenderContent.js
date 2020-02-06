@@ -31,7 +31,9 @@ const RenderContent = (props) => {
   const getVideoList = () => {
     runTheContent((accessToken) => {
       fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true&maxResults=50&type=video&key={${web.apiKey}}`,
+        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true&maxResults=50&type=video&key=${
+          web.apiKey
+        }&_=${Math.random()}`,
         {
           method: 'GET',
           headers: {
@@ -44,7 +46,7 @@ const RenderContent = (props) => {
         .then((data) => {
           const info = data.items[0].contentDetails.relatedPlaylists.uploads;
           fetch(
-            `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${info}&key={${web.apiKey}}`,
+            `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${info}&key=${web.apiKey}`,
             {
               method: 'GET',
               headers: {
