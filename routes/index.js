@@ -8,6 +8,10 @@ const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
 const getPercentage = require('../src/helpers/GetPercentage');
 
+const client = require('../client.js');
+const url = require('url');
+const User = require('../task-manager/src/models/user');
+
 let videoInfo = {};
 
 // Set Storage of uploaded video or file on the server
@@ -43,14 +47,14 @@ const thumbler = (time, callback) => {
 //Runs async addFile function to get hash for ipfs
 const getIpfsHash = async () => {
   let link = await ipfs
-    .addFile( videoInfo )
+    .addFile(videoInfo)
     .then((data) => {
       console.log('ipfs data: ', data);
-      console.log('https://ipfs.io/ipfs/'+data);
-      return data
+      console.log('https://ipfs.io/ipfs/' + data);
+      return data;
     })
     .catch(console.err);
-  return link
+  return link;
 };
 
 const youtubeupload = async (req, res) => {
@@ -58,15 +62,15 @@ const youtubeupload = async (req, res) => {
     const uploaded = await youtubeUpload
       .runUpload(videoInfo)
       .then((data) => {
-        return data
+        return data;
       })
       .catch((err) => console.log(err));
-      return uploaded
-    } catch(e) {
-      console.log(e)
-      return 'Syntax Error'
-    }
-}
+    return uploaded;
+  } catch (e) {
+    console.log(e);
+    return 'Syntax Error';
+  }
+};
 
 router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   console.log('req body: ', req.body.body);
@@ -74,7 +78,7 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
   const file = req.file;
   videoInfo.title = body[0];
   videoInfo.desc = body[1];
-  videoInfo.videoFilePath = './'+ file.path;
+  videoInfo.videoFilePath = './' + file.path;
   videoInfo.videoFileName = file.filename;
   videoInfo.imgFilePath = './public/uploads/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
@@ -96,9 +100,9 @@ router.post('/uploaded', upload.single('myFiles'), (req, res) => {
     thumbler(time, () => {
       res.render('dashboard', {
         title: 'Streambed'
-      })
-    })
-  })
+      });
+    });
+  });
 });
 
 router.get('/uploaded', (req, res) => {
@@ -113,7 +117,7 @@ router.get('/upload', (req, res) => {
 /* GET login page. */
 router.get('/', function(req, res, next) {
   const { userId } = req.session;
- 
+
   //If session id exist skips login / signup page and back to the users dashboard
   if (userId) {
     res.redirect('/users/login');
@@ -135,28 +139,88 @@ router.get('/analytics', function(req, res, next) {
 
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', async (req, res) => {
-  let keys = Object.keys(req.body)
+  let keys = Object.keys(req.body);
 
-  if ( keys.length === 2 ) {
-    youtubeupload().then((data) => {
-      getIpfsHash().then((link) => {
-        data.ipfs = link
-        console.log('data ', data)
-        res.send(data)
+  if (keys.length === 2) {
+    youtubeupload()
+      .then((data) => {
+        getIpfsHash().then((link) => {
+          data.ipfs = link;
+          console.log('data ', data);
+          res.send(data);
+        });
+
+        console.log('index.js youtube callback: ', data);
       })
-      
-      console.log('index.js youtube callback: ', data)
-    }).catch((err) => err.message);
-
+      .catch((err) => err.message);
   } else {
-    youtubeupload().then((data) => {
-      res.send(data)
-    }).catch((err) => err.message);
+    youtubeupload()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => err.message);
   }
 });
 
 router.get('/upload-youtube', (req, res) => {
   res.send([videoInfo]);
 });
+
+/*******Logout route */
+router.post('/logout', async (req, res) => {
+  res.removeHeader('Authorization');
+  res.clearCookie(req.session);
+  req.session.destroy((err) => {
+    if (err) console.log(err);
+    res.redirect('/');
+  });
+});
+/*******Logout route end*/
+
+//! ****************** Oauth routes made from refactoring **********************//
+
+const scopes = [
+  'https://www.googleapis.com/auth/youtube.upload',
+  'https://www.googleapis.com/auth/youtube'
+];
+
+/* After OAuth routes to /dashboard to update token into header */
+router.post('/', (req, res) => {
+  client.authenticate(scopes, req.session.userId).then((data) => {
+    console.log(data.authorizeUrl);
+    let token = data.credentials.access_token;
+    access_token = token;
+    res.header('authorization', token);
+    res.status(200).json({ url: data.authorizeUrl });
+  });
+});
+
+router.get('/oauth2callback', async (req, res) => {
+  console.log(client);
+  console.log(req.session);
+  const qs = new url.URL(req.url, 'http://localhost:5000').searchParams;
+  const { tokens } = await client.oAuth2Client.getToken(qs.get('code'));
+
+  //   this.oAuth2Client.credentials = tokens;
+  //   resolve(this.oAuth2Client);
+
+  client.oAuth2Client.setCredentials(tokens);
+
+  /** This saves the rT to the db, userId is not accessible from the server so I sent it from when you click the youtube check box**/
+  /** UserId is used look up the logged in user and save the rT**/
+  console.log('YOYOYOYOYO', client.oAuth2Client.userId);
+
+  if (tokens.refresh_token) {
+    User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { rT: tokens.refresh_token } }
+    ).then(() => {
+      console.log('Line 93 Clientjs');
+      res.redirect('/');
+    });
+  }
+});
+
+//! ****************** Oauth routes made from refactoring **********************//
 
 module.exports = router;
