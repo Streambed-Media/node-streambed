@@ -11,7 +11,6 @@ const path = require('path');
 const User = require('./task-manager/src/models/user');
 
 const keyPath = path.join(__dirname, 'oauthTwo.keys.json');
-console.log('OEJWORJWOERJWOEJROWJEROWJERJWEROWJEROJ', process.env.APP_URL);
 let keys = {
   redirect_uris: [process.env.APP_URL + '/oauth2callback']
 };
@@ -20,7 +19,6 @@ if (fs.existsSync(keyPath)) {
   const keyFile = require(keyPath);
   keys = keyFile.installed || keyFile.web;
 }
-console.log(keys);
 
 //*******************************************READ ME******************************************************/
 /****** This Client.js is uesd to set up google Oauth, code below used package to create url***************/

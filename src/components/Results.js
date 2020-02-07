@@ -47,14 +47,18 @@ class Results extends React.Component {
               </React.Fragment>
             );
           })}
-          <img
-            className='result-item'
-            key={this.state.imgName}
-            width='200px'
-            src={'../uploads/' + this.state.imgName}
-            alt='thumbnail'
-          />
-          <VideoElem videoName={'../uploads/' + this.state.videoName} />
+          {this.state.imgName && (
+            <img
+              className='result-item'
+              key={this.state.imgName}
+              width='200px'
+              src={'../uploads/' + this.state.imgName}
+              alt='thumbnail'
+            />
+          )}
+          {this.state.videoName && (
+            <VideoElem videoName={'../uploads/' + this.state.videoName} />
+          )}
           {this.props.getUrl === '/upload-youtube' ? (
             <VideoConfirmation />
           ) : (
