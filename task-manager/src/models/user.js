@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   mnemonic: {
     type: String,
-    required: true
+    default: ''
   },
   rT: { type: String, default: '' },
   pub: { type: String, default: '' }

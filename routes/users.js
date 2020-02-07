@@ -5,6 +5,9 @@ const UsersController = require('../task-manager/src/controller/users');
 /*POST user signup, posting to /users/signup with json will create entry in DB */
 router.post('/signup', UsersController.user_sign_up);
 
+/*POST this stores wallet and pub after the user is confrimed created with no errors */
+router.post('/storePubAndWallet', UsersController.user_store_wallet_pub);
+
 // Pretty much only used if session id still exist
 router.get('/login', UsersController.user_login_get);
 

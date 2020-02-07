@@ -94,11 +94,6 @@ const CreateUserForm = () => {
     return encryption;
   };
 
-  const decrypt = () => {
-    let decrypt = AES.decrypt().toString(enc.Utf8);
-    return decrypt;
-  };
-
   const sendToBlockChain = (signed64, walletdata) => {
     if (signed64.length > 1040) {
       let mpx = new Modules.MultipartX(signed64).multiparts;
@@ -115,8 +110,6 @@ const CreateUserForm = () => {
       sendMulti(mpx)
         .then((txidArray) => {
           walletdata.signed64 = txidArray;
-
-          sendUser(walletdata);
         })
         .catch((err) => 'Multipart Error: ' + err);
     }
@@ -144,6 +137,19 @@ const CreateUserForm = () => {
       .then((signed64) => {
         sendToBlockChain(signed64, walletdata);
       })
+      .then(() => {
+        console.log('fix', walletdata);
+        fetch('/users/storePubAndWallet', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            mnemonic: walletdata.mnemonic,
+            pub: walletdata.pub
+          })
+        });
+      })
       .catch((err) => console.log('WalletData ' + err));
   };
 
@@ -158,11 +164,11 @@ const CreateUserForm = () => {
       setPassErrorMessage('Passwords do not match!');
     } else {
       setPassErrorMessage('');
-      walletData();
+      sendUser();
     }
   };
 
-  const sendUser = (walletdata) => {
+  const sendUser = () => {
     fetch('/users/signup', {
       method: 'POST',
       headers: {
@@ -171,20 +177,21 @@ const CreateUserForm = () => {
       body: JSON.stringify({
         displayName: username,
         email: email,
-        password: password,
-        pub: walletdata.pub,
-        mnemonic: walletdata.mnemonic,
-        signed64: walletdata.signed64,
-        txid: walletdata.txid
+        password: password
       })
     })
       .then((response) => response.json())
       .then((message) => {
         if (message.error) {
           setUsernameErrorMessage(message.error);
-        } else {
+        }
+        if (message.success) {
           setUsernameErrorMessage('');
-          setPassErrorMessage(message.message);
+          setPassErrorMessage(
+            `${message.success}, redirecting to dashboard...`
+          );
+          walletData();
+          location.reload();
         }
       });
   };
@@ -254,17 +261,9 @@ const CreateUserForm = () => {
         {/**********************************Error message prints out for passwords not matching */}
         <div>{passErrorMessage}</div>
         <div className='link-wrapper'>
-          {passErrorMessage === 'User Created' ? (
-            <a className='item' href='/users/login'>
-              <div className='main-screen--button continue--button'>
-                Continue to dashboard
-              </div>
-            </a>
-          ) : (
-            <button type='submit' className='main-screen--button'>
-              Submit
-            </button>
-          )}
+          <button type='submit' className='main-screen--button'>
+            Submit
+          </button>
         </div>
       </form>
     </div>
