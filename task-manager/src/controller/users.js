@@ -128,7 +128,7 @@ exports.user_rt = async (req, res) => {
     );
     let { rT } = rememberInfo;
 
-    console.log('Line 111 in rt route', rT);
+    console.log('Line 131 in rt route', rT);
     client.refresh(req.session.userId, rT);
     const aT = await client.getNewAcc(req.session.userId);
 
@@ -164,6 +164,7 @@ exports.user_deleterT = async (req, res) => {
   try {
     const { rt } = req.body;
     console.log(rt);
+    console.log(req.session.userId);
     client.getOuttaHere(req.session.userId);
     const remember = await User.findOneAndUpdate(
       { _id: req.session.userId },

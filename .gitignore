@@ -3,5 +3,6 @@ oauthTwo.keys.json
 public/bundle.js
 package-lock.json
 .env
+public/uploads
 
 
