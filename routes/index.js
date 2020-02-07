@@ -7,6 +7,7 @@ const youtubeUpload = require('../insert/uploads.js');
 const analytics = require('../insert/analytics.js');
 const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
+const fs = require('fs');
 
 const client = require('../client.js');
 const url = require('url');
@@ -19,7 +20,9 @@ let videoInfo = {};
 // Set Storage of uploaded video or file on the server
 let storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './public/uploads');
+    let path = './public/uploads/' + req.session.userId;
+    fs.mkdirSync(path, { recursive: true, mode: 0o644 });
+    cb(null, path);
   },
   filename: function(req, file, cb) {
     cb(null, 'video' + path.extname(file.originalname));
@@ -81,10 +84,11 @@ router.post('/uploaded', upload.single('myFiles'), async (req, res) => {
   console.log(file);
   videoInfo.title = body[0];
   videoInfo.desc = body[1];
-  videoInfo.videoFilePath = './' + file.path;
+  videoInfo.videoFilePath = file.path;
   videoInfo.videoFileName = file.filename;
-  videoInfo.imgFilePath = './public/uploads/thumb.jpg';
+  videoInfo.imgFilePath = file.destination + 'thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
+  videoInfo.uid = req.session.userId;
 
   let seconds = await getVideoDurationInSeconds(videoInfo.videoFilePath);
   seconds *= 0.25;
@@ -118,7 +122,7 @@ router.get('/uploaded', (req, res) => {
 
 /* Sending data back to React componant for upload route */
 router.get('/upload', (req, res) => {
-  res.render('dashboard', { token: accessToken });
+  res.render('dashboard');
 });
 
 /* GET login page. */

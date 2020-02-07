@@ -19,7 +19,8 @@ class Results extends React.Component {
               isUploaded: true,
               results: result,
               videoName: result[0].videoFileName,
-              imgName: result[0].imgFileName
+              imgName: result[0].imgFileName,
+              uid: result[0].uid
             };
           });
         });
@@ -52,12 +53,12 @@ class Results extends React.Component {
               className='result-item'
               key={this.state.imgName}
               width='200px'
-              src={'../uploads/' + this.state.imgName}
+              src={'../uploads/' + this.state.uid + '/' + this.state.imgName}
               alt='thumbnail'
             />
           )}
           {this.state.videoName && (
-            <VideoElem videoName={'../uploads/' + this.state.videoName} />
+            <VideoElem videoName={'../uploads/' + this.state.uid + '/' + this.state.videoName} />
           )}
           {this.props.getUrl === '/upload-youtube' ? (
             <VideoConfirmation />
