@@ -7,19 +7,18 @@ const client = require('../client');
 
 // initialize the Youtube API library
 const youtube = google.youtube({
-    version: 'v3',
-    auth: client.oAuth2Client,
+    version: 'v3'
 });
 
 // uploading a video to youtube
-async function runUpload(videoInfo) {
-      
+async function runUpload(videoInfo, userId) {
+
     try {
         const filePath = videoInfo.videoFilePath
         if ( !filePath ) throw new Error("Wrong file path.");
 
         const fileSize = fs.statSync(filePath).size;
-        
+
         const res = await youtube.videos.insert(
             {
                 part: 'id,snippet,status',
@@ -38,6 +37,7 @@ async function runUpload(videoInfo) {
                 },
             },
             {
+                auth: client.get(userId),
                 // Use the `onUploadProgress` event from Axios to track the
                 // number of bytes uploaded to this point.
                 onUploadProgress: evt => {
@@ -64,11 +64,10 @@ async function runUpload(videoInfo) {
             return {err: error.message}
 
         } else return {err: err}
-    }   
+    }
 }
 
 
 module.exports = {
-    runUpload,
-    client: client.oAuth2Client,
+    runUpload
 };
