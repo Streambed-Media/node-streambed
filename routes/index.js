@@ -7,6 +7,7 @@ const youtubeUpload = require('../insert/uploads.js');
 const analytics = require('../insert/analytics.js');
 const ipfs = require('../ipfs/addVideoIpfs');
 const Thumbler = require('thumbler');
+const fetch = require('node-fetch');
 
 const client = require('../client.js');
 const url = require('url');
@@ -148,6 +149,25 @@ router.get('/analytics', function(req, res, next) {
 /* POST route for video file up to youtube*/
 router.post('/upload-youtube', async (req, res) => {
   let keys = Object.keys(req.body);
+
+  // //! Fetch to refrech access token on upload to solve token problem HOPEFULLY
+  // const isNewAccessToken = await fetch('/users/rt');
+  // console.log('index.js LOOK FOR RED', isNewAccessToken);
+  const rememberInfo = await User.findOne(
+    {
+      _id: req.session.userId
+    },
+    ['rT']
+  );
+  let { rT } = rememberInfo;
+
+  console.log('Line 111 in rt route', rT);
+  client.refresh(rT);
+  const aT = await client.getNewAcc();
+
+  res.header('authorization', aT);
+
+  // //! Fetch to refrech access token on upload to solve token problem HOPEFULLY
 
   if (keys.length === 2) {
     youtubeupload()

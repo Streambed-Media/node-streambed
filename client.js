@@ -61,7 +61,7 @@ class Client {
   }
   // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back
   refresh(rT) {
-    console.log('Line 118 in Client.js rT saved');
+    console.log('Line 64 in Client.js rT saved');
     this.oAuth2Client.setCredentials({
       refresh_token: rT
     });
@@ -74,6 +74,9 @@ class Client {
   async getNewAcc() {
     const results = await this.oAuth2Client.refreshAccessToken();
     const { access_token } = results.credentials;
+    this.oAuth2Client.setCredentials({
+      access_token
+    });
     return access_token;
   }
 }
