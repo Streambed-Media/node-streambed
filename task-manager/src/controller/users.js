@@ -1,19 +1,17 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const client = require('../../../client');
-const fetch = require('node-fetch');
 
 /***USER CREATION,Currently hashes password using bcrypt, it also checks if email was used and wont let another user be created with the same email twice */
 exports.user_sign_up = (req, res) => {
-  console.log('req body', req.body);
+  const { displayName, email, password } = req.body;
 
-  const { displayName, email, password, pub, mnemonic, txid } = req.body;
   User.find({
     $or: [{ displayName: displayName }, { email: email }]
   })
     .then((user) => {
       if (user.length >= 1) {
-        res.status(409).json({
+        return res.status(409).json({
           error: 'Display name or email already exists'
         });
       } else {
@@ -26,18 +24,16 @@ exports.user_sign_up = (req, res) => {
             const user = new User({
               displayName: displayName,
               email: email,
-              password: hash,
-              pub,
-              mnemonic
+              password: hash
             });
             req.session.userId = user._id;
+
             user
               .save()
-              .then((result) => {
+              .then(() => {
                 res.status(201).json({
-                  message: 'User Created',
-                  createdUser: user,
-                  txid: txid
+                  success: 'User Created',
+                  createdUser: user
                 });
               })
               .catch((err) => {
@@ -52,6 +48,21 @@ exports.user_sign_up = (req, res) => {
     .catch();
 };
 /***User creation end*/
+
+/***This is called after user is created without errors, it then stores the create wallet and pubKey */
+exports.user_store_wallet_pub = async (req, res) => {
+  try {
+    const { mnemonic, pub } = req.body;
+    console.log(req.session.userId);
+    let user = await User.findOneAndUpdate(
+      { _id: req.session.userId },
+      { $set: { mnemonic: mnemonic, pub: pub } }
+    );
+    res.status(200).json({ msg: 'All Good!' });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 /******Login GET */
 exports.user_login_get = (req, res) => {
@@ -71,7 +82,9 @@ exports.user_login_post = async (req, res) => {
   try {
     const { email, password } = req.body;
     let user = await User.findOne({ email });
-    console.log(user.mnemonic);
+    if (!user) {
+      return res.status(200).json({ msg: 'Please enter correct credentials' });
+    }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(200).json({ msg: 'Please enter correct credentials' });
