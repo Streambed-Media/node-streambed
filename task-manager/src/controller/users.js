@@ -135,6 +135,7 @@ exports.user_rt = async (req, res) => {
     res.header('authorization', aT);
     res.status(200).render('dashboard');
   } catch (error) {
+    console.log(error);
     res.status(500).send('Server Error');
   }
 };

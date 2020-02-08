@@ -41,10 +41,10 @@ async function runUpload(videoInfo, userId) {
         // number of bytes uploaded to this point.
         onUploadProgress: (evt) => {
           const progress = (evt.bytesRead / fileSize) * 100;
-          console.log(progress);
-          readline.clearLine(process.stdout, 0);
-          readline.cursorTo(process.stdout, 0, null);
-          process.stdout.write(`${Math.round(progress)}% complete`);
+          if (Math.floor(progress) % 10 === 0) console.log(progress);
+          // readline.clearLine(process.stdout, 0);
+          // readline.cursorTo(process.stdout, 0, null);
+          // process.stdout.write(`${Math.round(progress)}% complete`);
         }
       }
     );

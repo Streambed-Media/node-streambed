@@ -15,7 +15,7 @@ const User = require('../task-manager/src/models/user');
 
 const { getVideoDurationInSeconds } = require('get-video-duration');
 
-let videoInfo = {};
+let videoInfoMap = {};
 
 // Set Storage of uploaded video or file on the server
 let storage = multer.diskStorage({
@@ -25,7 +25,14 @@ let storage = multer.diskStorage({
     cb(null, path);
   },
   filename: function(req, file, cb) {
-    cb(null, 'video' + path.extname(file.originalname));
+    let vidName = 'video' + path.extname(file.originalname);
+    let vidPath = './public/uploads/' + req.session.userId + '/';
+    // try {
+    // fs.accessSync(vidPath + vidName);
+    // cb(new Error('upload in progress'));
+    // } catch {
+    cb(null, vidName);
+    // }
   }
 });
 
@@ -33,24 +40,29 @@ let upload = multer({
   storage: storage
 });
 
-const thumbler = (time, callback) => {
+const thumbler = (videoInfo, time, callback) => {
+  console.log('VIDEO OBJ', videoInfo);
   let thumb = Thumbler(
     {
       type: 'video',
       input: videoInfo.videoFilePath,
-      output: './public/uploads/thumb.jpg',
+      output: videoInfo.imgFilePath,
       time: time,
       size: '300x200' // this optional if null will use the dimentions of the video
     },
     function(err, path) {
-      if (err) return err;
+      if (err) {
+        console.error(err);
+        return err;
+      }
+      console.log('ssssssss');
       return callback();
     }
   );
 };
 
 //Runs async addFile function to get hash for ipfs
-const getIpfsHash = async () => {
+const getIpfsHash = async (videoInfo) => {
   let link = await ipfs
     .addFile(videoInfo)
     .then((data) => {
@@ -65,7 +77,7 @@ const getIpfsHash = async () => {
 const youtubeupload = async (userId) => {
   try {
     const uploaded = await youtubeUpload
-      .runUpload(videoInfo, userId)
+      .runUpload(videoInfoMap[userId], userId)
       .then((data) => {
         return data;
       })
@@ -82,11 +94,12 @@ router.post('/uploaded', upload.single('myFiles'), async (req, res) => {
   const body = req.body.body;
   const file = req.file;
   console.log(file);
+  let videoInfo = {};
   videoInfo.title = body[0];
   videoInfo.desc = body[1];
   videoInfo.videoFilePath = file.path;
   videoInfo.videoFileName = file.filename;
-  videoInfo.imgFilePath = file.destination + 'thumb.jpg';
+  videoInfo.imgFilePath = file.destination + '/thumb.jpg';
   videoInfo.imgFileName = 'thumb.jpg';
   videoInfo.uid = req.session.userId;
 
@@ -108,8 +121,11 @@ router.post('/uploaded', upload.single('myFiles'), async (req, res) => {
   let time = `${sth}:${stm}:${sts}`;
 
   console.log(videoInfo.videoFilePath, 'time: ', time);
+
+  videoInfoMap[req.session.userId] = videoInfo;
   //Grabs thumbnail from video and saves it
-  thumbler(time, () => {
+  thumbler(videoInfo, time, (a) => {
+    console.log('th', a);
     res.render('dashboard', {
       title: 'Streambed'
     });
@@ -117,7 +133,7 @@ router.post('/uploaded', upload.single('myFiles'), async (req, res) => {
 });
 
 router.get('/uploaded', (req, res) => {
-  res.send([videoInfo]);
+  res.send([videoInfoMap[req.session.userId]]);
 });
 
 /* Sending data back to React componant for upload route */
@@ -155,9 +171,16 @@ router.post('/upload-youtube', async (req, res) => {
   if (keys.length === 2) {
     youtubeupload(req.session.userId)
       .then((data) => {
-        getIpfsHash().then((link) => {
+        getIpfsHash(videoInfoMap[req.session.userId]).then((link) => {
           data.ipfs = link;
           console.log('data ', data);
+          fs.unlinkSync(
+            './public/uploads/' + req.session.userId + '/video.mp4'
+          );
+          fs.unlinkSync(
+            './public/uploads/' + req.session.userId + '/thumb.jpg'
+          );
+          fs.rmdirSync('./public/uploads/' + req.session.userId);
           res.send(data);
         });
 
@@ -196,8 +219,8 @@ const scopes = [
 ];
 
 /* After OAuth routes to /dashboard to update token into header */
-router.post('/youtube-auth', (req, res) => {
-  let data = client.authenticate(scopes, req.session.userId);
+router.post('/youtube-auth', async (req, res) => {
+  let data = await client.authenticate(scopes, req.session.userId);
   console.log(data.authorizeUrl);
   let token = data.credentials.access_token;
   access_token = token;

@@ -4,6 +4,7 @@ require('dotenv').config();
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
+const User = require('./task-manager/src/models/user');
 
 const keyPath = path.join(__dirname, 'oauthTwo.keys.json');
 let keys = {
@@ -46,7 +47,7 @@ class Client {
       // Fetch refresh token
       const remember = await User.findOne(
         {
-          _id: req.session.userId
+          _id: userId
         },
         'rT'
       );
@@ -54,15 +55,21 @@ class Client {
       c.setCredentials({
         refresh_token: rT
       });
+      let token = await c.refreshAccessToken();
+      c.access_token = token.access_token;
     }
 
     this.clients[userId] = c;
     return c;
   }
 
-  authenticate(scopes, userId) {
-    let c = this.get(userId);
-
+  async authenticate(scopes, userId) {
+    let c = new google.auth.OAuth2(
+      keys.client_id,
+      keys.client_secret,
+      this.redirectUri
+    );
+    console.log(c);
     // grab the url that will be used for authorization
     c.authorizeUrl = c.generateAuthUrl({
       access_type: 'offline',
@@ -74,21 +81,24 @@ class Client {
   }
 
   // * Pulls refresh token in remember route, passes to here and sets refresh token. Then refreshes the access token and passes it back
-  refresh(userId, rT) {
+  async refresh(userId, rT) {
     console.log('Line 118 in Client.js rT saved');
-    this.clients[userId].setCredentials({
+    let c = await this.get(userId);
+    c.setCredentials({
       refresh_token: rT
     });
   }
 
-  getOuttaHere(userId) {
+  async getOuttaHere(userId) {
     console.log('Line YETTTTTTT', userId);
-    this.clients[userId].revokeCredentials();
+    let c = await this.get(userId);
+    c.revokeCredentials();
     console.log('Line meeee');
   }
 
   async getNewAcc(userId) {
-    const results = await this.clients[userId].refreshAccessToken();
+    const c = await this.get(userId);
+    let results = await c.refreshAccessToken();
     const { access_token } = results.credentials;
     return access_token;
   }
