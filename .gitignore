@@ -1,6 +1,7 @@
 node_modules
 oauthTwo.keys.json
 public/bundle.js
+public/bundle.js.map
 package-lock.json
 .env
 public/uploads

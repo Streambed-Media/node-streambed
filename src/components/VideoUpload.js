@@ -102,7 +102,7 @@ class VideoUpload extends React.Component {
     let form = document.getElementById('form');
     let isMp4 = Array.prototype.map.call(form, (el, i) => {
       if (el.type === 'file') {
-        return /.mp4/gi.test(el.value);
+        return /(\.mp4$)|(\.mov$)|(\.m4v$)/gi.test(el.value);
       }
     });
     return isMp4[2];
