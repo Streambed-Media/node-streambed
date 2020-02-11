@@ -193,7 +193,9 @@ const CreateUserForm = () => {
             `${message.success}, redirecting to dashboard...`
           );
           walletData();
-          location.reload();
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
         }
       });
   };
