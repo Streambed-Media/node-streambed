@@ -171,16 +171,14 @@ router.post('/upload-youtube', async (req, res) => {
   if (keys.length === 2) {
     youtubeupload(req.session.userId)
       .then((data) => {
-        getIpfsHash(videoInfoMap[req.session.userId]).then((link) => {
+        let vi = videoInfoMap[req.session.userId];
+        getIpfsHash(vi).then((link) => {
           data.ipfs = link;
+          data.ext = path.extname(vi.videoFileName);
           console.log('data ', data);
-          fs.unlinkSync(
-            './public/uploads/' + req.session.userId + '/video.mp4'
-          );
-          fs.unlinkSync(
-            './public/uploads/' + req.session.userId + '/thumb.jpg'
-          );
-          fs.rmdirSync('./public/uploads/' + req.session.userId);
+          fs.unlinkSync(vi.videoFilePath);
+          fs.unlinkSync(vi.imgFilePath);
+          fs.rmdirSync('./public/uploads/' + vi.uid);
           res.send(data);
         });
 
@@ -190,6 +188,12 @@ router.post('/upload-youtube', async (req, res) => {
   } else {
     youtubeupload(req.session.userId)
       .then((data) => {
+        let vi = videoInfoMap[req.session.userId];
+        data.ext = path.extname(vi.videoFileName);
+        console.log('data ', data);
+        fs.unlinkSync(vi.videoFilePath);
+        fs.unlinkSync(vi.imgFilePath);
+        fs.rmdirSync('./public/uploads/' + vi.uid);
         res.send(data);
       })
       .catch((err) => err.message);

@@ -32,7 +32,7 @@ let basicVideoTmpl = {
   payload: {
     publishDate: Date.now(),
     addressDirectory: 'ipfsHASH',
-    filename: 'video.mp4',
+    filename: '',
     displayName: '',
     thumbnailFilename: 'thumb.png',
     network: 1 // Network_IPFS
@@ -139,7 +139,8 @@ class YoutubeUpload extends React.Component {
     iterativeYTAssociation.payload.url =
       'https://www.youtube.com/watch?v=' + youTubeData.id;
     iterativeYTAssociation.payload.youTubeId = youTubeData.id;
-    basicVideoTmpl.payload.displayName = youTubeData.snippet.title + '.mp4';
+    basicVideoTmpl.payload.displayName = youTubeData.snippet.title + youTubeData.ext;
+    basicVideoTmpl.payload.filename = 'video' + youTubeData.ext
     basicVideoTmpl.payload.addressDirectory = ipfs;
 
     let registration = [basic, iterativeYTAssociation, basicVideoTmpl];
