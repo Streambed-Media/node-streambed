@@ -19,6 +19,8 @@ const sendMulti = async (mpx) => {
   let myMainAddress = wallet.myMainAddress;
   localStorage.setItem('userAddress', JSON.stringify(myMainAddress));
 
+  console.log(myMainAddress);
+
   let floDataArr = [];
 
   const sendFloPost = async (floData) => {

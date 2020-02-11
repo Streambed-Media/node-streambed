@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import wallet from '../helpers/Wallet';
+import { Modules } from 'js-oip';
+import { Address, Networks } from 'oip-hdmw';
 
 let basic = {
   descriptor:
@@ -44,6 +46,84 @@ class YoutubeUpload extends React.Component {
     checkbox: {},
     checkBoxErr: false
   };
+
+  //! TESTING SOLUTION FOR MULTIPART
+
+  sendMulti = async (mpx) => {
+    let mywif = JSON.parse(localStorage.getItem('userAddress'));
+
+    var myMainAddress = new Address(mywif, Networks.flo);
+    console.log(myMainAddress);
+
+    let floDataArr = [];
+
+    const sendFloPost = async (floData) => {
+      const response = await fetch('/sendflo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          signed64: floData
+        })
+      });
+      const json = await response.json();
+      return json;
+    };
+    // Signed64 is less than 1040
+    if (!Array.isArray(mpx)) {
+      let txid = await sendFloPost(mpx);
+      floDataArr.push(txid);
+    } else {
+      mpx[0].setAddress(myMainAddress.getPublicAddress());
+      let sig = myMainAddress.signMessage(mpx[0].getSignatureData());
+      mpx[0].setSignature(sig);
+
+      let floData1 = mpx[0].toString();
+
+      let referenceTxid = await sendFloPost(floData1);
+      console.log('******sent reference', referenceTxid);
+
+      //First post request has come back ok, start the loop post request
+      if (referenceTxid) {
+        for (let i = 1; i < mpx.length; i++) {
+          mpx[i].setReference(referenceTxid.txid);
+          mpx[i].setAddress(myMainAddress.getPublicAddress());
+          let sig = myMainAddress.signMessage(mpx[i].getSignatureData());
+          mpx[i].setSignature(sig);
+          let floDataX = mpx[i].toString();
+          let txid = await sendFloPost(floDataX);
+
+          floDataArr.push(txid);
+        }
+      }
+    }
+    return floDataArr;
+  };
+
+  getTxid = async (mpx) => {
+    await this.sendMulti(mpx)
+      .then((txidArray) => {
+        console.log(txidArray);
+      })
+      .catch((err) => 'Multipart Error: ' + err);
+  };
+
+  sendToBlockChain = async (signed64) => {
+    if (signed64.length > 1040) {
+      let mpx = new Modules.MultipartX(signed64).multiparts;
+
+      console.log(mpx);
+      if (!Array.isArray(mpx)) {
+        return console.log('uh oh', mpx);
+      }
+      await this.getTxid(mpx);
+    } else {
+      await this.getTxid(signed64);
+    }
+  };
+  //! TESTING SOLUTION FOR MULTIPART
+
   isIPFSerror = (youTubeData) => {
     return /^IPFS failed:/gi.test(youTubeData);
   };
@@ -66,21 +146,6 @@ class YoutubeUpload extends React.Component {
     return registration;
   };
 
-  sendFloPost = async (floData) => {
-    console.log(floData);
-    const response = await fetch('/sendflo', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        signed64: floData
-      })
-    });
-    const json = await response.json();
-    return json;
-  };
-
   walletData = (youtubeResults) => {
     if (youtubeResults.err) return;
 
@@ -94,7 +159,9 @@ class YoutubeUpload extends React.Component {
       })
       .then((signed64) => {
         console.log(signed64);
-        this.sendFloPost(signed64).then((res) => console.log('Sent to flo'));
+        this.sendToBlockChain(signed64).then((res) =>
+          console.log('Sent to flo')
+        );
       })
       .catch((err) => console.log('WalletData ' + err));
   };
