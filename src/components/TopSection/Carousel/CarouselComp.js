@@ -12,21 +12,20 @@ import { API_OIP_URL, LIVENET_URL } from '../../../../config.json';
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
-
-  eightK: {
-    breakpoint: { max: 10000, min: 3001 },
-    items: 10,
-    slidesToSlide: 5 // When you click arrow, it will scroll as many as this is set too
+  huge: {
+    breakpoint: { max: 999999, min: 3000 },
+    items: 8,
+    slidesToSlide: 7 // When you click arrow, it will scroll as many as this is set too
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 5,
-    slidesToSlide: 5 // When you click arrow, it will scroll as many as this is set too
+    slidesToSlide: 4
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
     items: 2,
-    slidesToSlide: 2
+    slidesToSlide: 1
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
@@ -38,11 +37,11 @@ const responsive = {
 const CarouselComp = (props) => {
   /***State */
   const [pubData, setPubData] = useState('');
-  const [videoData, setVideoData] = useState();
+//   const [videoData, setVideoData] = useState();
   
-  useEffect(() => {
-    setVideoData(props.videoData);
-  }, [props.videoData])
+//   useEffect(() => {
+//     setVideoData(props.videoData);
+//   }, [props.videoData])
 
 
   const MySwal = withReactContent(Swal);
@@ -144,7 +143,7 @@ const CarouselComp = (props) => {
           swipeable
           responsive={responsive}
         >
-          {videoData.map((content, i) => {
+          {props.videoData.map((content, i) => {
             return (
               <div key={content.id}>
                 <img
@@ -223,7 +222,7 @@ const CarouselComp = (props) => {
               src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'
             ></img>
           </div>
-        ) : videoData ? (
+        ) : props.videoData ? (
           carousel()
         ) : (
           <div>Sign into Youtube to see videos</div>
