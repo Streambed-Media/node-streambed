@@ -6,9 +6,18 @@ import withReactContent from 'sweetalert2-react-content';
 import ReactJson from 'react-json-view';
 import oipPic from '../../../../public/images/oippic.png';
 import { API_OIP_URL, LIVENET_URL } from '../../../../config.json';
+// import VideoData from '../../VideoData';
+
+
 
 //This is required by carousel npm package, set items to show on certain screen sizes
 const responsive = {
+
+  eightK: {
+    breakpoint: { max: 10000, min: 3001 },
+    items: 10,
+    slidesToSlide: 5 // When you click arrow, it will scroll as many as this is set too
+  },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 5,
@@ -29,6 +38,12 @@ const responsive = {
 const CarouselComp = (props) => {
   /***State */
   const [pubData, setPubData] = useState('');
+  const [videoData, setVideoData] = useState();
+  
+  useEffect(() => {
+    setVideoData(props.videoData);
+  }, [props.videoData])
+
 
   const MySwal = withReactContent(Swal);
   /*****Funtion for getting publishID from db, then fetch record and saves to session and state */
@@ -129,7 +144,7 @@ const CarouselComp = (props) => {
           swipeable
           responsive={responsive}
         >
-          {props.videoData.map((content, i) => {
+          {videoData.map((content, i) => {
             return (
               <div key={content.id}>
                 <img
@@ -208,7 +223,7 @@ const CarouselComp = (props) => {
               src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'
             ></img>
           </div>
-        ) : props.videoData ? (
+        ) : videoData ? (
           carousel()
         ) : (
           <div>Sign into Youtube to see videos</div>
