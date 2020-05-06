@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "NODE_ENV=development nodemon -e js,hbs,html,css,json,config.js ./bin/www",
-    "test_tommy": "set NODE_ENV=development && nodemon -e js,hbs,html,css,json,config.js ./bin/www",
+    "test_node": "set NODE_ENV=development && nodemon -e js,hbs,html,css,json,config.js ./bin/www",
+    "test_build": "webpack --mode development --watch",
     "start": "export NODE_ENV=production && node ./bin/www",
     "build": "NODE_ENV=production webpack"
   },
