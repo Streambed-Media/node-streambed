@@ -65,12 +65,17 @@ npm start
 
 To use <Streambed Upload>, follow these steps:
 
-```
-npm run build
-```
+run
 
 ```
-npm run test-dev
+npm run test_node
+
+```
+
+then new terminal window run,
+
+```
+npm run test_build
 ```
 
 Run the app in development mode. Open http://localhost:5000 to view it in the browser.
