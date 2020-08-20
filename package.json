@@ -12,7 +12,7 @@
     "@babel/runtime": "^7.8.3",
     "@lourd/react-google-api": "github:lourd/react-google-api",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "bitcoin-rpc-async": "^1.0.3",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.2.0",
